@@ -2,6 +2,8 @@ package com.yyyu.ssh.service.inter;
 
 import com.yyyu.ssh.domain.User;
 
+import java.util.List;
+
 /**
  * 功能：
  *
@@ -12,4 +14,7 @@ public interface IUserService {
 
     User get(String userId);
     void save(User user);
+    User getUserByUsernameAndPwd(String username , String password);
+    Integer getUsersTotal();
+    List<User> getUserByPage(Integer page , Integer size);
 }

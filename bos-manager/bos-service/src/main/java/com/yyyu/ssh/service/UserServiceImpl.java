@@ -7,6 +7,8 @@ import com.yyyu.ssh.service.inter.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 /**
  * 功能：User service
  *
@@ -28,5 +30,20 @@ public class UserServiceImpl implements IUserService{
     public void save(User user) {
         userDao.save(user);
     }
+
+    public User getUserByUsernameAndPwd(String username , String password) {
+        return  userDao.getUserByUsernameAndPwd(username , password);
+    }
+
+    @Override
+    public Integer getUsersTotal() {
+        return userDao.getUsersTotal();
+    }
+
+    @Override
+    public List<User> getUserByPage(Integer page, Integer size) {
+        return userDao.getUserListByPage(page , size);
+    }
+
 
 }

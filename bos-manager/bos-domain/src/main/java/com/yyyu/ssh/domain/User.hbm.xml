@@ -31,7 +31,7 @@
         <property name="remark" type="java.lang.String">
             <column name="remark" />
         </property>
-        <set name="roles" table="user_role" >
+        <set name="roles" table="user_role"  lazy="true">
             <key>
                 <column name="user_id" length="32" not-null="true" />
             </key>
