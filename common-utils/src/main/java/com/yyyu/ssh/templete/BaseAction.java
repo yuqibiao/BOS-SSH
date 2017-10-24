@@ -60,14 +60,14 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
 
     // Session
     protected HttpSession getHttpSession() {
-        HttpSession object = this.getRequestParm().getSession();
-        return object;
+        HttpSession session = getRequest().getSession();
+        return session;
     }
 
     // 获取request对象
-    public HttpServletRequest getRequestParm() {
+    public String getRequestParam(String key) {
         // 通过ActionContext得到request对象
-        return ServletActionContext.getRequest();
+        return getRequest().getParameter(key);
     }
 
     // 获取session对象
