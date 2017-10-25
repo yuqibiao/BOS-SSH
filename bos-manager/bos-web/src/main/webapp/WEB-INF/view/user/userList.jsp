@@ -11,20 +11,14 @@
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>css/bootstrap-responsive.min.css"/>
     <link rel="stylesheet" href="<%=basePath%>css/uniform.css"/>
     <link rel="stylesheet" href="<%=basePath%>css/select2.css"/>
     <link rel="stylesheet" href="<%=basePath%>css/matrix-style2.css"/>
     <link rel="stylesheet" href="<%=basePath%>css/matrix-media.css"/>
     <link href="<%=basePath%>font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
     <style>
-        .newClass {
-            background: #bbffaa;
-        }
-
-        .page_magrin {
-            margin: 50px;
+        .controls input {
+            width: 100%;
         }
     </style>
 </head>
@@ -32,7 +26,7 @@
 
 <div id="content">
     <div id="content-header">
-        <h1>表格</h1>
+        <h1>用户信息管理</h1>
     </div>
     <div class="container-fluid">
         <div class="row-fluid">
@@ -61,8 +55,9 @@
         </div>
     </div>
 
-    <%--pop--%>
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true"
+    <%--修改用户信息 modal--%>
+    <div class="modal fade" id="modify_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
+         aria-hidden="true"
          aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -73,93 +68,63 @@
                     <h4 class="modal-title" id="myModalLabel">修改客户信息</h4>
                 </div>
                 <div class="modal-body">
-                    <form class="form-horizontal" id="edit_customer_form">
-                        <input type="hidden" id="edit_cust_id" name="customer.custId"/>
-                        <div class="form-group">
-                            <label for="edit_customerName" class="col-sm-2 control-label">客户名称</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_customerName" placeholder="客户名称"
-                                       name="customer.custName">
-                            </div>
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <form action="#" class="form-horizontal">
+                                <div class="control-group">
+                                    <label for="username" class="control-label" style="width: 100px">用户名</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="username" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="salary" class="control-label" style="width: 100px">薪水</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="salary" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="tel" class="control-label" style="width: 100px">电话</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="tel" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="role" class="control-label" style="width: 100px">角色</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="role" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="role" class="control-label" style="width: 100px">用户等级</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="" class=" mask text">
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label for="edit_customerFrom" style="float:left;padding:7px 15px 0 27px;">客户来源</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="edit_customerFrom" placeholder="客户来源" name="customer.custSource">
-                                    <option value="">--请选择--</option>
-                                    <c:forEach items="${fromType}" var="item">
-                                        <option value="${item.dictId}"<c:if
-                                                test="${item.dictId == custSource}"> selected</c:if>>${item.dictItemName }</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_custIndustry" style="float:left;padding:7px 15px 0 27px;">所属行业</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="edit_custIndustry" name="customer.custIndustry">
-                                    <option value="">--请选择--</option>
-                                    <c:forEach items="${industryType}" var="item">
-                                        <option value="${item.dictId}"<c:if
-                                                test="${item.dictId == custIndustry}"> selected</c:if>>${item.dictItemName }</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_custLevel" style="float:left;padding:7px 15px 0 27px;">客户级别</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" id="edit_custLevel" name="customer.custLevel">
-                                    <option value="">--请选择--</option>
-                                    <c:forEach items="${levelType}" var="item">
-                                        <option value="${item.dictId}"<c:if
-                                                test="${item.dictId == custLevel}"> selected</c:if>>${item.dictItemName }</option>
-                                    </c:forEach>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_linkMan" class="col-sm-2 control-label">联系人</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_linkMan" placeholder="联系人"
-                                       name="customer.custLinkman">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_phone" class="col-sm-2 control-label">固定电话</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_phone" placeholder="固定电话"
-                                       name="customer.custPhone">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_mobile" class="col-sm-2 control-label">移动电话</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_mobile" placeholder="移动电话"
-                                       name="customer.custMobile">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_zipcode" class="col-sm-2 control-label">邮政编码</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_zipcode" placeholder="邮政编码"
-                                       name="customer.custZipcode">
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="edit_address" class="col-sm-2 control-label">联系地址</label>
-                            <div class="col-sm-10">
-                                <input type="text" class="form-control" id="edit_address" placeholder="联系地址"
-                                       name="customer.custAddress">
-                            </div>
-                        </div>
-                    </form>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                     <button type="button" class="btn btn-primary" onclick="updateCustomer()">保存修改</button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <%--确认删除操作modal--%>
+    <div id="confirm_delete" class="modal hide fade">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">×</button>
+            <h3>删除操作</h3>
+        </div>
+        <div class="modal-body alert-info">
+            <h5 >确认要删除该用户？删除后将无法恢复！！！</h5>
+        </div>
+        <div class="modal-footer">
+            <a data-dismiss="modal" class="btn btn-primary" href="#">Confirm</a>
+            <a data-dismiss="modal" class="btn" href="#">Cancel</a>
         </div>
     </div>
 
@@ -170,7 +135,8 @@
 <script src="<%=basePath%>js/bootstrap.min.js"></script>
 <script src="<%=basePath%>js/jquery.uniform.js"></script>
 <script src="<%=basePath%>js/select2.min.js"></script>
-<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
+<%--<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>--%>
+<script src="<%=basePath%>/js/jquery.dataTables.min.js"></script>
 <script src="<%=basePath%>js/matrix.js"></script>
 <script src="<%=basePath%>js/matrix.tables.js"></script>
 <script>
@@ -185,6 +151,7 @@
             "bSort": true, //排序功能
             "serverSide": true,//服务器端处理数据
             "bPaginate": true,// 分页按钮
+            "bStateSave": true,//状态保存
             "bJQueryUI": true,
             "sPaginationType": "full_numbers",
             "sDom": '<""l>t<"F"fp>',
@@ -215,12 +182,12 @@
                 }
             },
             columns: [
-                {"data": "id"}, //各列对应的数据列
+                {"data": "id" , "orderable": true}, //各列对应的数据列
                 {"data": "username"},
                 {"data": "salary"},
-                {"data": "telephone"},
-                {"data": "gender"},
-                {"data": "remark"},
+                {"data": "telephone" ,"orderable": false},
+                {"data": "gender" , "orderable": false},
+                {"data": "remark" , "orderable": false},
                 {"data": null}],
             "columnDefs": [
                 {
@@ -228,10 +195,10 @@
                     "data": "username",
                     "render": function (data, type, full) {
                         var userId = data.id;
-                        console.log("===userId="+userId)
+                        console.log("===userId=" + userId)
                         return "<div > " +
-                            "<a class='tip' data-toggle='modal' href='#myModal' onclick='edit("+userId+")' title='修改' ><i class='icon-pencil'></i></a> " +
-                            "<a class='tip' href='/delete?id=" + data.id + "' title='删除'><i class='icon-remove'></i></a> " +
+                            "<a class='tip' data-toggle='modal' href='#modify_user' onclick='edit(" + userId + ")' title='修改' ><i class='icon-pencil'></i></a> " +
+                            "<a class='tip' data-toggle='modal'  href='#confirm_delete' title='删除'><i class='icon-remove'></i></a> " +
                             "</div>";
                     }
                 }
@@ -242,9 +209,8 @@
         });
     });
 
-    function edit(userId){
+    function edit(userId) {
         console.log("------edit-------");
-        $(".myModal_tip").text("用户的id为："+userId);
     }
 
 </script>

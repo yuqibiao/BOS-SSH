@@ -39,7 +39,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao{
     }
 
     @Override
-    public List<User> getUserListByPage(Integer page, Integer size) {
-        return getPageList(getCriteria() , (page-1)*size , page*size);
+    public List<User> getUserListByPage(DetachedCriteria criteria , Integer start, Integer length) {
+        return getPageList(criteria , start , length);
     }
 }

@@ -1,6 +1,7 @@
 package com.yyyu.ssh.service.inter;
 
 import com.yyyu.ssh.domain.User;
+import org.hibernate.criterion.DetachedCriteria;
 
 import java.util.List;
 
@@ -12,9 +13,10 @@ import java.util.List;
  */
 public interface IUserService {
 
+    DetachedCriteria getCriteria();
     User get(String userId);
     void save(User user);
     User getUserByUsernameAndPwd(String username , String password);
     Integer getUsersTotal();
-    List<User> getUserByPage(Integer page , Integer size);
+    List<User> getUserByPage(DetachedCriteria criteria , Integer start , Integer length);
 }

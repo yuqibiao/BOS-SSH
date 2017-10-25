@@ -4,6 +4,7 @@ import com.yyyu.ssh.dao.inter.IUserDao;
 import com.yyyu.ssh.domain.User;
 import com.yyyu.ssh.domain.User;
 import com.yyyu.ssh.service.inter.IUserService;
+import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,11 @@ public class UserServiceImpl implements IUserService{
 
     @Autowired
     private IUserDao userDao;
+
+    @Override
+    public DetachedCriteria getCriteria() {
+        return userDao.getCriteria();
+    }
 
     @Override
     public User get(String userId) {
@@ -41,8 +47,8 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public List<User> getUserByPage(Integer page, Integer size) {
-        return userDao.getUserListByPage(page , size);
+    public List<User> getUserByPage(DetachedCriteria criteria , Integer start, Integer length) {
+        return userDao.getUserListByPage(criteria , start , length);
     }
 
 

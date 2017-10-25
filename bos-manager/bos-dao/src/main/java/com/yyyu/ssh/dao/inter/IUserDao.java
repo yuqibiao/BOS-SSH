@@ -2,6 +2,7 @@ package com.yyyu.ssh.dao.inter;
 
 import com.yyyu.ssh.domain.User;
 import com.yyyu.ssh.templete.inter.IBaseDao;
+import org.hibernate.criterion.DetachedCriteria;
 
 import java.util.List;
 
@@ -17,6 +18,6 @@ public interface IUserDao extends IBaseDao<User>{
 
     Integer getUsersTotal();
 
-    List<User> getUserListByPage(Integer page , Integer size);
+    List<User> getUserListByPage(DetachedCriteria criteria , Integer page , Integer size);
 
 }
