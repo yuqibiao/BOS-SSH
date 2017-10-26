@@ -16,6 +16,7 @@ public interface IUserService {
     DetachedCriteria getCriteria();
     User get(String userId);
     void save(User user);
+    User getUserByUsername(String username);
     User getUserByUsernameAndPwd(String username , String password);
     Integer getUsersTotal();
     List<User> getUserByPage(DetachedCriteria criteria , Integer start , Integer length);

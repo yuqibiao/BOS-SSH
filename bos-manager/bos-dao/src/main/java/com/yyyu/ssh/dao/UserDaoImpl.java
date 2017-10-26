@@ -18,15 +18,25 @@ import java.util.List;
 @Repository
 public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao{
     @Override
+    public User getUserByUsername(String username) {
+        DetachedCriteria criteria = getCriteria();
+        criteria.add(Restrictions.eq("username" , username) );
+        List<User> userList = getPageList(criteria,0, 1);
+        return fetchOne(userList);
+    }
+
+    @Override
     public User getUserByUsernameAndPwd(String username , String password) {
         DetachedCriteria criteria = getCriteria();
         criteria.add(Restrictions.eq("username" , username) );
         criteria.add(Restrictions.eq("password" , password) );
         List<User> userList = getPageList(criteria,0, 1);
+        return fetchOne(userList);
+    }
+
+    private User fetchOne(List<User> userList){
         if (userList!=null && userList.size()>0){
             User user = userList.get(0);
-            evict(user);
-            user.setPassword("");
             return user;
         }else{
             return null;

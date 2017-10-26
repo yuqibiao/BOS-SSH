@@ -11,11 +11,11 @@
 <title>Matrix Admin</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css" />
-<link rel="stylesheet" href="<%=basePath%>css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="<%=basePath%>css/matrix-style2.css" />
-<link rel="stylesheet" href="<%=basePath%>css/matrix-media.css" />
-<link href="<%=basePath%>font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css" />
+<link rel="stylesheet" href="<%=basePath%>static/css/bootstrap-responsive.min.css" />
+<link rel="stylesheet" href="<%=basePath%>static/css/matrix-style2.css" />
+<link rel="stylesheet" href="<%=basePath%>static/css/matrix-media.css" />
+<link href="<%=basePath%>static/font-awesome/css/font-awesome.css" rel="stylesheet" />
 <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
 </head>
 <body>
@@ -44,9 +44,9 @@
   </div>
 </div>
 
-<script src="<%=basePath%>js/jquery.min.js"></script>
-<script src="<%=basePath%>js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>js/bootstrap.min.js"></script>
-<script src="<%=basePath%>js/maruti.html"></script>
+<script src="<%=basePath%>static/js/jquery.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.ui.custom.js"></script>
+<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>static/js/maruti.html"></script>
 </body>
 </html>

@@ -14,6 +14,8 @@ import java.util.List;
  */
 public interface IUserDao extends IBaseDao<User>{
 
+    User getUserByUsername(String username);
+
     User  getUserByUsernameAndPwd(String username , String password);
 
     Integer getUsersTotal();

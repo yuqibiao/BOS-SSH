@@ -15,10 +15,10 @@
 <head>
     <title>后台管理模板</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<%=basePath%>css/matrix-style.css" />
-    <link rel="stylesheet" href="<%=basePath%>css/matrix-media.css" />
-    <link href="<%=basePath%>font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-style.css" />
+    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-media.css" />
+    <link href="<%=basePath%>static/font-awesome/css/font-awesome.css" rel="stylesheet" />
 </head>
 <body>
 <!--Header-part-->
@@ -103,16 +103,16 @@
         <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
     </div>
     <!--End-breadcrumbs-->
-    <iframe src="<%=basePath%>forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0' style="width:100%;"></iframe>
+    <iframe src="<%=basePath%>static/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0' style="width:100%;"></iframe>
 </div>
 <!--end-main-container-part-->
 
-<script src="<%=basePath%>js/excanvas.min.js"></script>
-<script src="<%=basePath%>js/jquery.min.js"></script>
-<script src="<%=basePath%>js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>js/bootstrap.min.js"></script>
-<script src="<%=basePath%>js/nicescroll/jquery.nicescroll.min.js"></script>
-<script src="<%=basePath%>js/matrix.js"></script>
+<script src="<%=basePath%>static/js/excanvas.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.ui.custom.js"></script>
+<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>static/js/nicescroll/jquery.nicescroll.min.js"></script>
+<script src="<%=basePath%>static/js/matrix.js"></script>
 
 
 <script type="text/javascript">

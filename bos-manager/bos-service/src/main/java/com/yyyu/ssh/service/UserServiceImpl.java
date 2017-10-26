@@ -37,6 +37,11 @@ public class UserServiceImpl implements IUserService{
         userDao.save(user);
     }
 
+    @Override
+    public User getUserByUsername(String username) {
+        return userDao.getUserByUsername( username);
+    }
+
     public User getUserByUsernameAndPwd(String username , String password) {
         return  userDao.getUserByUsernameAndPwd(username , password);
     }

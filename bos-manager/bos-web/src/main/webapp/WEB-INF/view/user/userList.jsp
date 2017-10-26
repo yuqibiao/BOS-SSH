@@ -10,12 +10,12 @@
     <title>Matrix Admin</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>css/uniform.css"/>
-    <link rel="stylesheet" href="<%=basePath%>css/select2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>css/matrix-style2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>css/matrix-media.css"/>
-    <link href="<%=basePath%>font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>static/css/uniform.css"/>
+    <link rel="stylesheet" href="<%=basePath%>static/css/select2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-style2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-media.css"/>
+    <link href="<%=basePath%>static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <style>
         .controls input {
             width: 100%;
@@ -130,15 +130,15 @@
 
 </div>
 
-<script src="<%=basePath%>js/jquery.min.js"></script>
-<script src="<%=basePath%>js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>js/bootstrap.min.js"></script>
-<script src="<%=basePath%>js/jquery.uniform.js"></script>
-<script src="<%=basePath%>js/select2.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.ui.custom.js"></script>
+<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>static/js/jquery.uniform.js"></script>
+<script src="<%=basePath%>static/js/select2.min.js"></script>
 <%--<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>--%>
-<script src="<%=basePath%>/js/jquery.dataTables.min.js"></script>
-<script src="<%=basePath%>js/matrix.js"></script>
-<script src="<%=basePath%>js/matrix.tables.js"></script>
+<script src="<%=basePath%>static//js/jquery.dataTables.min.js"></script>
+<script src="<%=basePath%>static/js/matrix.js"></script>
+<script src="<%=basePath%>static/js/matrix.tables.js"></script>
 <script>
     $(document).ready(function () {
         $("#data_table").dataTable({
