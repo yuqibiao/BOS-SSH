@@ -15,9 +15,9 @@
     <title>信息管理系统平台</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-login.css"/>
-    <link href="<%=basePath%>static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-login.css"/>
+    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <style type="text/css">
         input {
             font-family: "Microsoft Yahei";
@@ -105,8 +105,8 @@
 
 </div>
 
-<script src="<%=basePath%>static/js/jquery.min.js"></script>
-<script src="<%=basePath%>static/js/matrix.login.js"></script>
+<script src="<%=basePath%>assert/js/jquery.min.js"></script>
+<script src="<%=basePath%>assert/js/matrix.login.js"></script>
 </body>
 
 </html>

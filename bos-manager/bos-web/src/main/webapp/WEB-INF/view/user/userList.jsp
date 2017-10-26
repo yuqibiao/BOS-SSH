@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
     String path = request.getContextPath();
     String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
@@ -10,12 +11,12 @@
     <title>Matrix Admin</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/uniform.css"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/select2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-style2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>static/css/matrix-media.css"/>
-    <link href="<%=basePath%>static/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/uniform.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/select2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
+    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
     <style>
         .controls input {
             width: 100%;
@@ -120,7 +121,7 @@
             <h3>删除操作</h3>
         </div>
         <div class="modal-body alert-info">
-            <h5 >确认要删除该用户？删除后将无法恢复！！！</h5>
+            <h5>确认要删除该用户？删除后将无法恢复！！！</h5>
         </div>
         <div class="modal-footer">
             <a data-dismiss="modal" class="btn btn-primary" href="#">Confirm</a>
@@ -130,15 +131,15 @@
 
 </div>
 
-<script src="<%=basePath%>static/js/jquery.min.js"></script>
-<script src="<%=basePath%>static/js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>static/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>static/js/jquery.uniform.js"></script>
-<script src="<%=basePath%>static/js/select2.min.js"></script>
-<%--<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>--%>
-<script src="<%=basePath%>static//js/jquery.dataTables.min.js"></script>
-<script src="<%=basePath%>static/js/matrix.js"></script>
-<script src="<%=basePath%>static/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/js/jquery.min.js"></script>
+<script src="<%=basePath%>assert/js/jquery.ui.custom.js"></script>
+<script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assert/js/jquery.uniform.js"></script>
+<script src="<%=basePath%>assert/js/select2.min.js"></script>
+<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
+<%--<script src="<%=basePath%>assert//js/jquery.dataTables.min.js"></script>--%>
+<script src="<%=basePath%>assert/js/matrix.js"></script>
+<script src="<%=basePath%>assert/js/matrix.tables.js"></script>
 <script>
     $(document).ready(function () {
         $("#data_table").dataTable({
@@ -173,7 +174,7 @@
                 }
             },
             ajax: {//通过ajax访问后台获取数据
-                "url": "userManager/getUserByPage.action",//后台地址
+                "url": "<%=basePath%>userManager/getUserByPage.action",//后台地址
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     console.log("------------dataSet-----------" + dataSet);
@@ -182,23 +183,27 @@
                 }
             },
             columns: [
-                {"data": "id" , "orderable": true}, //各列对应的数据列
+                {"data": "id", "orderable": true}, //各列对应的数据列
                 {"data": "username"},
                 {"data": "salary"},
-                {"data": "telephone" ,"orderable": false},
-                {"data": "gender" , "orderable": false},
-                {"data": "remark" , "orderable": false},
+                {"data": "telephone", "orderable": false},
+                {"data": "gender", "orderable": false},
+                {"data": "remark", "orderable": false},
                 {"data": null}],
+
             "columnDefs": [
                 {
                     "targets": [6],
                     "data": "username",
                     "render": function (data, type, full) {
                         var userId = data.id;
-                        console.log("===userId=" + userId)
-                        return "<div > " +
+                        return "<div > "
+                            <shiro:hasRole name="admin">
+                            +
                             "<a class='tip' data-toggle='modal' href='#modify_user' onclick='edit(" + userId + ")' title='修改' ><i class='icon-pencil'></i></a> " +
-                            "<a class='tip' data-toggle='modal'  href='#confirm_delete' title='删除'><i class='icon-remove'></i></a> " +
+                            "<a class='tip' data-toggle='modal'  href='#confirm_delete' title='删除'><i class='icon-remove'></i></a> "
+                            </shiro:hasRole>
+                            +
                             "</div>";
                     }
                 }

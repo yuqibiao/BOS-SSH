@@ -4,10 +4,14 @@ import com.yyyu.ssh.domain.User;
 import com.yyyu.ssh.service.inter.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.HashSet;
+import java.util.List;
 
 /**
  * 功能：
@@ -21,8 +25,13 @@ public class UserRealm extends AuthorizingRealm{
     private IUserService userService;
 
     @Override
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
-        return null;
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+
+        String username = (String)principals.getPrimaryPrincipal();
+        SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
+        List<String> userRoleName = userService.getUserRoleName(username);
+        authorizationInfo.setRoles(new HashSet<>(userRoleName));
+        return authorizationInfo;
     }
 
     @Override

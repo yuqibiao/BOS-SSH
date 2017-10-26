@@ -52,4 +52,14 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements IUserDao{
     public List<User> getUserListByPage(DetachedCriteria criteria , Integer start, Integer length) {
         return getPageList(criteria , start , length);
     }
+
+    @Override
+    public List<String> getUserRoleName(String username) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("select auth_role.name ");
+        sb.append("from t_user , user_role , auth_role ");
+        sb.append("where t_user.id = user_role.user_id and user_role.role_id=auth_role.id and t_user.username =?");
+        String sql = sb.toString();
+        return  getPageListBySql(sql, new String[]{username}, 0, Integer.MAX_VALUE);
+    }
 }

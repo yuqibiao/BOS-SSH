@@ -131,8 +131,12 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
                         query.setParameter(i, values[i]);
                     }
                 }
-                query.setMaxResults(pageSize);
-                query.setFirstResult(start);
+                if (pageSize!=-1){
+                    query.setMaxResults(pageSize);
+                }
+                if (start!=-1){
+                    query.setFirstResult(start);
+                }
                 return query.list();
             }
         });

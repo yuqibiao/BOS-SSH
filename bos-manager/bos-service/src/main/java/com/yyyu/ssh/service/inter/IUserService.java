@@ -20,4 +20,5 @@ public interface IUserService {
     User getUserByUsernameAndPwd(String username , String password);
     Integer getUsersTotal();
     List<User> getUserByPage(DetachedCriteria criteria , Integer start , Integer length);
+    List<String> getUserRoleName(String username);
 }

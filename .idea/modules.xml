@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/bos-manager/bos-dao/bos-dao.iml" filepath="$PROJECT_DIR$/bos-manager/bos-dao/bos-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-manager/bos-domain/bos-domain.iml" filepath="$PROJECT_DIR$/bos-manager/bos-domain/bos-domain.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-manager/bos-manager.iml" filepath="$PROJECT_DIR$/bos-manager/bos-manager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-manager/bos-service/bos-service.iml" filepath="$PROJECT_DIR$/bos-manager/bos-service/bos-service.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bos-manager/bos-web/bos-web.iml" filepath="$PROJECT_DIR$/bos-manager/bos-web/bos-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/common-utils/common-utils.iml" filepath="$PROJECT_DIR$/common-utils/common-utils.iml" />
+      <module fileurl="file://$PROJECT_DIR$/parent-ssh/parent-ssh.iml" filepath="$PROJECT_DIR$/parent-ssh/parent-ssh.iml" />
+    </modules>
+  </component>
+</project>

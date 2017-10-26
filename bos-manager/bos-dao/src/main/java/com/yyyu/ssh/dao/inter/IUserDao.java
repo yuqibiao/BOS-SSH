@@ -22,4 +22,6 @@ public interface IUserDao extends IBaseDao<User>{
 
     List<User> getUserListByPage(DetachedCriteria criteria , Integer page , Integer size);
 
+    List<String> getUserRoleName(String username);
+
 }

@@ -59,7 +59,7 @@
         <!-- 配置哪些页面需要受保护，以及访问这些页面需要的权限 -->
         <property name="filterChainDefinitions">
             <value>
-                /static/**=anon
+                /assert/**=anon
                 /login.jsp=anon
                 /user/checkUser.action=anon
                 /** = authc

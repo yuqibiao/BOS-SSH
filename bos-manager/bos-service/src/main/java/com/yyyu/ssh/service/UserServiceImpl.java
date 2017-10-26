@@ -56,5 +56,10 @@ public class UserServiceImpl implements IUserService{
         return userDao.getUserListByPage(criteria , start , length);
     }
 
+    @Override
+    public List<String> getUserRoleName(String username) {
+        return userDao.getUserRoleName(username);
+    }
+
 
 }
