@@ -18,7 +18,7 @@ import static com.sun.xml.internal.ws.dump.LoggingDumpTube.Position.Before;
  */
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations ={"classpath*:spring/applicationContext.xml "} )
+@ContextConfiguration(locations = {"classpath*:spring/applicationContext.xml "})
 public abstract class BaseTest {
     static {
         try {
@@ -30,4 +30,8 @@ public abstract class BaseTest {
 
     @Before
     public abstract void initTest();
+
+    protected void log(String str){
+        System.out.println("test==="+str);
+    }
 }

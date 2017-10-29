@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+
+    <class name="com.yyyu.ssh.domain.SysRolePermissions" table="sys_role_permissions" schema="bos">
+        <composite-id mapped="true" class="com.yyyu.ssh.domain.SysRolePermissionsPK">
+            <key-property name="roleId" column="role_id"/>
+            <key-property name="perId" column="per_id"/>
+        </composite-id>
+    </class>
+</hibernate-mapping>

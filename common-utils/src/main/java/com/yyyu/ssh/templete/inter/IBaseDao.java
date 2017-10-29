@@ -33,10 +33,15 @@ public interface IBaseDao<T> {
     Integer	getTotalCount(DetachedCriteria dc);
     //查 查询分页列表数据
     List<T> getPageList(DetachedCriteria dc,Integer start,Integer pageSize);
+    List<T> getAllList(DetachedCriteria dc);
     //查 查询分页列表数据(hql)
     <E> List<E>getPageListByHql(String hql , Object[] values , Integer start , Integer pageSize);
+    //不分页通过hql查询
+    <E> List<E>getAllListByHql(String hql , Object[] values );
     //查 查询分页列表数据(sql)
     <E>List<E>getPageListBySql(String sql , Object[] values , Integer start , Integer pageSize);
+    //不分页通过sql查询
+    <E>List<E>getAllListBySql(String sql , Object[] values);
     //使对象变为游离态
     void evict(T t);
     //得到DetachedCriteria

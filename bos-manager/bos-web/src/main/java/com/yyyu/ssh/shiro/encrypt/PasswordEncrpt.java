@@ -11,7 +11,7 @@ import org.apache.shiro.crypto.hash.SimpleHash;
 public class PasswordEncrpt {
 
     public static void main(String[] args){
-        String admin = new PasswordEncrpt().Md5(1, "yu", "123");
+        String admin = new PasswordEncrpt().Md5(1, "admin", "123");
         System.out.println("===="+admin);
     }
 

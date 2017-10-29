@@ -1,6 +1,6 @@
 package com.yyyu.ssh.action;
 
-import com.yyyu.ssh.domain.User;
+import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.templete.BaseAction;
 import org.apache.shiro.SecurityUtils;
@@ -16,8 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import java.util.logging.Logger;
-
 /**
  * 功能：User相关请求Action
  *
@@ -27,7 +25,7 @@ import java.util.logging.Logger;
 @Controller
 @Scope("prototype")
 @Namespace("/user")
-public class UserAction extends BaseAction<User>{
+public class UserAction extends BaseAction<SysUser>{
 
     @Autowired
     private IUserService userService;
@@ -64,7 +62,7 @@ public class UserAction extends BaseAction<User>{
 
     @Action(value = "geUserInfo")
     public void geUserInfo(){
-        User user = userService.get(getModel().getId());
+        SysUser user = userService.getUserById(getModel().getUserId());
         printJson(user , null);
     }
 

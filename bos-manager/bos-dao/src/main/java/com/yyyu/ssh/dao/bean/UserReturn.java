@@ -9,9 +9,9 @@ import java.util.Date;
  * @date 2017/10/23.
  */
 public class UserReturn {
-    private String id;
+    private Long id;
     private String username;
-    private Double salary;
+    private Integer salary;
     private Date birthday;
     private String gender;
     private String station;
@@ -21,11 +21,11 @@ public class UserReturn {
     public UserReturn() {
     }
 
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -37,11 +37,11 @@ public class UserReturn {
         this.username = username;
     }
 
-    public Double getSalary() {
+    public Integer getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
+    public void setSalary(Integer salary) {
         this.salary = salary;
     }
 

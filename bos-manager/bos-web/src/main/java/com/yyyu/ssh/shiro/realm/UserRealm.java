@@ -1,6 +1,6 @@
 package com.yyyu.ssh.shiro.realm;
 
-import com.yyyu.ssh.domain.User;
+import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -41,7 +41,7 @@ public class UserRealm extends AuthorizingRealm{
         UsernamePasswordToken usernamePasswordToken = (UsernamePasswordToken) authenticationToken;
         //2.取出用户名
         String username = usernamePasswordToken.getUsername();
-        User user = userService.getUserByUsername(username);
+        SysUser user = userService.getUserByUsername(username);
         if (user==null){
             throw new UnknownAccountException("用户不存在");
         }

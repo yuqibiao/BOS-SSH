@@ -27,4 +27,21 @@ public class UserServiceTest extends BaseTest{
         List<String> admin = userService.getUserRoleName("admin");
         System.out.println("======admin"+admin);
     }
+
+    @Test
+    public void testGetPermissions(){
+        List<String> permissions = userService.getUserPermissions("yu");
+
+        System.out.println(""+permissions);
+
+    }
+
+    @Test
+    public void testGetMenus(){
+        List<String> permissions = userService.getUserMenus("yu");
+
+        System.out.println(""+permissions);
+
+    }
+
 }

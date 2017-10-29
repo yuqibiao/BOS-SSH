@@ -79,6 +79,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
         return (T) getHibernateTemplate().get(clazz, id);
     }
 
+
     @Override
     public Integer getTotalCount(DetachedCriteria dc) {
         //设置查询的聚合函数,总记录数
@@ -100,6 +101,11 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
         return list;
     }
 
+    @Override
+    public List<T> getAllList(DetachedCriteria dc) {
+        return (List<T>) getHibernateTemplate().findByCriteria(dc);
+    }
+
 
     public <E> List<E> getPageListByHql(final String hql, final Object[] values, final Integer start, final Integer pageSize) {
         List<E> result = getHibernateTemplate().execute(new HibernateCallback<List<E>>() {
@@ -111,12 +117,21 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
                         query.setParameter(i, values[i]);
                     }
                 }
-                query.setFirstResult(start);
-                query.setMaxResults(pageSize);
+                if (start>0){
+                    query.setFirstResult(start);
+                }
+                if (pageSize>0){
+                    query.setMaxResults(pageSize);
+                }
                 return query.list();
             }
         });
         return result;
+    }
+
+    @Override
+    public <E> List<E> getAllListByHql(String hql, Object[] values) {
+        return getPageListByHql(hql , values , -1 , -1);
     }
 
 
@@ -131,16 +146,21 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
                         query.setParameter(i, values[i]);
                     }
                 }
-                if (pageSize!=-1){
+                if (pageSize>0){
                     query.setMaxResults(pageSize);
                 }
-                if (start!=-1){
+                if (start>0){
                     query.setFirstResult(start);
                 }
                 return query.list();
             }
         });
         return result;
+    }
+
+    @Override
+    public <E> List<E> getAllListBySql(String sql, Object[] values) {
+        return getPageListBySql(sql , values , -1 , -1);
     }
 
     public void evict(T t){

@@ -1,6 +1,6 @@
 package com.yyyu.ssh.service.inter;
 
-import com.yyyu.ssh.domain.User;
+import com.yyyu.ssh.domain.SysUser;
 import org.hibernate.criterion.DetachedCriteria;
 
 import java.util.List;
@@ -14,11 +14,23 @@ import java.util.List;
 public interface IUserService {
 
     DetachedCriteria getCriteria();
-    User get(String userId);
-    void save(User user);
-    User getUserByUsername(String username);
-    User getUserByUsernameAndPwd(String username , String password);
+
+    SysUser getUserById(Long userId);
+
+    void save(SysUser SysUser);
+
+    SysUser getUserByUsername(String SysUsername);
+
+    SysUser getUserByUsernameAndPwd(String SysUsername, String password);
+
     Integer getUsersTotal();
-    List<User> getUserByPage(DetachedCriteria criteria , Integer start , Integer length);
-    List<String> getUserRoleName(String username);
+
+    List<SysUser> getUserByPage(DetachedCriteria criteria, Integer start, Integer length);
+
+    List<String> getUserRoleName(String SysUsername);
+
+    List<String>getUserPermissions(String username);
+
+    List<String> getUserMenus(String username);
+
 }

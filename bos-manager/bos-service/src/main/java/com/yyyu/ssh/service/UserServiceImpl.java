@@ -1,8 +1,7 @@
 package com.yyyu.ssh.service;
 
 import com.yyyu.ssh.dao.inter.IUserDao;
-import com.yyyu.ssh.domain.User;
-import com.yyyu.ssh.domain.User;
+import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +16,7 @@ import java.util.List;
  * @date 2017/8/30.
  */
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
     @Autowired
     private IUserDao userDao;
@@ -28,22 +27,22 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public User get(String userId) {
+    public SysUser getUserById(Long userId) {
         return userDao.getById(userId);
     }
 
     @Override
-    public void save(User user) {
+    public void save(SysUser user) {
         userDao.save(user);
     }
 
     @Override
-    public User getUserByUsername(String username) {
-        return userDao.getUserByUsername( username);
+    public SysUser getUserByUsername(String username) {
+        return userDao.getUserByUsername(username);
     }
 
-    public User getUserByUsernameAndPwd(String username , String password) {
-        return  userDao.getUserByUsernameAndPwd(username , password);
+    public SysUser getUserByUsernameAndPwd(String username, String password) {
+        return userDao.getUserByUsernameAndPwd(username, password);
     }
 
     @Override
@@ -52,13 +51,23 @@ public class UserServiceImpl implements IUserService{
     }
 
     @Override
-    public List<User> getUserByPage(DetachedCriteria criteria , Integer start, Integer length) {
-        return userDao.getUserListByPage(criteria , start , length);
+    public List<SysUser> getUserByPage(DetachedCriteria criteria, Integer start, Integer length) {
+        return userDao.getUserListByPage(criteria, start, length);
     }
 
     @Override
     public List<String> getUserRoleName(String username) {
         return userDao.getUserRoleName(username);
+    }
+
+    @Override
+    public List<String> getUserPermissions(String username) {
+        return userDao.getUserPermissions(username);
+    }
+
+    @Override
+    public List<String> getUserMenus(String username) {
+        return userDao.getUserMenus(username);
     }
 
 
