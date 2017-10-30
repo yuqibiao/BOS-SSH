@@ -1,5 +1,6 @@
 package com.yyyu.service.test;
 
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.service.inter.IUserService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,20 +26,21 @@ public class UserServiceTest extends BaseTest{
     @Test
     public void testGetRole(){
         List<String> admin = userService.getUserRoleName("admin");
-        System.out.println("======admin"+admin);
+        System.out.println("======"+admin.get(0));
     }
 
     @Test
     public void testGetPermissions(){
-        List<String> permissions = userService.getUserPermissions("yu");
-
-        System.out.println(""+permissions);
+        List<SysPermissions> permissions = userService.getUserPermissions("admin");
+        for (SysPermissions permission: permissions) {
+            System.out.println(""+permission);
+        }
 
     }
 
     @Test
     public void testGetMenus(){
-        List<String> permissions = userService.getUserMenus("yu");
+        List<SysPermissions> permissions = userService.getUserMenus("yu");
 
         System.out.println(""+permissions);
 

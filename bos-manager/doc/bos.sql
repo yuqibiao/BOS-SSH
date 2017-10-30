@@ -45,6 +45,7 @@ CREATE TABLE sys_permissions (
   per_pid     BIGINT,
   name        VARCHAR(64),
   description VARCHAR(128),
+  type TINYINT,
   code        VARCHAR(64),
   page        VARCHAR(128),
   available   BOOL   DEFAULT FALSE,
@@ -74,3 +75,5 @@ CREATE TABLE sys_role_permissions (
   CHARSET = utf8
   ENGINE = InnoDB
   COMMENT '角色-权限表';
+
+

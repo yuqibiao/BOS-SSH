@@ -31,6 +31,13 @@ public class UserAction extends BaseAction<SysUser>{
     private IUserService userService;
 
 
+    public void getAllPermissionByUserId(){
+        Long userId = getModel().getUserId();
+        userService.getAllPermissionByUserId(userId);
+    }
+
+
+
     @Action(value="checkUser" ,results = {
             @Result(name = SUCCESS  ,location = "/WEB-INF/view/user/userManager.jsp" ),
             @Result(name = ERROR , location = "/login.jsp"),

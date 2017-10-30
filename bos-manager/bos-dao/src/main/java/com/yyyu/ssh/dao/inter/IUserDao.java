@@ -1,5 +1,6 @@
 package com.yyyu.ssh.dao.inter;
 
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.templete.inter.IBaseDao;
 import org.hibernate.criterion.DetachedCriteria;
@@ -24,8 +25,10 @@ public interface IUserDao extends IBaseDao<SysUser> {
 
     List<String> getUserRoleName(String username);
 
-    List<String>getUserPermissions(String username);
+    List<SysPermissions> getUserPermissions(Long userId);
 
-    List<String> getUserMenus(String username);
+    List<SysPermissions> getUserOptions(String username);
+
+    List<SysPermissions> getUserMenus(String username);
 
 }

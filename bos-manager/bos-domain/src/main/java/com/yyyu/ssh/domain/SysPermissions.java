@@ -97,4 +97,18 @@ public class SysPermissions {
     public void setType(Short type) {
         this.type = type;
     }
+
+    @Override
+    public String toString() {
+        return "SysPermissions{" +
+                "perId=" + perId +
+                ", perPid=" + perPid +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", code='" + code + '\'' +
+                ", page='" + page + '\'' +
+                ", available=" + available +
+                ", type=" + type +
+                '}';
+    }
 }

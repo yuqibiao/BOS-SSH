@@ -1,5 +1,7 @@
 package com.yyyu.ssh.service.inter;
 
+import com.yyyu.ssh.dao.bean.TreeNode;
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import org.hibernate.criterion.DetachedCriteria;
 
@@ -29,8 +31,9 @@ public interface IUserService {
 
     List<String> getUserRoleName(String SysUsername);
 
-    List<String>getUserPermissions(String username);
+    List<SysPermissions> getUserPermissions(String username);
 
-    List<String> getUserMenus(String username);
+    List<SysPermissions> getUserMenus(String username);
 
+    List<TreeNode> getAllPermissionByUserId(Long userId);
 }

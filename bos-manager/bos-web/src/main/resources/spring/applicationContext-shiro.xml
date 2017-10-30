@@ -62,7 +62,7 @@
                 /assert/**=anon
                 /login.jsp=anon
                 /user/checkUser.action=anon
-                /** = authc
+                /** =anon <!--authc-->
             </value>
         </property>
     </bean>

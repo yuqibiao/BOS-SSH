@@ -1,12 +1,15 @@
 package com.yyyu.ssh.action;
 
 import com.yyyu.ssh.TextUtils;
+import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.dao.bean.UserDataTablesReturn;
 import com.yyyu.ssh.dao.bean.UserReturn;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.templete.BaseAction;
+import com.yyyu.ssh.utils.ResultUtils;
 import com.yyyu.ssh.utils.TypeConversion;
+import com.yyyu.ssh.utils.bean.BaseJsonResult;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.hibernate.criterion.DetachedCriteria;
@@ -98,6 +101,21 @@ public class UserManagerAction extends BaseAction<SysUser> {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+
+    @Action("getUserPermissions")
+    public void getUserPermissionsByUserId(){
+        Long userId = getModel().getUserId();
+        BaseJsonResult<List<TreeNode>> result = new BaseJsonResult<>();
+        try {
+            List<TreeNode> nodeList = userService.getAllPermissionByUserId(userId);
+           result = ResultUtils.success(nodeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ResultUtils.error(500 , e.getMessage());
+        }
+        printJson(result, null);
     }
 
 }

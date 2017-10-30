@@ -8,10 +8,10 @@ import org.apache.shiro.crypto.hash.SimpleHash;
  * @author yu
  * @date 2017/10/26.
  */
-public class PasswordEncrpt {
+public class PasswordEncrypt {
 
     public static void main(String[] args){
-        String admin = new PasswordEncrpt().Md5(1, "admin", "123");
+        String admin = new PasswordEncrypt().Md5(1, "admin", "123");
         System.out.println("===="+admin);
     }
 

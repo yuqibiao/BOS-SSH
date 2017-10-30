@@ -1,10 +1,7 @@
 package com.yyyu.ssh.templete;
 
 import com.yyyu.ssh.templete.inter.IBaseDao;
-import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Projections;
 import org.hibernate.transform.Transformers;
@@ -136,11 +133,14 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
 
     @Override
-    public <E> List<E> getPageListBySql(final String sql, final Object[] values, final Integer start, final Integer pageSize) {
+    public <E> List<E> getPageListBySql(final String sql, final Object[] values, final Integer start, final Integer pageSize , final Class resultClazz) {
         List<E> result = getHibernateTemplate().execute(new HibernateCallback<List<E>>() {
             @Override
             public List<E> doInHibernate(Session session) throws HibernateException {
-                Query query = session.createSQLQuery(sql);
+                SQLQuery query = session.createSQLQuery(sql);
+                if (resultClazz!=null){
+                    query.addEntity(resultClazz);
+                }
                 if (values != null) {
                     for (int i = 0; i < values.length; i++) {
                         query.setParameter(i, values[i]);
@@ -159,8 +159,8 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
     }
 
     @Override
-    public <E> List<E> getAllListBySql(String sql, Object[] values) {
-        return getPageListBySql(sql , values , -1 , -1);
+    public <E> List<E> getAllListBySql(String sql, Object[] values , final Class resultClazz) {
+        return getPageListBySql(sql , values , -1 , -1 , resultClazz);
     }
 
     public void evict(T t){

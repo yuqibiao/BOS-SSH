@@ -17,6 +17,7 @@
     <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
     <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
+    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
     <style>
         .controls input {
             width: 100%;
@@ -108,7 +109,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-primary" onclick="updateCustomer()">保存修改</button>
+                    <button type="button" class="btn btn-primary" >保存修改</button>
                 </div>
             </div>
         </div>
@@ -129,6 +130,31 @@
         </div>
     </div>
 
+    <%--权限分配 modal--%>
+    <div class="modal fade" id="dtreeModal" tabindex="-1" role="dialog" aria-labelledby="preModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form role="form" action="" method="post">
+                    <div class="modal-header">
+                        <button data-dismiss="modal" class="close" type="button">×</button>
+                        <h3>权限分配</h3>
+                    </div>
+                    <div class="modal-body">
+                        <div>
+                            <ul id="treeDemo" class="ztree"></ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn_closeTree" data-dismiss="modal" class="btn btn-default" type="button">
+                            关闭
+                        </button>
+                        <button id="btn_inputTree" class="btn btn-primary" type="button">提交</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 </div>
 
 <script src="<%=basePath%>assert/js/jquery.min.js"></script>
@@ -140,6 +166,8 @@
 <%--<script src="<%=basePath%>assert//js/jquery.dataTables.min.js"></script>--%>
 <script src="<%=basePath%>assert/js/matrix.js"></script>
 <script src="<%=basePath%>assert/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
+<script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
 <script>
     $(document).ready(function () {
         $("#data_table").dataTable({
@@ -177,7 +205,6 @@
                 "url": "<%=basePath%>userManager/getUserByPage.action",//后台地址
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
-                    console.log("------------dataSet-----------" + dataSet);
                     //对数据处理过程
                     return dataSet;//再将数据返回给datatable控件使用
                 }
@@ -201,7 +228,8 @@
                             <shiro:hasRole name="admin">
                             +
                             "<a class='tip' data-toggle='modal' href='#modify_user' onclick='edit(" + userId + ")' title='修改' ><i class='icon-pencil'></i></a> " +
-                            "<a class='tip' data-toggle='modal'  href='#confirm_delete' title='删除'><i class='icon-remove'></i></a> "
+                            "<a class='tip' data-toggle='modal'  href='#dtreeModal' title='删除'><i class='icon-remove'></i></a> " +
+                            "<button id='btn_tree' class='treeBtn btn btn-success glyphicon glyphicon-tree-conifer btn-sm'data-toggle='modal' data-target='#dtreeModal'> 树形分配 </button>"
                             </shiro:hasRole>
                             +
                             "</div>";
@@ -209,7 +237,45 @@
                 }
             ],
             "fnInitComplete": function (oSettings, json) {
+                var setting = {
+                    check: {
+                        enable: true
+                    },
+                    data: {
+                        simpleData: {
+                            enable: true
+                        }
+                    }
+                };
 
+                $("button").click(function(){
+                    console.log("====button=====");
+                });
+
+                $("#btn_tree").click(function () {
+                    var userId = 1;
+                    console.log("=========" + userId);
+                    $.ajax({
+                        url: "<%=basePath%>userManager/getUserPermissions.action",
+                        data: "userId=" + userId,
+                        type: "GET",
+                        success: function (result) {
+                            if (result.code == 200) {
+                                var zNodes = result.data;
+                                $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                                setCheck();
+                            } else if (result.code == 250) {
+                                $("#btn_closeTree").click();
+                            }
+                        }
+                    });
+                });
+
+                function setCheck() {
+                    var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+                        type = {"Y": "ps", "N": "ps"};
+                    zTree.setting.check.chkboxType = type;
+                }
             }
         });
     });
