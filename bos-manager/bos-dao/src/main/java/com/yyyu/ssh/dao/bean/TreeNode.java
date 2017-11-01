@@ -13,6 +13,7 @@ public class TreeNode {
     private String name;
     private boolean checked;
     private boolean open;
+    private boolean isParent;
 
     public TreeNode() {
 
@@ -56,5 +57,13 @@ public class TreeNode {
 
     public void setOpen(boolean open) {
         this.open = open;
+    }
+
+    public boolean getIsParent() {
+        return isParent;
+    }
+
+    public void setIsParent(boolean isParent) {
+        this.isParent = isParent;
     }
 }

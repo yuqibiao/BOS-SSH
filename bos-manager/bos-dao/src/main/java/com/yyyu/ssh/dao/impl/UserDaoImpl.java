@@ -68,7 +68,7 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao {
 
     @Override
     public List<SysPermissions> getUserPermissions(Long userId) {
-        StringBuilder sb = getPreSql().append("and sys_permissions.type =1  ");
+        StringBuilder sb = getPreSql();//.append("and sys_permissions.type =1  ");
         sb.append("and sys_user.user_id =?  ");
         String sql = sb.toString();
         return getAllListBySql(sql, new Long[]{userId} , SysPermissions.class);
@@ -76,7 +76,7 @@ public class UserDaoImpl extends BaseDaoImpl<SysUser> implements IUserDao {
 
     @Override
     public List<SysPermissions> getUserOptions(String username) {
-        StringBuilder sb = getPreSql().append("and sys_permissions.type =1  ");
+        StringBuilder sb = getPreSql();//.append("and sys_permissions.type =1  ");
         sb.append("and sys_user.username =?  ");
         String sql = sb.toString();
         return getAllListBySql(sql, new String[]{username} , SysPermissions.class);

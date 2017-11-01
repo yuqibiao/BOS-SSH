@@ -16,7 +16,7 @@ import java.util.List;
  * @date 2017/10/29
  */
 @Repository
-public class PermissionImpl extends BaseDaoImpl<SysPermissions> implements IPermissionsDao{
+public class PermissionImpl extends BaseDaoImpl<SysPermissions> implements IPermissionsDao {
 
     @Override
     public List<SysPermissions> getAllPermissions() {
@@ -26,7 +26,7 @@ public class PermissionImpl extends BaseDaoImpl<SysPermissions> implements IPerm
     }
 
     @Override
-    public void createPermission(SysPermissions permission) {
+    public void addPermission(SysPermissions permission) {
         save(permission);
     }
 

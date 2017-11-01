@@ -248,15 +248,10 @@
                     }
                 };
 
-                $("button").click(function(){
-                    console.log("====button=====");
-                });
-
                 $("#btn_tree").click(function () {
                     var userId = 1;
-                    console.log("=========" + userId);
                     $.ajax({
-                        url: "<%=basePath%>userManager/getUserPermissions.action",
+                        url: "<%=basePath%>userManager/geAllPermissionsByUserId.action",
                         data: "userId=" + userId,
                         type: "GET",
                         success: function (result) {

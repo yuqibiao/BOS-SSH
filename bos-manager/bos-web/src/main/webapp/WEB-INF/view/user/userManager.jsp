@@ -20,6 +20,10 @@
     <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style.css" />
     <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css" />
     <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet" />
+
+    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+    <link href="<%=basePath%>assert/ztree/css/menuStyle/zTreeMenu.css" rel="stylesheet"/>
+
 </head>
 <body>
 <!--Header-part-->
@@ -77,23 +81,11 @@
 
 <!--sidebar-menu-->
 <div id="sidebar" style="OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
-    <ul>
-        <li class="submenu active">
-            <a class="menu_a" link="#"><i class="icon icon-home"></i> <span>控制面板</span></a>
-        </li>
-        <li class="submenu">
-            <a href="#">
-                <i class="icon icon-table"></i>
-                <span>表单</span>
-                <span class="label label-important">3</span>
-            </a>
-            <ul>
-                <li><a class="menu_a" link="#"><i class="icon icon-caret-right"></i>基本表单</a></li>
-                <li><a class="menu_a" link="#"><i class="icon icon-caret-right"></i>校验表单</a></li>
-                <li><a class="menu_a" link="#"><i class="icon icon-caret-right"></i>密码修改样式表单</a></li>
-            </ul>
-        </li>
-    </ul>
+<div class="content_wrap">
+    <div >
+        <ul id="treeDemo" class="ztree"></ul>
+    </div>
+</div>
 </div>
 <!--sidebar-menu-->
 
@@ -114,6 +106,7 @@
 <script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
 <script src="<%=basePath%>assert/js/nicescroll/jquery.nicescroll.min.js"></script>
 <script src="<%=basePath%>assert/js/matrix.js"></script>
+<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
 
 
 <script type="text/javascript">
@@ -132,30 +125,71 @@
         });
     });
 
-    // This function is called from the pop-up menus to transfer to
-    // a different page. Ignore if the value returned is a null string:
-    function goPage (newURL) {
-        // if url is empty, skip the menu dividers and reset the menu selection to default
-        if (newURL != "") {
-            // if url is "-", it is this page -- reset the menu:
-            if (newURL == "-" ) {
-                resetMenu();
+    /*--------------zTree----- start--------------------------*/
+
+    var curMenu = null, zTree_Menu = null;
+    var setting = {
+        view: {
+            showLine: false,
+            showIcon: false,
+            selectedMulti: false,
+            dblClickExpand: false,
+            addDiyDom: addDiyDom
+        },
+        data: {
+            simpleData: {
+                enable: true
             }
-            // else, send page to designated URL
-            else {
-                document.location.href = newURL;
-            }
+        },
+        callback: {
+            beforeClick: beforeClick
+        }
+    };
+
+
+    function addDiyDom(treeId, treeNode) {
+
+        var spaceWidth = 5;
+        var switchObj = $("#" + treeNode.tId + "_switch"),
+            icoObj = $("#" + treeNode.tId + "_ico");
+        switchObj.remove();
+        icoObj.before(switchObj);
+        if (treeNode.level > 1) {
+            var spaceStr = "<span style='display: inline-block;width:" + (spaceWidth * treeNode.level) + "px'></span>";
+            switchObj.before(spaceStr);
         }
     }
 
-    // resets the menu selection upon entry to this page:
-    function resetMenu() {
-        document.gomenu.selector.selectedIndex = 2;
+    function beforeClick(treeId, treeNode) {
+        if (treeNode.level == 0) {
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            zTree.expandNode(treeNode);
+            return false;
+        }
+        return true;
     }
 
-    // uniform使用示例：
-    // $.uniform.update($(this).attr("checked", true));
+
+
+    $.ajax({
+        url: "<%=basePath%>userManager/geAllPermissionsByUserId.action?userId=1",
+        type: "GET",
+        success: function (result) {
+            if (result.code == 200) {
+                var zNodes = result.data;
+                var treeObj = $("#treeDemo");
+                treeObj.addClass("showIcon");
+                $.fn.zTree.init(treeObj, setting, zNodes);
+            } else if (result.code == 250) {
+                $("#btn_closeTree").click();
+            }
+        }
+    });
+
+    /*--------------zTree----- end--------------------------*/
+
 </script>
+
 </body>
 </html>
 

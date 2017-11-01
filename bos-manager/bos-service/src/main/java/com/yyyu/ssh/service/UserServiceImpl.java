@@ -96,15 +96,16 @@ public class UserServiceImpl implements IUserService {
             Long perId = per.getPerId();
             node.setId(perId + "");
             node.setName(per.getName());
-            Long perPid = per.getPerPid();
-            if (perPid != null) {
+            Long perPid = per.getPerPid();//pid
+            if (perPid != null) {//有父节点
                 node.setpId(perPid + "");
-                node.setOpen(true);
-            } else {
-                node.setpId(per.getPerId() + "");
                 node.setOpen(false);
+            } else {//没有父节点
+                node.setpId(per.getPerId() + "");
+                node.setOpen(true);
+                node.setIsParent(true);
             }
-            if (userPerIds.contains(perId)) {
+            if (userPerIds.contains(perId)) {//用户有该权限
                 node.setChecked(true);
             } else {
                 node.setChecked(false);

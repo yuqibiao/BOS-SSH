@@ -1,10 +1,7 @@
-package com.yyyu.ssh.dao.inter;
+package com.yyyu.ssh.service.inter;
 
 import com.yyyu.ssh.domain.SysRole;
-import com.yyyu.ssh.domain.SysRolePermissions;
 import com.yyyu.ssh.templete.inter.IBaseDao;
-
-import java.util.List;
 
 /**
  * 功能：
@@ -12,7 +9,7 @@ import java.util.List;
  * @author yyyu
  * @date 2017/10/29
  */
-public interface IRoleDao extends IBaseDao<SysRole> {
+public interface IRoleService {
 
     void addRole(SysRole role);
 

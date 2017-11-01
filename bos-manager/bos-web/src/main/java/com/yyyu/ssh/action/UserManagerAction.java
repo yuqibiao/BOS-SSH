@@ -103,11 +103,26 @@ public class UserManagerAction extends BaseAction<SysUser> {
         }
     }
 
+    /**
+     * 通过userId得到用户对应的菜单
+     * 用户展示用户菜单
+     *
+     */
+    @Action("getUserPermissionsByUserId")
+    public void getUserMenusByUserId(){
+        
+    }
 
-    @Action("getUserPermissions")
-    public void getUserPermissionsByUserId(){
+
+    /**
+     * 通过userId得到所有的权限
+     * 用户没有的权限checked为false
+     *
+     */
+    @Action("geAllPermissionsByUserId")
+    public void geAllPermissionsByUserId(){
         Long userId = getModel().getUserId();
-        BaseJsonResult<List<TreeNode>> result = new BaseJsonResult<>();
+        BaseJsonResult<List<TreeNode>> result;
         try {
             List<TreeNode> nodeList = userService.getAllPermissionByUserId(userId);
            result = ResultUtils.success(nodeList);

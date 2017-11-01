@@ -15,7 +15,7 @@ import org.springframework.stereotype.Repository;
 public class RoleDaoImpl extends BaseDaoImpl<SysRole> implements IRoleDao {
 
     @Override
-    public void createRole(SysRole role) {
+    public void addRole(SysRole role) {
         save(role);
     }
 

@@ -1,7 +1,6 @@
-package com.yyyu.ssh.dao.inter;
+package com.yyyu.ssh.service.inter;
 
 import com.yyyu.ssh.domain.SysPermissions;
-import com.yyyu.ssh.templete.inter.IBaseDao;
 
 import java.util.List;
 
@@ -11,7 +10,7 @@ import java.util.List;
  * @author yyyu
  * @date 2017/10/29
  */
-public interface IPermissionsDao extends IBaseDao<SysPermissions>{
+public interface IPermissionsService {
 
 
     List<SysPermissions> getAllPermissions();

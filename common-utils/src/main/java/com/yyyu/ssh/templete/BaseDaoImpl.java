@@ -8,6 +8,8 @@ import org.hibernate.transform.Transformers;
 import org.springframework.orm.hibernate5.HibernateCallback;
 import org.springframework.orm.hibernate5.support.HibernateDaoSupport;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.io.Serializable;
@@ -21,6 +23,7 @@ import java.util.List;
  * @date 2017/7/27.
  */
 
+@Transactional(readOnly = false )
 public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
     private Class clazz;//用于接收运行期泛型类型
@@ -163,8 +166,30 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
         return getPageListBySql(sql , values , -1 , -1 , resultClazz);
     }
 
+    @Override
+    public void executeHql(final String hql , final Object[] values) {
+        getHibernateTemplate().execute(new HibernateCallback<Object>() {
+            @Override
+            public Object doInHibernate(Session session) throws HibernateException {
+                Query query = session.createQuery(hql);
+                if (values != null) {
+                    for (int i = 0; i < values.length; i++) {
+                        query.setParameter(i, values[i]);
+                    }
+                }
+                query.executeUpdate();
+                return null;
+            }
+        });
+    }
+
     public void evict(T t){
         getHibernateTemplate().evict(t);
+    }
+
+    @Override
+    public void flushSession() {
+
     }
 
     public DetachedCriteria getCriteria() {

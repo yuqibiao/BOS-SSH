@@ -15,6 +15,14 @@ public class SysRolePermissions {
     private long roleId;
     private long perId;
 
+    public SysRolePermissions() {
+    }
+
+    public SysRolePermissions(long roleId, long perId) {
+        this.roleId = roleId;
+        this.perId = perId;
+    }
+
     @Id
     @Column(name = "role_id")
     public long getRoleId() {

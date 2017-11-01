@@ -1,8 +1,11 @@
 package com.yyyu.ssh.action;
 
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.templete.BaseAction;
+import com.yyyu.ssh.utils.ResultUtils;
+import com.yyyu.ssh.utils.bean.BaseJsonResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
@@ -15,6 +18,8 @@ import org.apache.struts2.convention.annotation.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
+
+import java.util.List;
 
 /**
  * 功能：User相关请求Action
@@ -29,15 +34,7 @@ public class UserAction extends BaseAction<SysUser>{
 
     @Autowired
     private IUserService userService;
-
-
-    public void getAllPermissionByUserId(){
-        Long userId = getModel().getUserId();
-        userService.getAllPermissionByUserId(userId);
-    }
-
-
-
+    
     @Action(value="checkUser" ,results = {
             @Result(name = SUCCESS  ,location = "/WEB-INF/view/user/userManager.jsp" ),
             @Result(name = ERROR , location = "/login.jsp"),
@@ -66,6 +63,20 @@ public class UserAction extends BaseAction<SysUser>{
 
     }
 
+
+    @Action(value = "getUserMenus")
+    public void getUserMenus(){
+        String username = getModel().getUsername();
+        BaseJsonResult< List<SysPermissions>> result;
+        try {
+            List<SysPermissions> userMenus = userService.getUserMenus(username);
+            result = ResultUtils.success(userMenus);
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result , null);
+    }
 
     @Action(value = "geUserInfo")
     public void geUserInfo(){
