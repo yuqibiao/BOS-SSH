@@ -188,7 +188,7 @@
     }
 
     $.ajax({
-        url: "<%=basePath%>user/getUserMenus?username=admin",
+        url: "<%=basePath%>user/getUserMenus?username=${user.username}",
         type: "GET",
         success: function (result) {
             if (result.code == 200) {

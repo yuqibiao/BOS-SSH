@@ -153,16 +153,16 @@ public class PermissionAction extends BaseAction<SysPermissions>{
         if (perPid!=null){
             permission.setPerPid(perPid);
         }
-        if (TextUtils.isEmpty(name)){
+        if (!TextUtils.isEmpty(name)){
             permission.setName(name);
         }
-        if (TextUtils.isEmpty(description)){
+        if (!TextUtils.isEmpty(description)){
             permission.setDescription(description);
         }
-        if (TextUtils.isEmpty(code)){
+        if (!TextUtils.isEmpty(code)){
             permission.setCode(code);
         }
-        if (TextUtils.isEmpty(page)){
+        if (!TextUtils.isEmpty(page)){
             permission.setPage(page);
         }
         if (type!=null){

@@ -9,7 +9,7 @@ import javax.persistence.*;
  * @date 2017/10/29
  */
 @Entity
-@Table(name = "sys_user_role", schema = "bos", catalog = "")
+@Table(name = "sys_user_role", schema = "bos")
 @IdClass(SysUserRolePK.class)
 public class SysUserRole {
     private long userId;

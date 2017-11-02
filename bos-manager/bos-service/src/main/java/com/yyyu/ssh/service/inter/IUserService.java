@@ -36,4 +36,8 @@ public interface IUserService {
     List<TreeNode>  getUserMenus(String username);
 
     List<TreeNode> getAllPermissionByUserId(Long userId);
+
+    void modifyUser(SysUser user);
+
+    boolean hasUser(String username);
 }

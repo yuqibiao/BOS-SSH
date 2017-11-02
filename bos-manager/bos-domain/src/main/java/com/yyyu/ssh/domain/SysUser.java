@@ -10,7 +10,7 @@ import java.sql.Timestamp;
  * @date 2017/10/29
  */
 @Entity
-@Table(name = "sys_user", schema = "bos", catalog = "")
+@Table(name = "sys_user", schema = "bos")
 public class SysUser {
     private long userId;
     private String username;

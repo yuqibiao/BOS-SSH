@@ -106,7 +106,7 @@ public class RoleAction extends BaseAction<SysRole> {
         BaseJsonResult result;
         try {
             roleService.addRole(getModel());
-            result = ResultUtils.success();
+            result = ResultUtils.success("添加角色成功");
         } catch (Exception e) {
             result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();

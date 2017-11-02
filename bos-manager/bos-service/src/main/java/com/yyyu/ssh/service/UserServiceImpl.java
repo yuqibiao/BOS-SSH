@@ -126,5 +126,16 @@ public class UserServiceImpl implements IUserService {
         return treeNodeList;
     }
 
+    @Override
+    public void modifyUser(SysUser user) {
+        userDao.update(user);
+    }
+
+    @Override
+    public boolean hasUser(String username) {
+        SysUser user = userDao.getUserByUsername(username);
+        return user==null?false:true;
+    }
+
 
 }

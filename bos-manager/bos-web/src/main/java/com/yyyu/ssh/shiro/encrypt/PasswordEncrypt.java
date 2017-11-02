@@ -23,7 +23,7 @@ public class PasswordEncrypt {
      * @param credentials 密码明文
      * @return
      */
-    public String  Md5(int hashIterations , String salt , String credentials){
+    public static String  Md5(int hashIterations , String salt , String credentials){
         String hashAlgorithmName = "MD5";//加密方式
         Object simpleHash = new SimpleHash(hashAlgorithmName, credentials,
                 salt, hashIterations);

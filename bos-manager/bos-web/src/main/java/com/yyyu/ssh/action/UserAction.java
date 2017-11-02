@@ -7,6 +7,7 @@ import com.yyyu.ssh.dao.bean.UserReturn;
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
+import com.yyyu.ssh.shiro.encrypt.PasswordEncrypt;
 import com.yyyu.ssh.templete.BaseAction;
 import com.yyyu.ssh.utils.ResultUtils;
 import com.yyyu.ssh.utils.TypeConversion;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,7 +87,7 @@ public class UserAction extends BaseAction<SysUser> {
                 criteria.addOrder(Order.desc(orderName));
             }
             List<SysUser> userList = userService.getUserByPage(criteria, startInt, lengthInt);
-            userDataTablesReturn.setDraw(TypeConversion.str2Int(draw , 0));
+            userDataTablesReturn.setDraw(TypeConversion.str2Int(draw, 0));
             userDataTablesReturn.setRecordsTotal(usersTotal);
             userDataTablesReturn.setRecordsFiltered(usersTotal);
             List<UserReturn> userReturnList = new ArrayList<>();
@@ -111,70 +113,137 @@ public class UserAction extends BaseAction<SysUser> {
     /**
      * 通过userId得到用户对应的菜单
      * 用户展示用户菜单
-     *
      */
     @Action("getUserPermissionsByUserId")
-    public void getUserMenusByUserId(){
-        
+    public void getUserMenusByUserId() {
+
     }
 
     /**
      * 通过userId得到所有的权限
      * 用户没有的权限checked为false
-     *
      */
     @Action("geAllPermissionsByUserId")
-    public void geAllPermissionsByUserId(){
+    public void geAllPermissionsByUserId() {
         Long userId = getModel().getUserId();
         BaseJsonResult result;
         try {
             List<TreeNode> nodeList = userService.getAllPermissionByUserId(userId);
-           result = ResultUtils.success(nodeList);
+            result = ResultUtils.success(nodeList);
         } catch (Exception e) {
             e.printStackTrace();
-            result = ResultUtils.error(500 , e.getMessage());
+            result = ResultUtils.error(500, e.getMessage());
         }
         printJson(result, null);
     }
 
     @Action("addUser")
-    public void addUser(){
+    public void addUser() {
         BaseJsonResult result;
+        SysUser model = getModel();
         try {
             String username = getModel().getUsername();
             String pwd = getModel().getPassword();
-            if (TextUtils.isEmpty(username)||TextUtils.isEmpty(pwd)){
-                result = ResultUtils.error(501 , "用户名或密码存在空值");
-            }else{
-                userService.save(getModel());
+            if (TextUtils.isEmpty(username) || TextUtils.isEmpty(pwd)) {
+                result = ResultUtils.error(501, "用户名或密码存在空值");
+            } else if (userService.hasUser(username)) {
+                result = ResultUtils.error(502, "该用户名已经存在");
+            } else {
+                model.setPassword(PasswordEncrypt.Md5(1, username, pwd));
+                userService.save(model);
                 result = ResultUtils.success("注册成功");
             }
         } catch (Exception e) {
-            result = ResultUtils.error(500 , e.getMessage());
+            result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();
         }
-       printJson(result,null);
+        printJson(result, null);
     }
 
-    @Action(value="checkUser" ,results = {
-            @Result(name = SUCCESS  ,location = "/WEB-INF/view/user/userManager.jsp" ),
-            @Result(name = ERROR , location = "/login.jsp"),
-            @Result(name = "error_500"  , location="/WEB-INF/view/error/error500.jsp")
+
+    @Action("modifyUser")
+    public void modifyUser() {
+        long userId = getModel().getUserId();
+        String username = getModel().getUsername();
+        String password = getModel().getPassword();
+        String tel = getModel().getTel();
+        String salt = getModel().getSalt();
+        String station = getModel().getStation();
+        Integer salary = getModel().getSalary();
+        String gender = getModel().getGender();
+        String remark = getModel().getRemark();
+        Timestamp birthday = getModel().getBirthday();
+        Byte locked = getModel().getLocked();
+
+        SysUser user = userService.getUserById(userId);
+
+        if (!TextUtils.isEmpty(username)) {
+            user.setUsername(username);
+        }
+        if (!TextUtils.isEmpty(password)) {
+            user.setPassword(password);
+        }
+        if (!TextUtils.isEmpty(tel)) {
+            user.setTel(tel);
+        }
+        if (!TextUtils.isEmpty(salt)) {
+            user.setSalt(salt);
+        }
+        if (!TextUtils.isEmpty(station)) {
+            user.setStation(station);
+        }
+        if (!TextUtils.isEmpty(remark)) {
+            user.setRemark(remark);
+        }
+        if (!TextUtils.isEmpty(gender)) {
+            user.setGender(gender);
+        }
+        if (salary != null) {
+            user.setSalary(salary);
+        }
+        if (birthday != null) {
+            user.setBirthday(birthday);
+        }
+        if (locked != null) {
+            user.setLocked(locked);
+        }
+        BaseJsonResult result;
+        try {
+            if (userService.hasUser(username)){
+                result = ResultUtils.error(502, "用户名已被注册");
+            }else{
+                userService.modifyUser(user);
+                result = ResultUtils.success("修改成功");
+            }
+        } catch (Exception e) {
+            result = ResultUtils.error(500, e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result, null);
+
+    }
+
+    @Action(value = "checkUser", results = {
+            @Result(name = SUCCESS, location = "/WEB-INF/view/user/userManager.jsp"),
+            @Result(name = ERROR, location = "/login.jsp"),
+            @Result(name = "error_500", location = "/WEB-INF/view/error/error500.jsp")
     })
-    public String checkUser(){
+    public String checkUser() {
         String username = getModel().getUsername();
         String password = getModel().getPassword();
 
         Subject currentUser = SecurityUtils.getSubject();
-        if (currentUser!=null){
-            UsernamePasswordToken token = new UsernamePasswordToken(username , password);
+        if (currentUser != null) {
+            UsernamePasswordToken token = new UsernamePasswordToken(username, password);
             token.setRememberMe(false);
             try {
                 currentUser.login(token);
+                SysUser loginUser = userService.getUserByUsername(username);
+                setSessionValue("user" , loginUser);
                 return SUCCESS;
             } catch (IncorrectCredentialsException e) {
                 System.out.println("用户名密码不正确");
-            }catch (LockedAccountException lae) {
+            } catch (LockedAccountException lae) {
                 System.out.println("账户已被冻结！");
             } catch (AuthenticationException ae) {
                 System.out.println(ae.getMessage());
@@ -185,24 +254,24 @@ public class UserAction extends BaseAction<SysUser> {
     }
 
     @Action(value = "getUserMenus")
-    public void getUserMenus(){
+    public void getUserMenus() {
         String username = getModel().getUsername();
-        BaseJsonResult< List<SysPermissions>> result;
+        BaseJsonResult<List<SysPermissions>> result;
         try {
             List<TreeNode> userMenus = userService.getUserMenus(username);
 
             result = ResultUtils.success(userMenus);
         } catch (Exception e) {
-            result = ResultUtils.error(500 , e.getMessage());
+            result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();
         }
-        printJson(result , null);
+        printJson(result, null);
     }
 
     @Action(value = "geUserInfo")
-    public void geUserInfo(){
+    public void geUserInfo() {
         SysUser user = userService.getUserById(getModel().getUserId());
-        printJson(user , null);
+        printJson(user, null);
     }
 
 

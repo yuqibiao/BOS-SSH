@@ -290,7 +290,7 @@
                 }
             },
             ajax: {//通过ajax访问后台获取数据
-                "url": "<%=basePath%>userList/getUserByPage.action",//后台地址
+                "url": "<%=basePath%>user/getUserByPage.action",//后台地址
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
@@ -364,7 +364,7 @@
 
         var userId = 1;
         $.ajax({
-            url: "<%=basePath%>userList/geAllPermissionsByUserId.action",
+            url: "<%=basePath%>user/geAllPermissionsByUserId.action",
             data: "userId=" + userId,
             type: "GET",
             success: function (result) {
