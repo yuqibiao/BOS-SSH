@@ -15,14 +15,23 @@ public class ResultUtils {
      *
      * @param t
      * @param <T>
+     * @param msg
      * @return
      */
-    public static <T>BaseJsonResult success(T t){
+    public static <T>BaseJsonResult success(String msg , T t){
         BaseJsonResult<T> result = new BaseJsonResult<>();
         result.setCode(200);
-        result.setMsg("成功");
+        result.setMsg(msg);
         result.setData(t);
         return result;
+    }
+
+    public static <T>BaseJsonResult success(T t){
+        return success("成功" ,t);
+    }
+
+    public static BaseJsonResult success(String msg){
+        return success(msg , null);
     }
 
     public static BaseJsonResult success(){

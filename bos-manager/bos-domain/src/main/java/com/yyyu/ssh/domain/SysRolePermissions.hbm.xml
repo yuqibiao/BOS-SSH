@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.yyyu.ssh.domain.SysRolePermissions" table="sys_role_permissions" schema="bos">
+    <class name="com.yyyu.ssh.domain.SysRolePermissions" table="sys_role_permissions" schema="bos" dynamic-update="true">
         <composite-id mapped="true" class="com.yyyu.ssh.domain.SysRolePermissionsPK">
             <key-property name="roleId" column="role_id"/>
             <key-property name="perId" column="per_id"/>

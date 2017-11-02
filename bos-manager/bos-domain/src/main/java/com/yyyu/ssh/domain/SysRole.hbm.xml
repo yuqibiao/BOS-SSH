@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.yyyu.ssh.domain.SysRole" table="sys_role" schema="bos">
+    <class name="com.yyyu.ssh.domain.SysRole" table="sys_role" schema="bos" dynamic-update="true">
         <id name="roleId" column="role_id"/>
         <property name="roleName" column="role_name"/>
         <property name="description" column="description"/>

@@ -75,8 +75,18 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<SysPermissions> getUserMenus(String username) {
-        return userDao.getUserMenus(username);
+    public  List<TreeNode> getUserMenus(String username) {
+        List<SysPermissions> userMenus = userDao.getUserMenus(username);
+        List<TreeNode> nodeList = new ArrayList<>();
+        for (SysPermissions permission :userMenus) {
+            TreeNode node = new TreeNode();
+            node.setName(permission.getName());
+            node.setId(""+permission.getPerId());
+            node.setpId(""+permission.getPerPid());
+            node.setPage(permission.getPage());
+            nodeList.add(node);
+        }
+        return nodeList;
     }
 
     @Override

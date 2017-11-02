@@ -33,7 +33,7 @@ public interface IUserService {
 
     List<SysPermissions> getUserPermissions(String username);
 
-    List<SysPermissions> getUserMenus(String username);
+    List<TreeNode>  getUserMenus(String username);
 
     List<TreeNode> getAllPermissionByUserId(Long userId);
 }

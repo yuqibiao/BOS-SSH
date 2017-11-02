@@ -1,10 +1,15 @@
 package com.yyyu.ssh.action;
 
+import com.yyyu.ssh.TextUtils;
+import com.yyyu.ssh.dao.bean.TreeNode;
+import com.yyyu.ssh.dao.bean.UserDataTablesReturn;
+import com.yyyu.ssh.dao.bean.UserReturn;
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.templete.BaseAction;
 import com.yyyu.ssh.utils.ResultUtils;
+import com.yyyu.ssh.utils.TypeConversion;
 import com.yyyu.ssh.utils.bean.BaseJsonResult;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -15,26 +20,142 @@ import org.apache.shiro.subject.Subject;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.apache.struts2.convention.annotation.Result;
+import org.hibernate.criterion.DetachedCriteria;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 功能：User相关请求Action
+ * 功能：用户管理Action
  *
  * @author yu
- * @date 2017/8/30.
+ * @date 2017/10/23.
  */
 @Controller
 @Scope("prototype")
 @Namespace("/user")
-public class UserAction extends BaseAction<SysUser>{
+public class UserAction extends BaseAction<SysUser> {
 
     @Autowired
     private IUserService userService;
-    
+
+    private String[] columns = new String[]{"userId", "username", "salary", "telephone", "gender", "remark"};
+    private String orderName;
+    private String orderDid;
+
+    @Action(value = "getUserByPage")
+    public void getUserByPage() {
+        try {
+            //draw的次数，原样返回
+            String draw = getRequestParam("draw");
+            //开始行
+            String start = getRequestParam("start");
+            //分页长度
+            String length = getRequestParam("length");
+            //需要排序列的索引
+            String orderColumn = getRequestParam("order[0][column]");
+            //过滤条件
+            String searchValue = getRequestParam("search[value]");
+
+            UserDataTablesReturn userDataTablesReturn = new UserDataTablesReturn();
+            Integer usersTotal = userService.getUsersTotal();
+            int startInt = TypeConversion.str2Int(start);
+            int lengthInt = TypeConversion.str2Int(length, 10);
+            DetachedCriteria criteria = userService.getCriteria();
+            if (!TextUtils.isEmpty(searchValue)) {//搜索
+                criteria.add(Restrictions.or(
+                        Restrictions.like("tel", searchValue + "%"),
+                        Restrictions.like("username", searchValue + "%")
+                ));
+            }
+            if (!TextUtils.isEmpty(orderColumn)) {//排序(不为空时赋值，为空用原始排序规则)
+                //需要排序的列名
+                orderName = columns[TypeConversion.str2Int(orderColumn, 0)];
+                //排序方式 asc des
+                orderDid = getRequestParam("order[0][dir]");
+            }
+            if ("asc".equalsIgnoreCase(orderDid)) {
+                criteria.addOrder(Order.asc(orderName));
+            } else if ("desc".equalsIgnoreCase(orderDid)) {
+                criteria.addOrder(Order.desc(orderName));
+            }
+            List<SysUser> userList = userService.getUserByPage(criteria, startInt, lengthInt);
+            userDataTablesReturn.setDraw(TypeConversion.str2Int(draw , 0));
+            userDataTablesReturn.setRecordsTotal(usersTotal);
+            userDataTablesReturn.setRecordsFiltered(usersTotal);
+            List<UserReturn> userReturnList = new ArrayList<>();
+            for (SysUser user : userList) {
+                UserReturn userReturn = new UserReturn();
+                userReturn.setUserId(user.getUserId());
+                userReturn.setUsername(user.getUsername());
+                userReturn.setSalary(user.getSalary());
+                userReturn.setBirthday(user.getBirthday());
+                userReturn.setGender(user.getGender());
+                userReturn.setRemark(user.getRemark());
+                userReturn.setStation(user.getStation());
+                userReturn.setTel(user.getTel());
+                userReturnList.add(userReturn);
+            }
+            userDataTablesReturn.setData(userReturnList);
+            printJson(userDataTablesReturn, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 通过userId得到用户对应的菜单
+     * 用户展示用户菜单
+     *
+     */
+    @Action("getUserPermissionsByUserId")
+    public void getUserMenusByUserId(){
+        
+    }
+
+    /**
+     * 通过userId得到所有的权限
+     * 用户没有的权限checked为false
+     *
+     */
+    @Action("geAllPermissionsByUserId")
+    public void geAllPermissionsByUserId(){
+        Long userId = getModel().getUserId();
+        BaseJsonResult result;
+        try {
+            List<TreeNode> nodeList = userService.getAllPermissionByUserId(userId);
+           result = ResultUtils.success(nodeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ResultUtils.error(500 , e.getMessage());
+        }
+        printJson(result, null);
+    }
+
+    @Action("addUser")
+    public void addUser(){
+        BaseJsonResult result;
+        try {
+            String username = getModel().getUsername();
+            String pwd = getModel().getPassword();
+            if (TextUtils.isEmpty(username)||TextUtils.isEmpty(pwd)){
+                result = ResultUtils.error(501 , "用户名或密码存在空值");
+            }else{
+                userService.save(getModel());
+                result = ResultUtils.success("注册成功");
+            }
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+       printJson(result,null);
+    }
+
     @Action(value="checkUser" ,results = {
             @Result(name = SUCCESS  ,location = "/WEB-INF/view/user/userManager.jsp" ),
             @Result(name = ERROR , location = "/login.jsp"),
@@ -63,13 +184,13 @@ public class UserAction extends BaseAction<SysUser>{
 
     }
 
-
     @Action(value = "getUserMenus")
     public void getUserMenus(){
         String username = getModel().getUsername();
         BaseJsonResult< List<SysPermissions>> result;
         try {
-            List<SysPermissions> userMenus = userService.getUserMenus(username);
+            List<TreeNode> userMenus = userService.getUserMenus(username);
+
             result = ResultUtils.success(userMenus);
         } catch (Exception e) {
             result = ResultUtils.error(500 , e.getMessage());
@@ -83,5 +204,6 @@ public class UserAction extends BaseAction<SysUser>{
         SysUser user = userService.getUserById(getModel().getUserId());
         printJson(user , null);
     }
+
 
 }

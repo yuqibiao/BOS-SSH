@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.yyyu.ssh.domain.SysPermissions" table="sys_permissions" schema="bos">
+    <class name="com.yyyu.ssh.domain.SysPermissions" table="sys_permissions" schema="bos" dynamic-update="true">
         <id name="perId" column="per_id"/>
         <property name="perPid" column="per_pid"/>
         <property name="name" column="name"/>

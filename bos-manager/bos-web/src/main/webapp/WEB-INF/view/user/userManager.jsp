@@ -12,14 +12,14 @@
             + path + "/";
 %>
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <title>后台管理模板</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style.css" />
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css" />
-    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
+    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
 
     <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
     <link href="<%=basePath%>assert/ztree/css/menuStyle/zTreeMenu.css" rel="stylesheet"/>
@@ -35,7 +35,7 @@
 <!--top-Header-menu-->
 <div id="user-nav" class="navbar navbar-inverse">
     <ul class="nav">
-        <li  class="dropdown" id="profile-messages" >
+        <li class="dropdown" id="profile-messages">
             <a title="" href="#" data-toggle="dropdown" data-target="#profile-messages" class="dropdown-toggle">
                 <i class="icon icon-user"></i>&nbsp;
                 <span class="text">欢迎你，admin</span>&nbsp;
@@ -67,7 +67,8 @@
             </ul>
         </li>
         <li class=""><a title="" href="#"><i class="icon icon-cog"></i> <span class="text">&nbsp;设置</span></a></li>
-        <li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span class="text">&nbsp;退出系统</span></a></li>
+        <li class=""><a title="" href="login.html"><i class="icon icon-share-alt"></i> <span
+                class="text">&nbsp;退出系统</span></a></li>
     </ul>
 </div>
 <!--close-top-Header-menu-->
@@ -81,11 +82,11 @@
 
 <!--sidebar-menu-->
 <div id="sidebar" style="OVERFLOW-Y: auto; OVERFLOW-X:hidden;">
-<div class="content_wrap">
-    <div >
-        <ul id="treeDemo" class="ztree"></ul>
+    <div class="content_wrap">
+        <div>
+            <ul id="treeDemo" class="ztree"></ul>
+        </div>
     </div>
-</div>
 </div>
 <!--sidebar-menu-->
 
@@ -93,10 +94,15 @@
 <div id="content">
     <!--breadcrumbs-->
     <div id="content-header">
-        <div id="breadcrumb"> <a href="#" title="Go to Home" class="tip-bottom"><i class="icon-home"></i> Home</a></div>
+        <div id="breadcrumb">
+            <a href="javascript:void(0)" title="返回首页" class="tip-bottom"onclick="javascript:go2Home();return false;">
+                <i class="icon-home" ></i> 首页
+            </a>
+        </div>
     </div>
     <!--End-breadcrumbs-->
-    <iframe src="<%=basePath%>assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0' style="width:100%;"></iframe>
+    <iframe src="<%=basePath%>assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0' style="width:100%;">
+    </iframe>
 </div>
 <!--end-main-container-part-->
 
@@ -112,18 +118,26 @@
 <script type="text/javascript">
 
     //初始化相关元素高度
-    function init(){
-        $("body").height($(window).height()-80);
-        $("#iframe-main").height($(window).height()-90);
-        $("#sidebar").height($(window).height()-50);
+    function init() {
+        $("body").height($(window).height() - 80);
+        $("#iframe-main").height($(window).height() - 90);
+        $("#sidebar").height($(window).height() - 50);
     }
 
-    $(function(){
+    $(function () {
         init();
-        $(window).resize(function(){
+        $(window).resize(function () {
             init();
         });
     });
+
+    function go2Home() {
+        setFrameContent("assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp");
+    }
+
+    function setFrameContent(url) {
+        $("#iframe-main").attr("src", url);
+    }
 
     /*--------------zTree----- start--------------------------*/
 
@@ -142,13 +156,17 @@
             }
         },
         callback: {
-            beforeClick: beforeClick
+            beforeClick: beforeClick,
+            onClick: onNodeClick
         }
     };
 
+    function onNodeClick(event, treeId, treeNode, clickFlag) {
+        setFrameContent(treeNode.page);
+        console.log("===============treeId：" + treeId + "  treeNode：" + treeNode.name + "  clickFlag： " + clickFlag);
+    }
 
     function addDiyDom(treeId, treeNode) {
-
         var spaceWidth = 5;
         var switchObj = $("#" + treeNode.tId + "_switch"),
             icoObj = $("#" + treeNode.tId + "_ico");
@@ -169,10 +187,8 @@
         return true;
     }
 
-
-
     $.ajax({
-        url: "<%=basePath%>userManager/geAllPermissionsByUserId.action?userId=1",
+        url: "<%=basePath%>user/getUserMenus?username=admin",
         type: "GET",
         success: function (result) {
             if (result.code == 200) {

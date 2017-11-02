@@ -4,7 +4,7 @@
     "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 
-    <class name="com.yyyu.ssh.domain.SysUser" table="sys_user" schema="bos">
+    <class name="com.yyyu.ssh.domain.SysUser" table="sys_user" schema="bos" dynamic-update="true">
         <id name="userId" column="user_id"/>
         <property name="username" column="username"/>
         <property name="password" column="password"/>

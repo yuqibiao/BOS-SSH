@@ -71,6 +71,7 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
 
     @Override
     public void update(T t) {
+        //getSessionFactory().getCurrentSession().update(t);
         getHibernateTemplate().update(t);
     }
 

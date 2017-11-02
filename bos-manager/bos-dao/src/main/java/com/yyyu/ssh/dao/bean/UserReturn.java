@@ -9,24 +9,24 @@ import java.util.Date;
  * @date 2017/10/23.
  */
 public class UserReturn {
-    private Long id;
+    private Long userId;
     private String username;
     private Integer salary;
     private Date birthday;
     private String gender;
     private String station;
-    private String telephone;
+    private String tel;
     private String remark;
 
     public UserReturn() {
     }
 
-    public Long getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getUsername() {
@@ -69,12 +69,12 @@ public class UserReturn {
         this.station = station;
     }
 
-    public String getTelephone() {
-        return telephone;
+    public String getTel() {
+        return tel;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 
     public String getRemark() {

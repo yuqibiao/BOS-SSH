@@ -11,6 +11,7 @@ public class TreeNode {
     private  String id;
     private String pId;
     private String name;
+    private String page;
     private boolean checked;
     private boolean open;
     private boolean isParent;
@@ -41,6 +42,22 @@ public class TreeNode {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getPage() {
+        return page;
+    }
+
+    public void setPage(String page) {
+        this.page = page;
+    }
+
+    public boolean isParent() {
+        return isParent;
+    }
+
+    public void setParent(boolean parent) {
+        isParent = parent;
     }
 
     public boolean isChecked() {

@@ -3,6 +3,7 @@ package com.yyyu.ssh.dao.inter;
 import com.yyyu.ssh.domain.SysRole;
 import com.yyyu.ssh.domain.SysRolePermissions;
 import com.yyyu.ssh.templete.inter.IBaseDao;
+import org.hibernate.criterion.DetachedCriteria;
 
 import java.util.List;
 
@@ -18,4 +19,7 @@ public interface IRoleDao extends IBaseDao<SysRole> {
 
     void deleteRole(SysRole role);
 
+    Integer getRolesTotal();
+
+    List<SysRole> getRoleByPage(DetachedCriteria criteria, Integer start, Integer length);
 }

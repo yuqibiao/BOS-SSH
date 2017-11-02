@@ -1,5 +1,5 @@
 <%--
-  功能:用户管理
+  功能:角色管理
   User: yu
   Date: 2017/11/2
 --%>
@@ -7,13 +7,12 @@
 <%@taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%
     String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-            + path + "/";
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
 %>
 <!DOCTYPE html>
 <html >
 <head>
-    <title>用户管理</title>
+    <title>角色管理</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
@@ -49,12 +48,11 @@
                     <div class="widget-content nopadding">
                         <table class="table table-bordered table-hover table-striped " id="data_table" width="100%">
                             <thead>
-                            <th>ID</th>
-                            <th>用户名</th>
-                            <th>薪水</th>
-                            <th>电话</th>
-                            <th>性别</th>
-                            <th>等级</th>
+                            <th>角色ID</th>
+                            <th>角色名</th>
+                            <th>描述</th>
+                            <th>序列编号</th>
+                            <th>是否可用</th>
                             <th>操作</th>
                             </thead>
                             <tbody>
@@ -290,7 +288,7 @@
                 }
             },
             ajax: {//通过ajax访问后台获取数据
-                "url": "<%=basePath%>userList/getUserByPage.action",//后台地址
+                "url": "<%=basePath%>userManager/getUserByPage.action",//后台地址
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
@@ -298,10 +296,10 @@
                 }
             },
             columns: [
-                {"data": "userId", "orderable": true}, //各列对应的数据列
+                {"data": "id", "orderable": true}, //各列对应的数据列
                 {"data": "username"},
                 {"data": "salary"},
-                {"data": "tel", "orderable": false},
+                {"data": "telephone", "orderable": false},
                 {"data": "gender", "orderable": false},
                 {"data": "remark", "orderable": false},
                 {"data": null}],
@@ -320,8 +318,8 @@
                     }
                 },
                 {
-                    "targets": [6],
-                    "data": "userId",
+                    "targets": [5],
+                    "data": "username",
                     "render": function (data, type, full) {
                         var userId = data.id;
                         return "<div > "
@@ -334,9 +332,10 @@
                             +
                             "</div>";
                     }
-                },
+                }
             ],
             "fnInitComplete": function (oSettings, json) {
+
             }
         });
 
@@ -364,7 +363,7 @@
 
         var userId = 1;
         $.ajax({
-            url: "<%=basePath%>userList/geAllPermissionsByUserId.action",
+            url: "<%=basePath%>userManager/geAllPermissionsByUserId.action",
             data: "userId=" + userId,
             type: "GET",
             success: function (result) {
@@ -383,3 +382,4 @@
 
 </body>
 </html>
+

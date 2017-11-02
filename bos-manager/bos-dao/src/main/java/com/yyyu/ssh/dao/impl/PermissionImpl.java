@@ -34,4 +34,14 @@ public class PermissionImpl extends BaseDaoImpl<SysPermissions> implements IPerm
     public void deletePermission(SysPermissions permission) {
         delete(permission);
     }
+
+    @Override
+    public List<SysPermissions> getPermissionByPage(DetachedCriteria criteria ,Integer start, Integer length) {
+        return getPageList(criteria , start , length);
+    }
+
+    @Override
+    public Integer getPermissionTotal() {
+        return getTotalCount(getCriteria());
+    }
 }
