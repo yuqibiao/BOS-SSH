@@ -101,6 +101,20 @@ public class RoleAction extends BaseAction<SysRole> {
 
     }
 
+    @Action("getRoleById")
+    public void getRoleById(){
+        long roleId = getModel().getRoleId();
+        BaseJsonResult result;
+        try {
+            SysRole role = roleService.getRoleById(roleId);
+            result =  ResultUtils.success(role);
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result , null);
+    }
+
     @Action(value = "addRole")
     public void addRole() {
         BaseJsonResult result;
@@ -135,20 +149,20 @@ public class RoleAction extends BaseAction<SysRole> {
         String code = getModel().getCode();
         Byte available = getModel().getAvailable();
         SysRole sysRole = roleService.getRoleById(roleId);
-        if (!TextUtils.isEmpty(roleName)){
-            sysRole.setRoleName(roleName);
-        }
-        if (!TextUtils.isEmpty(description)){
-            sysRole.setDescription(description);
-        }
-        if (!TextUtils.isEmpty(code)){
-            sysRole.setCode(code);
-        }
-        if (available!=null){
-            sysRole.setAvailable(available);
-        }
         BaseJsonResult result;
         try {
+            if (!TextUtils.isEmpty(roleName)){
+                sysRole.setRoleName(roleName);
+            }
+            if (!TextUtils.isEmpty(description)){
+                sysRole.setDescription(description);
+            }
+            if (!TextUtils.isEmpty(code)){
+                sysRole.setCode(code);
+            }
+            if (available!=null){
+                sysRole.setAvailable(available);
+            }
             roleService.modifyRole(sysRole);
             result = ResultUtils.success("修改成功");
         } catch (Exception e) {

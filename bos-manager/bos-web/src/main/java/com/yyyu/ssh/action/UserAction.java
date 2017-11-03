@@ -160,6 +160,20 @@ public class UserAction extends BaseAction<SysUser> {
         printJson(result, null);
     }
 
+    @Action("deleteUser")
+    public void deleteUser(){
+        long userId = getModel().getUserId();
+        BaseJsonResult result;
+        try {
+            userService.deleteUserById(userId);
+            result = ResultUtils.success("删除成功");
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result , null);
+    }
+
 
     @Action("modifyUser")
     public void modifyUser() {
@@ -177,41 +191,41 @@ public class UserAction extends BaseAction<SysUser> {
 
         SysUser user = userService.getUserById(userId);
 
-        if (!TextUtils.isEmpty(username)) {
-            user.setUsername(username);
-        }
-        if (!TextUtils.isEmpty(password)) {
-            user.setPassword(password);
-        }
-        if (!TextUtils.isEmpty(tel)) {
-            user.setTel(tel);
-        }
-        if (!TextUtils.isEmpty(salt)) {
-            user.setSalt(salt);
-        }
-        if (!TextUtils.isEmpty(station)) {
-            user.setStation(station);
-        }
-        if (!TextUtils.isEmpty(remark)) {
-            user.setRemark(remark);
-        }
-        if (!TextUtils.isEmpty(gender)) {
-            user.setGender(gender);
-        }
-        if (salary != null) {
-            user.setSalary(salary);
-        }
-        if (birthday != null) {
-            user.setBirthday(birthday);
-        }
-        if (locked != null) {
-            user.setLocked(locked);
-        }
         BaseJsonResult result;
         try {
             if (userService.hasUser(username)){
                 result = ResultUtils.error(502, "用户名已被注册");
             }else{
+                if (!TextUtils.isEmpty(username)) {
+                    user.setUsername(username);
+                }
+                if (!TextUtils.isEmpty(password)) {
+                    user.setPassword(password);
+                }
+                if (!TextUtils.isEmpty(tel)) {
+                    user.setTel(tel);
+                }
+                if (!TextUtils.isEmpty(salt)) {
+                    user.setSalt(salt);
+                }
+                if (!TextUtils.isEmpty(station)) {
+                    user.setStation(station);
+                }
+                if (!TextUtils.isEmpty(remark)) {
+                    user.setRemark(remark);
+                }
+                if (!TextUtils.isEmpty(gender)) {
+                    user.setGender(gender);
+                }
+                if (salary != null) {
+                    user.setSalary(salary);
+                }
+                if (birthday != null) {
+                    user.setBirthday(birthday);
+                }
+                if (locked != null) {
+                    user.setLocked(locked);
+                }
                 userService.modifyUser(user);
                 result = ResultUtils.success("修改成功");
             }
@@ -268,10 +282,17 @@ public class UserAction extends BaseAction<SysUser> {
         printJson(result, null);
     }
 
-    @Action(value = "geUserInfo")
-    public void geUserInfo() {
-        SysUser user = userService.getUserById(getModel().getUserId());
-        printJson(user, null);
+    @Action(value = "geUserById")
+    public void geUserById() {
+        BaseJsonResult result;
+        try {
+            SysUser user  = userService.getUserById(getModel().getUserId());
+            result= ResultUtils.success(user);
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result, null);
     }
 
 

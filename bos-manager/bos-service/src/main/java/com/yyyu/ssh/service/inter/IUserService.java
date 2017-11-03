@@ -40,4 +40,6 @@ public interface IUserService {
     void modifyUser(SysUser user);
 
     boolean hasUser(String username);
+
+    void deleteUserById(Long userId);
 }

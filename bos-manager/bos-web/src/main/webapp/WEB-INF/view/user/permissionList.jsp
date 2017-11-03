@@ -42,19 +42,21 @@
             <div class="span12">
                 <div class="widget-box">
                     <button id='btn_tree' class='btn btn-success glyphicon glyphicon-tree-conifer btn-sm'
-                            data-toggle='modal' data-target='#add_user'
+                            data-toggle='modal' data-target='#add_permission'
                             style="margin: 10px;">
                         <i class="icon-edit"> 添加</i>
                     </button>
                     <div class="widget-content nopadding">
                         <table class="table table-bordered table-hover table-striped " id="data_table" width="100%">
                             <thead>
-                            <th>ID</th>
-                            <th>用户名</th>
-                            <th>薪水</th>
-                            <th>电话</th>
-                            <th>角色</th>
-                            <th>等级</th>
+                            <th>权限ID</th>
+                            <th>权限父ID</th>
+                            <th>权限名</th>
+                            <th>描述</th>
+                            <th>权限序列号</th>
+                            <th>page</th>
+                            <th>类型</th>
+                            <th>是否可用</th>
                             <th>操作</th>
                             </thead>
                             <tbody>
@@ -66,126 +68,58 @@
         </div>
     </div>
 
-    <%--添加户信息 modal--%>
-    <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
-        <%--<div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="">修改客户信息</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-box">
-                        <div class="widget-content nopadding">
-                            <form action="#" class="form-horizontal">
-                                <div class="control-group">
-                                    <label for="username" class="control-label" style="width: 100px">用户名</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="add_username" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="salary" class="control-label" style="width: 100px">薪水</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="add_salary" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="tel" class="control-label" style="width: 100px">电话</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="add_tel" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">角色</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="add_role" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">用户等级</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="add_remark" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">用户XX</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">用户XX</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">用户XX</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="" class=" mask text">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info">保存修改</button>
-                </div>
-            </div>
-        </div>--%>
-    </div>
 
     <%--修改用户信息 modal--%>
-    <div class="modal fade" id="modify_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade"  id="modify_permission">
+        <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" id="myModalLabel">修改客户信息</h4>
+                    <h4 class="modal-title" >修改客户信息</h4>
                 </div>
                 <div class="modal-body">
                     <div class="widget-box">
                         <div class="widget-content nopadding">
-                            <form action="#" class="form-horizontal">
+                            <form id="modify_role_form" class="form-horizontal">
                                 <div class="control-group">
-                                    <label for="username" class="control-label" style="width: 100px">用户名</label>
+                                    <input type="hidden" id="edit_perId" name="perId">
+                                </div>
+                                <div class="control-group">
+                                    <label for="edit_perPid" class="control-label" style="width: 100px">父节点</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="username" class=" mask text">
+                                        <input type="text" id="edit_perPid" name="perPid" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="salary" class="control-label" style="width: 100px">薪水</label>
+                                    <label for="edit_name" class="control-label" style="width: 100px">权限/菜单名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="salary" class=" mask text">
+                                        <input type="text" id="edit_name" name="name" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="tel" class="control-label" style="width: 100px">电话</label>
+                                    <label for="edit_description" class="control-label" style="width: 100px">描述</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="tel" class=" mask text">
+                                        <input type="text" id="edit_description" name="description" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">角色</label>
+                                    <label for="edit_code" class="control-label" style="width: 100px">权限序列号</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="role" class=" mask text">
+                                        <input type="text" id="edit_code" name="code" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">用户等级</label>
+                                    <label for="edit_page" class="control-label" style="width: 100px">page</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="" class=" mask text">
+                                        <input type="text" id="edit_page" name="page" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="edit_type" class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="edit_type" name="type" class=" mask text">
                                     </div>
                                 </div>
                             </form>
@@ -194,7 +128,90 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info">保存修改</button>
+                    <button type="button" class="btn btn-info" onclick="modifyPermission()">保存修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%--添加户信息 modal--%>
+    <div class="modal fade" id="add_permission">
+        <div class="modal-dialog" >
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加权限</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <form id="add_role_form" class="form-horizontal">
+                                <div class="control-group">
+                                    <input type="hidden" id="perId" name=perId"">
+                                </div>
+                                <div >
+                                    <label for="perPid" class="control-label" style="width: 100px">父节点</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="perPid" name="perPid" class=" mask text" >
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="name" class="control-label" style="width: 100px">权限/菜单名</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="name" name="name" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="description" class="control-label" style="width: 100px">描述</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="description" name="description" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="code" class="control-label" style="width: 100px">权限序列号</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="code" name="code" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="page" class="control-label" style="width: 100px">page</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="page" name="page" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="type" class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="type" name="type" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="type" class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="type" name="type" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="type" class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="type" name="type" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="type" class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="type" name="type" class=" mask text">
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-info" onclick="addPermission()">保存修改</button>
                 </div>
             </div>
         </div>
@@ -210,35 +227,11 @@
             <h5>确认要删除该用户？删除后将无法恢复！！！</h5>
         </div>
         <div class="modal-footer">
-            <a data-dismiss="modal" class="btn btn-default" href="#">取消</a>
-            <a data-dismiss="modal" class="btn btn-danger" href="#">删除</a>
+            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            <button type="button" class="btn btn-danger" onclick="deletePermission()">删除</button>
         </div>
     </div>
 
-    <%--权限分配 modal--%>
-    <div class="modal fade" id="dtreeModal" tabindex="-1" role="dialog" aria-labelledby="preModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form role="form" action="" method="post">
-                    <div class="modal-header">
-                        <button data-dismiss="modal" class="close" type="button">×</button>
-                        <h3>权限分配</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <ul id="treeDemo" class="ztree"></ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btn_closeTree" data-dismiss="modal" class="btn btn-default" type="button">
-                            关闭
-                        </button>
-                        <button id="btn_inputTree" class="btn btn-info" type="button">提交</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
 </div>
 
@@ -255,9 +248,84 @@
 <script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
 <script>
 
+
+    /*修改权限（填充数据）*/
+    function editPermission(perId){
+        $.post("<%=basePath%>permission/getPermissionById" , {
+            perId:perId
+        } ,function (data) {
+            var code = data.code;
+            var msg = data.msg;
+            if (code==200){
+                var per = data.data;
+               $("#edit_perId").val(per.perId);
+               $("#edit_perPid").val(per.perPid);
+               $("#edit_name").val(per.name);
+               $("#edit_description").val(per.description);
+               $("#edit_code").val(per.code);
+               $("#edit_page").val(per.page);
+               $("#edit_type").val(per.type);
+            }else{
+                alert("异常："+msg);
+            }
+        } );
+    }
+
+    /*修改权限*/
+    function modifyPermission(){
+        $.post("<%=basePath%>permission/modifyPermission" , $("#modify_role_form").serialize() ,
+            function (data) {
+            var code = data.code;
+            var msg = data.msg;
+            if (code==200){
+                window.location.reload();
+            }else{
+                alert("异常："+msg);
+            }
+        });
+    }
+
+    /*删除权限*/
+    var delete_per_id = -1;
+
+    function onModalShow(perId) {
+        delete_per_id = perId;
+    }
+
+    function deletePermission() {
+        if (delete_per_id >-1){
+            $.post("<%=basePath%>permission/deletePermission" , {
+                perId:delete_per_id
+            } , function (data) {
+                var code = data.code;
+                var msg = data.msg;
+                if (code==200){
+                    window.location.reload();
+                }else{
+                    alert("异常："+msg);
+                }
+            });
+        }
+    }
+
+
+    /*添加权限*/
+    function addPermission(){
+        $.post("<%=basePath%>permission/addPermission" , $("#add_role_form").serialize() ,
+            function (data) {
+            var code = data.code;
+            var msg = data.msg;
+            if (code==200){
+                window.location.reload();
+            }else{
+                alert("异常："+msg);
+            }
+        });
+    }
+
+    /*dataTable加载数据*/
     $(document).ready(function () {
 
-        /*dataTable加载数据*/
         $("#data_table").dataTable({
             "aLengthMenu": [[10, 15, 20], [10, 15, 20]],//搜索栏显示
             "order": [[2, "desc"]],//第2列的数据倒序排序 此条会通过参数传给服务器
@@ -290,7 +358,8 @@
                 }
             },
             ajax: {//通过ajax访问后台获取数据
-                "url": "<%=basePath%>userManager/getUserByPage.action",//后台地址
+                "url": "<%=basePath%>permission/getPermissionByPage.action",//后台地址
+                "type":"POST",
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
@@ -298,27 +367,50 @@
                 }
             },
             columns: [
-                {"data": "id", "orderable": true}, //各列对应的数据列
-                {"data": "username"},
-                {"data": "salary"},
-                {"data": "telephone", "orderable": false},
-                {"data": "gender", "orderable": false},
-                {"data": "remark", "orderable": false},
+                {"data": "perId", "orderable": true}, //各列对应的数据列
+                {"data": "perPid"},
+                {"data": "name"},
+                {"data": "description", "orderable": false},
+                {"data": "code", "orderable": false},
+                {"data": "page", "orderable": false},
+                {"data": "type"},
+                {"data": "available", "available": false},
                 {"data": null}],
 
             "columnDefs": [
                 {
                     "targets": [6],
-                    "data": "username",
+                    "data": "type",
                     "render": function (data, type, full) {
-                        var userId = data.id;
+                        var type = data;
+                        if (type==0){
+                            return '用户菜单';
+                        }else{
+                            return '操作权限'
+                        }
+                    }
+                },
+                {
+                    "targets": [7],
+                    "data": "available",
+                    "render": function (data, type, full) {
+                        var available = data;
+                        if (available==0){
+                            return '不可用';
+                        }else{
+                            return '可用'
+                        }
+                    }
+                },
+                {
+                    "targets": [8],
+                    "data": "perId",
+                    "render": function (data, type, full) {
+                        var perId = data.perId;
                         return "<div > "
-                            <shiro:hasRole name="admin">
                             +
-                            "<button class='btn btn-success btn-sm' data-toggle='modal' data-target='#modify_user'>修改</button> " +
-                            "<button class='btn btn-danger btn-sm' data-toggle='modal' data-target='#confirm_delete'>删除</button> " +
-                            "<button id='btn_tree' onclick='initTree()' class='treeBtn btn btn-success  btn-sm'data-toggle='modal' data-target='#dtreeModal'> 树形分配 </button>"
-                            </shiro:hasRole>
+                            "<button class='btn btn-success btn-sm' onclick='editPermission("+perId+")' data-toggle='modal' data-target='#modify_permission'>修改</button> " +
+                            "<button class='btn btn-danger btn-sm' onclick='onModalShow("+perId+")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
                             +
                             "</div>";
                     }
@@ -355,7 +447,7 @@
         $.ajax({
             url: "<%=basePath%>userManager/geAllPermissionsByUserId.action",
             data: "userId=" + userId,
-            type: "GET",
+            type: "POST",
             success: function (result) {
                 if (result.code == 200) {
                     var zNodes = result.data;

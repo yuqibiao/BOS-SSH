@@ -40,8 +40,8 @@ public class PermissionAction extends BaseAction<SysPermissions>{
     private String orderDid;
 
 
-    @Action("listPermissionByPage")
-    public void listPermissionByPage(){
+    @Action("getPermissionByPage")
+    public void getPermissionByPage(){
 
         try {
             //draw的次数，原样返回
@@ -102,6 +102,21 @@ public class PermissionAction extends BaseAction<SysPermissions>{
 
     }
 
+
+    @Action("getPermissionById")
+    public void getPermissionById(){
+        long perId = getModel().getPerId();
+        BaseJsonResult result;
+        try {
+            SysPermissions permissions = permissionsService.getPermissionById(perId);
+            result = ResultUtils.success(permissions);
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result , null);
+    }
+
     @Action("addPermission")
     public void addPermission(){
         String name = getModel().getName();
@@ -150,29 +165,29 @@ public class PermissionAction extends BaseAction<SysPermissions>{
         Short type = getModel().getType();
         Byte available = getModel().getAvailable();
         SysPermissions permission = permissionsService.getPermissionById(perId);
-        if (perPid!=null){
-            permission.setPerPid(perPid);
-        }
-        if (!TextUtils.isEmpty(name)){
-            permission.setName(name);
-        }
-        if (!TextUtils.isEmpty(description)){
-            permission.setDescription(description);
-        }
-        if (!TextUtils.isEmpty(code)){
-            permission.setCode(code);
-        }
-        if (!TextUtils.isEmpty(page)){
-            permission.setPage(page);
-        }
-        if (type!=null){
-            permission.setType(type);
-        }
-        if (available!=null){
-            permission.setAvailable(available);
-        }
         BaseJsonResult result;
         try {
+            if (perPid!=null){
+                permission.setPerPid(perPid);
+            }
+            if (!TextUtils.isEmpty(name)){
+                permission.setName(name);
+            }
+            if (!TextUtils.isEmpty(description)){
+                permission.setDescription(description);
+            }
+            if (!TextUtils.isEmpty(code)){
+                permission.setCode(code);
+            }
+            if (!TextUtils.isEmpty(page)){
+                permission.setPage(page);
+            }
+            if (type!=null){
+                permission.setType(type);
+            }
+            if (available!=null){
+                permission.setAvailable(available);
+            }
             permissionsService.modifyPermission(permission);
             result = ResultUtils.success("修改成功");
         } catch (Exception e) {

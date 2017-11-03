@@ -48,7 +48,7 @@ public class PermissionServiceImpl implements IPermissionsService {
 
     @Override
     public DetachedCriteria getCriteria() {
-        return getCriteria();
+        return permissionsDao.getCriteria();
     }
 
     @Override

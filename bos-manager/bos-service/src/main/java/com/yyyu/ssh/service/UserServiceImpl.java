@@ -134,7 +134,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public boolean hasUser(String username) {
         SysUser user = userDao.getUserByUsername(username);
-        return user==null?false:true;
+        return user!=null;
+    }
+
+    @Override
+    public void deleteUserById(Long userId) {
+         userDao.delete(userId);
     }
 
 

@@ -132,7 +132,7 @@
     });
 
     function go2Home() {
-        setFrameContent("assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp");
+        setFrameContent("forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp");
     }
 
     function setFrameContent(url) {
@@ -163,7 +163,6 @@
 
     function onNodeClick(event, treeId, treeNode, clickFlag) {
         setFrameContent(treeNode.page);
-        console.log("===============treeId：" + treeId + "  treeNode：" + treeNode.name + "  clickFlag： " + clickFlag);
     }
 
     function addDiyDom(treeId, treeNode) {
