@@ -3,6 +3,7 @@ package com.yyyu.ssh.action;
 import com.yyyu.ssh.TextUtils;
 import com.yyyu.ssh.dao.bean.RoleDataTablesReturn;
 import com.yyyu.ssh.dao.bean.RoleReturn;
+import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.domain.SysRole;
 import com.yyyu.ssh.service.inter.IRoleService;
 import com.yyyu.ssh.templete.BaseAction;
@@ -14,7 +15,6 @@ import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -45,15 +45,15 @@ public class RoleAction extends BaseAction<SysRole> {
 
         try {
             //draw的次数，原样返回
-            String draw = getRequestParam("draw");
+            String draw = getParameterValue("draw");
             //开始行
-            String start = getRequestParam("start");
+            String start = getParameterValue("start");
             //分页长度
-            String length = getRequestParam("length");
+            String length = getParameterValue("length");
             //需要排序列的索引
-            String orderColumn = getRequestParam("order[0][column]");
+            String orderColumn = getParameterValue("order[0][column]");
             //过滤条件
-            String searchValue = getRequestParam("search[value]");
+            String searchValue = getParameterValue("search[value]");
 
             RoleDataTablesReturn roleDataTablesReturn = new RoleDataTablesReturn();
             int startInt = TypeConversion.str2Int(start);
@@ -71,7 +71,7 @@ public class RoleAction extends BaseAction<SysRole> {
                 //需要排序的列名
                 orderName = columns[TypeConversion.str2Int(orderColumn, 0)];
                 //排序方式 asc des
-                orderDid = getRequestParam("order[0][dir]");
+                orderDid = getParameterValue("order[0][dir]");
             }
             if ("asc".equalsIgnoreCase(orderDid)) {
                 criteria.addOrder(Order.asc(orderName));
@@ -99,6 +99,20 @@ public class RoleAction extends BaseAction<SysRole> {
             e.printStackTrace();
         }
 
+    }
+
+    @Action("getAllRole")
+    public void getAllRole(){
+
+        BaseJsonResult result;
+        try {
+            List<SysRole> roleList = roleService.getAllRole();
+            result= ResultUtils.success(roleList);
+        } catch (Exception e) {
+            result = ResultUtils.error(500 , e.getMessage());
+            e.printStackTrace();
+        }
+        printJson(result , null);
     }
 
     @Action("getRoleById")
@@ -168,6 +182,24 @@ public class RoleAction extends BaseAction<SysRole> {
         } catch (Exception e) {
             result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();
+        }
+        printJson(result, null);
+    }
+
+    /**
+     * 通过userId得到所有的权限
+     * 用户没有的权限checked为false
+     */
+    @Action("geAllPermissionsByUserId")
+    public void geAllPermissionsByUserId() {
+        Long roleId = getModel().getRoleId();
+        BaseJsonResult result;
+        try {
+            List<TreeNode> nodeList = roleService.getAllPermissionByRoleId(roleId);
+            result = ResultUtils.success(nodeList);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ResultUtils.error(500, e.getMessage());
         }
         printJson(result, null);
     }

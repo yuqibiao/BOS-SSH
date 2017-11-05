@@ -1,5 +1,7 @@
 package com.yyyu.ssh.dao.inter;
 
+import com.yyyu.ssh.dao.bean.TreeNode;
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysRole;
 import com.yyyu.ssh.domain.SysRolePermissions;
 import com.yyyu.ssh.templete.inter.IBaseDao;
@@ -22,4 +24,9 @@ public interface IRoleDao extends IBaseDao<SysRole> {
     Integer getRolesTotal();
 
     List<SysRole> getRoleByPage(DetachedCriteria criteria, Integer start, Integer length);
+
+    List<SysPermissions> getRolePermissions(Long roleId);
+
+    List<SysPermissions> getRoleOptions(long roleId);
+
 }

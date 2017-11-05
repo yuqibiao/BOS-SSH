@@ -11,7 +11,7 @@
             + path + "/";
 %>
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <title>Matrix Admin</title>
     <meta charset="UTF-8"/>
@@ -70,14 +70,14 @@
 
 
     <%--修改用户信息 modal--%>
-    <div class="modal fade"  id="modify_permission">
+    <div class="modal fade" id="modify_permission" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title" >修改客户信息</h4>
+                    <h4 class="modal-title">修改客户信息</h4>
                 </div>
                 <div class="modal-body">
                     <div class="widget-box">
@@ -128,14 +128,14 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="modifyPermission()">保存修改</button>
+                    <button type="button" class="btn btn-info" onclick="modifyPermission()">确认添加</button>
                 </div>
             </div>
         </div>
     </div>
 
     <%--添加户信息 modal--%>
-    <div class="modal fade" id="add_permission">
+    <div class="modal fade" id="add_permission"style="display: none;">
         <div class="modal-dialog" >
             <div class="modal-content">
                 <div class="modal-header">
@@ -149,12 +149,12 @@
                         <div class="widget-content nopadding">
                             <form id="add_role_form" class="form-horizontal">
                                 <div class="control-group">
-                                    <input type="hidden" id="perId" name=perId"">
+                                    <input type="hidden" id="perId" name="perId">
                                 </div>
                                 <div >
                                     <label for="perPid" class="control-label" style="width: 100px">父节点</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="perPid" name="perPid" class=" mask text" >
+                                        <input type="text" id="perPid" name="perPid" class="mask text" >
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -187,22 +187,37 @@
                                         <input type="text" id="type" name="type" class=" mask text">
                                     </div>
                                 </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                    <button type="button" class="btn btn-info" onclick="addPermission()">保存修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
+  <%--  <div class="modal fade" id="add_permission" style="height: 100%;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">添加权限</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="widget-box">
+                        <div class="widget-content nopadding">
+                            <form id="add_role_form" class="form-horizontal">
                                 <div class="control-group">
-                                    <label for="type" class="control-label" style="width: 100px">类型</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="type" name="type" class=" mask text">
-                                    </div>
+                                    <input type="hidden" id="perId" name="perId">
                                 </div>
-                                <div class="control-group">
-                                    <label for="type" class="control-label" style="width: 100px">类型</label>
+                                <div >
+                                    <label for="perPid" class="control-label" style="width: 100px">父节点</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="type" name="type" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="type" class="control-label" style="width: 100px">类型</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="type" name="type" class=" mask text">
+                                        <input type="text" id="perPid" name="perPid" class="mask text" >
                                     </div>
                                 </div>
                             </form>
@@ -215,13 +230,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>--%>
 
     <%--确认删除操作modal--%>
-    <div id="confirm_delete" class="modal hide fade">
+    <div id="confirm_delete" class="modal hide fade" style="display: none;">
         <div class="modal-header">
-            <button data-dismiss="modal" class="close" type="button">×</button>
-            <h3>删除操作</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">删除权限</h4>
         </div>
         <div class="modal-body alert-info">
             <h5>确认要删除该用户？删除后将无法恢复！！！</h5>
@@ -250,39 +267,39 @@
 
 
     /*修改权限（填充数据）*/
-    function editPermission(perId){
-        $.post("<%=basePath%>permission/getPermissionById" , {
-            perId:perId
-        } ,function (data) {
+    function editPermission(perId) {
+        $.post("<%=basePath%>permission/getPermissionById", {
+            perId: perId
+        }, function (data) {
             var code = data.code;
             var msg = data.msg;
-            if (code==200){
+            if (code == 200) {
                 var per = data.data;
-               $("#edit_perId").val(per.perId);
-               $("#edit_perPid").val(per.perPid);
-               $("#edit_name").val(per.name);
-               $("#edit_description").val(per.description);
-               $("#edit_code").val(per.code);
-               $("#edit_page").val(per.page);
-               $("#edit_type").val(per.type);
-            }else{
-                alert("异常："+msg);
+                $("#edit_perId").val(per.perId);
+                $("#edit_perPid").val(per.perPid);
+                $("#edit_name").val(per.name);
+                $("#edit_description").val(per.description);
+                $("#edit_code").val(per.code);
+                $("#edit_page").val(per.page);
+                $("#edit_type").val(per.type);
+            } else {
+                alert("异常：" + msg);
             }
-        } );
+        });
     }
 
     /*修改权限*/
-    function modifyPermission(){
-        $.post("<%=basePath%>permission/modifyPermission" , $("#modify_role_form").serialize() ,
+    function modifyPermission() {
+        $.post("<%=basePath%>permission/modifyPermission", $("#modify_role_form").serialize(),
             function (data) {
-            var code = data.code;
-            var msg = data.msg;
-            if (code==200){
-                window.location.reload();
-            }else{
-                alert("异常："+msg);
-            }
-        });
+                var code = data.code;
+                var msg = data.msg;
+                if (code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("异常：" + msg);
+                }
+            });
     }
 
     /*删除权限*/
@@ -293,16 +310,16 @@
     }
 
     function deletePermission() {
-        if (delete_per_id >-1){
-            $.post("<%=basePath%>permission/deletePermission" , {
-                perId:delete_per_id
-            } , function (data) {
+        if (delete_per_id > -1) {
+            $.post("<%=basePath%>permission/deletePermission", {
+                perId: delete_per_id
+            }, function (data) {
                 var code = data.code;
                 var msg = data.msg;
-                if (code==200){
+                if (code == 200) {
                     window.location.reload();
-                }else{
-                    alert("异常："+msg);
+                } else {
+                    alert("异常：" + msg);
                 }
             });
         }
@@ -310,17 +327,17 @@
 
 
     /*添加权限*/
-    function addPermission(){
-        $.post("<%=basePath%>permission/addPermission" , $("#add_role_form").serialize() ,
+    function addPermission() {
+        $.post("<%=basePath%>permission/addPermission", $("#add_role_form").serialize(),
             function (data) {
-            var code = data.code;
-            var msg = data.msg;
-            if (code==200){
-                window.location.reload();
-            }else{
-                alert("异常："+msg);
-            }
-        });
+                var code = data.code;
+                var msg = data.msg;
+                if (code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("异常：" + msg);
+                }
+            });
     }
 
     /*dataTable加载数据*/
@@ -359,7 +376,7 @@
             },
             ajax: {//通过ajax访问后台获取数据
                 "url": "<%=basePath%>permission/getPermissionByPage.action",//后台地址
-                "type":"POST",
+                "type": "POST",
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
@@ -383,9 +400,9 @@
                     "data": "type",
                     "render": function (data, type, full) {
                         var type = data;
-                        if (type==0){
+                        if (type == 0) {
                             return '用户菜单';
-                        }else{
+                        } else {
                             return '操作权限'
                         }
                     }
@@ -395,9 +412,9 @@
                     "data": "available",
                     "render": function (data, type, full) {
                         var available = data;
-                        if (available==0){
+                        if (available == 0) {
                             return '不可用';
-                        }else{
+                        } else {
                             return '可用'
                         }
                     }
@@ -409,8 +426,8 @@
                         var perId = data.perId;
                         return "<div > "
                             +
-                            "<button class='btn btn-success btn-sm' onclick='editPermission("+perId+")' data-toggle='modal' data-target='#modify_permission'>修改</button> " +
-                            "<button class='btn btn-danger btn-sm' onclick='onModalShow("+perId+")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
+                            "<button class='btn btn-success btn-sm' onclick='editPermission(" + perId + ")' data-toggle='modal' data-target='#modify_permission'>修改</button> " +
+                            "<button class='btn btn-danger btn-sm' onclick='onModalShow(" + perId + ")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
                             +
                             "</div>";
                     }

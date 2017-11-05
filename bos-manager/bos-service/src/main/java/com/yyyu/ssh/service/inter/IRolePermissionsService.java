@@ -15,6 +15,6 @@ public interface IRolePermissionsService{
 
      void addRolePermissions(List<SysRolePermissions> rolePermissionsList);
 
-     void deleteBeforeAddNewRolePermissions(Long userId, List<SysRolePermissions> rolePermissionsList);
+     void deleteBeforeAddNewRolePermissions(Long roleId, List<SysRolePermissions> rolePermissionsList);
 
 }

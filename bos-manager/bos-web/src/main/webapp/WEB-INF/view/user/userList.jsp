@@ -27,6 +27,9 @@
         .controls input {
             width: 100%;
         }
+        .error{
+            color:red;
+        }
     </style>
 </head>
 <body>
@@ -42,7 +45,7 @@
             <div class="span12">
                 <div class="widget-box">
                     <button id='btn_tree' class='btn btn-success glyphicon glyphicon-tree-conifer btn-sm'
-                            data-toggle='modal' data-target='#add_user'
+                            data-toggle='modal' data-target='#add_user' onclick="showRole('role_select' , -1)"
                             style="margin: 10px;">
                         <i class="icon-edit"> 添加</i>
                     </button>
@@ -67,10 +70,9 @@
     </div>
 
     <%--添加户信息 modal--%>
-    <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
-        <div class="modal-dialog" role="document">
+    <div class="modal fade" id="add_user" style="display: none;">
+        <div class="modal-dialog" >
+            <form class=" form-horizontal" id="commentForm" method="get" action="">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -81,53 +83,73 @@
                 <div class="modal-body">
                     <div class="widget-box">
                         <div class="widget-content nopadding">
-                            <form id="add_user_form" class="form-horizontal">
                                 <div class="control-group">
                                     <label for="username" class="control-label" style="width: 100px">用户名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="username"  name="username" class=" mask text">
+                                        <input type="text" id="username" required name="username" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="password" class="control-label" style="width: 100px">密码</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="password" name="password" class=" mask text">
+                                        <input type="password" minlength="6" id="password" name="password" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="salary" class="control-label" style="width: 100px">薪水</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="salary" name="salary" class=" mask text">
+                                        <input type="number" id="salary" number name="salary" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="tel" class="control-label" style="width: 100px">电话</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="tel" name="tel" class=" mask text">
+                                        <input type="text" id="tel" name="tel" required class=" mask text">
                                     </div>
                                 </div>
-                                <%--<div class="control-group">
-                                    <label for="role" class="control-label" style="width: 100px">角色</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="role" class=" mask text">
-                                    </div>--%>
+                                <div class="control-group" style="z-index: 10050 !important;">
+                                    <label class="control-label" style="width: 100px">拥有角色</label>
+                                    <div class="controls"style="margin-left: 160px;">
+                                        <select  id="role_select" name="roleId" multiple style="width: 214px; z-index: 10050 !important;">
+                                        </select>
+                                    </div>
                                 </div>
-                            </form>
+                                  <fieldset>
+                                      <legend>输入您的名字，邮箱，URL，备注。</legend>
+                                      <p>
+                                          <label for="cname">Name (必需, 最小两个字母)</label>
+                                          <input id="cname" name="name" minlength="2" type="text" required>
+                                      </p>
+                                      <p>
+                                          <label for="cemail">E-Mail (必需)</label>
+                                          <input id="cemail" type="email" name="email" required>
+                                      </p>
+                                      <p>
+                                          <label for="curl">URL (可选)</label>
+                                          <input id="curl" type="url" name="url">
+                                      </p>
+                                      <p>
+                                          <label for="ccomment">备注 (必需)</label>
+                                          <textarea id="ccomment" name="comment" required></textarea>
+                                      </p>
+                                      <p>
+                                          <input class="submit" type="submit" value="Submit">
+                                      </p>
+                                  </fieldset>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="addUser()">添加</button>
+                    <button type="submit" class="btn btn-info">添加</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
     <%--修改用户信息 modal--%>
-    <div class="modal fade" id="modify_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modify_user" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -161,23 +183,32 @@
                                         <input type="text" id="edit_tel" name="tel" class=" mask text">
                                     </div>
                                 </div>
+                                <div class="control-group" style="z-index: 10050 !important;">
+                                    <label class="control-label" style="width: 100px">拥有角色</label>
+                                    <div class="controls"style="margin-left: 160px;">
+                                        <select  id="edit_role_select" name="roleId" multiple style="width: 214px; z-index: 10050 !important;">
+                                        </select>
+                                    </div>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="modifyUser()">保存修改</button>
+                    <button type="submit" class="btn btn-info" onclick="modifyUser()">保存修改</button>
                 </div>
             </div>
         </div>
     </div>
 
     <%--确认删除操作modal--%>
-    <div id="confirm_delete" class="modal hide fade">
+    <div id="confirm_delete" class="modal hide fade" style="display: none;">
         <div class="modal-header">
-            <button data-dismiss="modal" class="close" type="button">×</button>
-            <h3>删除操作</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">删除用户</h4>
         </div>
         <div class="modal-body alert-info">
             <h5>确认要删除该用户？删除后将无法恢复！！！</h5>
@@ -185,31 +216,6 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
             <button type="button" class="btn btn-danger" onclick="deleteUser()">删除</button>
-        </div>
-    </div>
-
-    <%--权限分配 modal--%>
-    <div class="modal fade" id="dtreeModal" tabindex="-1" role="dialog" aria-labelledby="preModalLabel">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form role="form" action="" method="post">
-                    <div class="modal-header">
-                        <button data-dismiss="modal" class="close" type="button">×</button>
-                        <h3>权限分配</h3>
-                    </div>
-                    <div class="modal-body">
-                        <div>
-                            <ul id="treeDemo" class="ztree"></ul>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button id="btn_closeTree" data-dismiss="modal" class="btn btn-default" type="button">
-                            关闭
-                        </button>
-                        <button id="btn_inputTree" class="btn btn-info" type="button">提交</button>
-                    </div>
-                </form>
-            </div>
         </div>
     </div>
 
@@ -226,6 +232,9 @@
 <script src="<%=basePath%>assert/js/matrix.tables.js"></script>
 <script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
 <script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
+<%--<script src="<%=basePath%>assert/js/matrix.form_validation.js"></script>--%>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
+<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
 <script>
 
     var delete_user_Id = -1;
@@ -266,6 +275,7 @@
                     $("#edit_tel").val(user.tel);
                 }
         });
+        showRole("edit_role_select" ,userId);
     }
 
     /*更新用户*/
@@ -273,7 +283,6 @@
         $.get("<%=basePath%>user/modifyUser" ,$("#modify_user_form").serialize(),function (data) {
             var code = data.code;
             var msg = data.msg;
-            console.log("====code："+code);
             if (code==200){
                 window.location.reload();
             }else{
@@ -284,7 +293,7 @@
 
     /*添加用户*/
     function addUser(){
-        $.post("<%=basePath%>user/addUser" , $("#add_user_form").serialize(),function (data) {
+        $.get("<%=basePath%>user/addUser" , $("#add_user_form").serialize(),function (data) {
             var code = data.code;
             var msg = data.msg;
             if (code==200){
@@ -378,6 +387,42 @@
         });
 
     });
+
+    /*显示角色select*/
+    function showRole(selectId,userId){
+        bindSelect(selectId , "<%=basePath%>userRole/getAllRoleByUserId?userId="+userId);
+    }
+    
+    /*绑定字典内容到指定的Select控件*/
+    function bindSelect(selectId, url) {
+        var control = $('#' + selectId);
+        //绑定Ajax的内容
+        $.getJSON(url, function (result) {
+            control.empty();//清空下拉框
+            var data = result.data;
+            $.each(data, function (i, item) {
+                var checked = item.checked;
+                if(checked){
+                    control.append("<option selected value='" + item.roleId + "'>&nbsp;" + item.roleName + "</option>");
+                }else{
+                    control.append("<option  value='" + item.roleId + "'>&nbsp;" + item.roleName + "</option>");
+                }
+            });
+            //设置Select2的处理
+            control.select2({
+                allowClear: true,
+                escapeMarkup: function (m) {
+                    return m;
+                }
+            });
+        });
+    }
+    
+    /*设置表单验证*/
+    $(document).ready(function () {
+        $("#add_user_form").validate();
+    });
+    
 
 </script>
 

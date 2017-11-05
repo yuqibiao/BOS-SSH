@@ -6,6 +6,8 @@ import com.yyyu.ssh.dao.bean.UserDataTablesReturn;
 import com.yyyu.ssh.dao.bean.UserReturn;
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
+import com.yyyu.ssh.domain.SysUserRole;
+import com.yyyu.ssh.service.inter.IUserRoleService;
 import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.shiro.encrypt.PasswordEncrypt;
 import com.yyyu.ssh.templete.BaseAction;
@@ -45,6 +47,8 @@ public class UserAction extends BaseAction<SysUser> {
 
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IUserRoleService userRoleService;
 
     private String[] columns = new String[]{"userId", "username", "salary", "telephone", "gender", "remark"};
     private String orderName;
@@ -54,15 +58,15 @@ public class UserAction extends BaseAction<SysUser> {
     public void getUserByPage() {
         try {
             //draw的次数，原样返回
-            String draw = getRequestParam("draw");
+            String draw = getParameterValue("draw");
             //开始行
-            String start = getRequestParam("start");
+            String start = getParameterValue("start");
             //分页长度
-            String length = getRequestParam("length");
+            String length = getParameterValue("length");
             //需要排序列的索引
-            String orderColumn = getRequestParam("order[0][column]");
+            String orderColumn = getParameterValue("order[0][column]");
             //过滤条件
-            String searchValue = getRequestParam("search[value]");
+            String searchValue = getParameterValue("search[value]");
 
             UserDataTablesReturn userDataTablesReturn = new UserDataTablesReturn();
             Integer usersTotal = userService.getUsersTotal();
@@ -79,7 +83,7 @@ public class UserAction extends BaseAction<SysUser> {
                 //需要排序的列名
                 orderName = columns[TypeConversion.str2Int(orderColumn, 0)];
                 //排序方式 asc des
-                orderDid = getRequestParam("order[0][dir]");
+                orderDid = getParameterValue("order[0][dir]");
             }
             if ("asc".equalsIgnoreCase(orderDid)) {
                 criteria.addOrder(Order.asc(orderName));
@@ -119,23 +123,6 @@ public class UserAction extends BaseAction<SysUser> {
 
     }
 
-    /**
-     * 通过userId得到所有的权限
-     * 用户没有的权限checked为false
-     */
-    @Action("geAllPermissionsByUserId")
-    public void geAllPermissionsByUserId() {
-        Long userId = getModel().getUserId();
-        BaseJsonResult result;
-        try {
-            List<TreeNode> nodeList = userService.getAllPermissionByUserId(userId);
-            result = ResultUtils.success(nodeList);
-        } catch (Exception e) {
-            e.printStackTrace();
-            result = ResultUtils.error(500, e.getMessage());
-        }
-        printJson(result, null);
-    }
 
     @Action("addUser")
     public void addUser() {
@@ -151,6 +138,7 @@ public class UserAction extends BaseAction<SysUser> {
             } else {
                 model.setPassword(PasswordEncrypt.Md5(1, username, pwd));
                 userService.save(model);
+                saveOrUpdateRole(model.getUserId());
                 result = ResultUtils.success("注册成功");
             }
         } catch (Exception e) {
@@ -193,7 +181,7 @@ public class UserAction extends BaseAction<SysUser> {
 
         BaseJsonResult result;
         try {
-            if (userService.hasUser(username)){
+            if (!username.equals(user.getUsername()) &&userService.hasUser(username)){
                 result = ResultUtils.error(502, "用户名已被注册");
             }else{
                 if (!TextUtils.isEmpty(username)) {
@@ -227,6 +215,7 @@ public class UserAction extends BaseAction<SysUser> {
                     user.setLocked(locked);
                 }
                 userService.modifyUser(user);
+                saveOrUpdateRole(userId);
                 result = ResultUtils.success("修改成功");
             }
         } catch (Exception e) {
@@ -235,6 +224,20 @@ public class UserAction extends BaseAction<SysUser> {
         }
         printJson(result, null);
 
+    }
+
+    private void saveOrUpdateRole(long userId) {
+        String[] roleIdList = getParameterValues("roleId");
+        if (roleIdList!=null && roleIdList.length>0){
+            List< SysUserRole> userRoleList = new ArrayList<>();
+            for (String roleId:roleIdList) {
+                SysUserRole userRole = new SysUserRole();
+                userRole.setRoleId(Long.parseLong(roleId));
+                userRole.setUserId(getModel().getUserId());
+                userRoleList.add(userRole);
+            }
+            userRoleService.saveOrUpdateAll(userId , userRoleList);
+        }
     }
 
     @Action(value = "checkUser", results = {
@@ -294,6 +297,5 @@ public class UserAction extends BaseAction<SysUser> {
         }
         printJson(result, null);
     }
-
 
 }

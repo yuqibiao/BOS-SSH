@@ -1,5 +1,6 @@
 package com.yyyu.ssh.service;
 
+import com.yyyu.ssh.dao.bean.SelectRole;
 import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.dao.inter.IPermissionsDao;
 import com.yyyu.ssh.dao.inter.IUserDao;
@@ -90,43 +91,6 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public List<TreeNode> getAllPermissionByUserId(Long userId) {
-        //1.得到所有的权限信息
-        List<SysPermissions> allPermissions = permissionsDao.getAllPermissions();
-        //2.得到用户对应的权限信息
-        List<SysPermissions> userPermissions = userDao.getUserPermissions(userId);
-        List<Long> userPerIds = new ArrayList<>();
-        for (SysPermissions sysPermissions : userPermissions) {
-            userPerIds.add(sysPermissions.getPerId());
-        }
-        //3.设置checked open
-        List<TreeNode> treeNodeList = new ArrayList<>();
-        for (SysPermissions per : allPermissions) {
-            TreeNode node = new TreeNode();
-            Long perId = per.getPerId();
-            node.setId(perId + "");
-            node.setName(per.getName());
-            Long perPid = per.getPerPid();//pid
-            if (perPid != null) {//有父节点
-                node.setpId(perPid + "");
-                node.setOpen(false);
-            } else {//没有父节点
-                node.setpId(per.getPerId() + "");
-                node.setOpen(true);
-                node.setIsParent(true);
-            }
-            if (userPerIds.contains(perId)) {//用户有该权限
-                node.setChecked(true);
-            } else {
-                node.setChecked(false);
-            }
-            treeNodeList.add(node);
-        }
-
-        return treeNodeList;
-    }
-
-    @Override
     public void modifyUser(SysUser user) {
         userDao.update(user);
     }
@@ -140,6 +104,12 @@ public class UserServiceImpl implements IUserService {
     @Override
     public void deleteUserById(Long userId) {
          userDao.delete(userId);
+    }
+
+    @Override
+    public List<SelectRole> getRoleByUserId(long userId) {
+
+        return null;
     }
 
 

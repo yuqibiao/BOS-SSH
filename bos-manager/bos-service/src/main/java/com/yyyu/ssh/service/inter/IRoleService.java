@@ -1,5 +1,6 @@
 package com.yyyu.ssh.service.inter;
 
+import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.domain.SysRole;
 import com.yyyu.ssh.templete.inter.IBaseDao;
 import org.hibernate.criterion.DetachedCriteria;
@@ -29,4 +30,8 @@ public interface IRoleService {
     void modifyRole(SysRole role);
 
     SysRole getRoleById(Long roleId);
+
+    List<TreeNode> getAllPermissionByRoleId(Long roleId);
+
+    List<SysRole> getAllRole();
 }

@@ -21,6 +21,7 @@ public interface IBaseDao<T> {
     void saveOrUpdate(T t);
     //增
     void save(T t);
+    void saveAll(List<T> list);
     //删
     void delete(T t);
     //删

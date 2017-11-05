@@ -1,5 +1,6 @@
 package com.yyyu.ssh.service.inter;
 
+import com.yyyu.ssh.dao.bean.SelectRole;
 import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
@@ -35,11 +36,11 @@ public interface IUserService {
 
     List<TreeNode>  getUserMenus(String username);
 
-    List<TreeNode> getAllPermissionByUserId(Long userId);
-
     void modifyUser(SysUser user);
 
     boolean hasUser(String username);
 
     void deleteUserById(Long userId);
+
+    List<SelectRole> getRoleByUserId(long userId);
 }

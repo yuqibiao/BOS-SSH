@@ -55,6 +55,13 @@ public class BaseDaoImpl<T> extends HibernateDaoSupport implements IBaseDao<T> {
     }
 
     @Override
+    public void saveAll(List<T> list) {
+        for (T t :list) {
+            save(t);
+        }
+    }
+
+    @Override
     public void delete(T t) {
         getHibernateTemplate().delete(t);
     }

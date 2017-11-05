@@ -65,9 +65,7 @@
     </div>
 
     <%--添加户信息 modal--%>
-    <div class="modal fade" id="add_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
+    <div class="modal fade" id="add_user" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -114,9 +112,7 @@
     </div>
 
     <%--修改用户信息 modal--%>
-    <div class="modal fade" id="modify_user" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel"
-         aria-hidden="true"
-         aria-labelledby="myModalLabel">
+    <div class="modal fade" id="modify_user" style="display: none;">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -163,10 +159,12 @@
     </div>
 
     <%--确认删除操作modal--%>
-    <div id="confirm_delete" class="modal hide fade">
+    <div id="confirm_delete" class="modal hide fade" style="display: none;">
         <div class="modal-header">
-            <button data-dismiss="modal" class="close" type="button">×</button>
-            <h3>删除操作</h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">删除角色</h4>
         </div>
         <div class="modal-body alert-info">
             <h5>确认要删除该角色？删除后将无法恢复！！！</h5>
@@ -178,7 +176,7 @@
     </div>
 
     <%--权限分配 modal--%>
-    <div class="modal fade" id="dtreeModal" tabindex="-1" role="dialog" aria-labelledby="preModalLabel">
+    <div class="modal fade" id="dtreeModal" style="display: none;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form role="form" action="" method="post">
@@ -188,14 +186,14 @@
                     </div>
                     <div class="modal-body">
                         <div>
-                            <ul id="treeDemo" class="ztree"></ul>
+                            <ul id="permissionTree" class="ztree"></ul>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button id="btn_closeTree" data-dismiss="modal" class="btn btn-default" type="button">
                             关闭
                         </button>
-                        <button id="btn_inputTree" class="btn btn-info" type="button">提交</button>
+                        <button id="btn_inputTree" class="btn btn-info" type="button" onclick="savePermission()">提交</button>
                     </div>
                 </form>
             </div>
@@ -217,6 +215,33 @@
 <script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
 <script>
 
+    /*保存角色对应的权限*/
+    function savePermission() {
+        if(currentRoleId==-1){
+            return;
+        }
+        var perIdList = new Array();
+        var treeObj = $.fn.zTree.getZTreeObj("permissionTree");
+        var nodes = treeObj.getCheckedNodes(true);
+        for(var i=0 ; i<nodes.length ; i++){
+            var node = nodes[i];
+            var perId = node.id;
+            perIdList.push(perId);
+        }
+        var perIdList = JSON.stringify(perIdList);
+        $.post("<%=basePath%>rolePermission/addPermission2Role" , {
+            roleId:currentRoleId,
+            perIdListJson:perIdList
+        },function (data) {
+            var code = data.code;
+            var msg = data.msg;
+            if(code==200){
+                $("#dtreeModal").modal('hide');
+            }else{
+                alert("异常："+msg);
+            }
+        });
+    }
 
     /*修改用户（填充数据）*/
     function editRole(roleId){
@@ -250,13 +275,11 @@
         });
     }
 
-
+    /*删除角色*/
     var delete_role_id=-1;
     function onModalShow(roleId){
         delete_role_id = roleId;
     }
-
-    /*删除角色*/
     function deleteRole() {
         console.log("====roleId=="+delete_role_id);
         if (delete_role_id!=-1){
@@ -360,7 +383,7 @@
                             +
                             "<button class='btn btn-success btn-sm' onclick='editRole("+roleId+")' data-toggle='modal' data-target='#modify_user'>修改</button> " +
                             "<button id='btn_delete_role' class='btn btn-danger btn-sm'  onclick='onModalShow("+roleId+")'  data-toggle='modal' data-target='#confirm_delete'>删除</button> " +
-                            "<button id='btn_tree' onclick='initTree()' class='treeBtn btn btn-success  btn-sm'data-toggle='modal' data-target='#dtreeModal'> 权限分配 </button>"
+                            "<button id='btn_tree' onclick='initTree("+roleId+")' class='treeBtn btn btn-success  btn-sm'data-toggle='modal' data-target='#dtreeModal'> 权限分配 </button>"
                             +
                             "</div>";
                     }
@@ -374,7 +397,10 @@
     });
 
     /*初始化树形菜单*/
-    function initTree() {
+    var currentRoleId = -1;
+    function initTree(roleId) {
+
+        currentRoleId = roleId
 
         var setting = {
             check: {
@@ -388,20 +414,19 @@
         };
 
         function setCheck() {
-            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
+            var zTree = $.fn.zTree.getZTreeObj("permissionTree"),
                 type = {"Y": "ps", "N": "ps"};
             zTree.setting.check.chkboxType = type;
         }
 
-        var userId = 1;
         $.ajax({
             url: "<%=basePath%>user/geAllPermissionsByUserId.action",
-            data: "userId=" + userId,
+            data: "roleId=" + currentRoleId,
             type: "POST",
             success: function (result) {
                 if (result.code == 200) {
                     var zNodes = result.data;
-                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+                    $.fn.zTree.init($("#permissionTree"), setting, zNodes);
                     setCheck();
                 } else if (result.code == 250) {
                     $("#btn_closeTree").click();

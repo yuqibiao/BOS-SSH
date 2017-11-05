@@ -62,10 +62,15 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
         return session;
     }
 
-    // 获取request对象
-    public String getRequestParam(String key) {
+    // 获取请求参数
+    public String getParameterValue(String key) {
         // 通过ActionContext得到request对象
         return getRequest().getParameter(key);
+    }
+
+    public String[] getParameterValues(String key) {
+        // 通过ActionContext得到request对象
+        return getRequest().getParameterValues(key);
     }
 
     // 获取session对象

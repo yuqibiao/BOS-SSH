@@ -26,7 +26,7 @@ public class RolePermissionsServiceImpl implements IRolePermissionsService{
     }
 
     @Override
-    public void deleteBeforeAddNewRolePermissions(Long userId, List<SysRolePermissions> rolePermissionsList) {
-        permissionsDao.deleteBeforeAddNewRolePermissions(userId , rolePermissionsList);
+    public void deleteBeforeAddNewRolePermissions(Long roleId, List<SysRolePermissions> rolePermissionsList) {
+        permissionsDao.deleteBeforeAddNewRolePermissions(roleId , rolePermissionsList);
     }
 }

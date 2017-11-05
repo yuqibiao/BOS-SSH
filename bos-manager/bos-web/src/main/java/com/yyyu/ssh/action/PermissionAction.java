@@ -45,15 +45,15 @@ public class PermissionAction extends BaseAction<SysPermissions>{
 
         try {
             //draw的次数，原样返回
-            String draw = getRequestParam("draw");
+            String draw = getParameterValue("draw");
             //开始行
-            String start = getRequestParam("start");
+            String start = getParameterValue("start");
             //分页长度
-            String length = getRequestParam("length");
+            String length = getParameterValue("length");
             //需要排序列的索引
-            String orderColumn = getRequestParam("order[0][column]");
+            String orderColumn = getParameterValue("order[0][column]");
             //过滤条件
-            String searchValue = getRequestParam("search[value]");
+            String searchValue = getParameterValue("search[value]");
 
             PermissionDataTablesReturn dataTablesReturn = new PermissionDataTablesReturn();
             Integer permissionTotal =permissionsService.getPermissionTotal();
@@ -70,7 +70,7 @@ public class PermissionAction extends BaseAction<SysPermissions>{
                 //需要排序的列名
                 orderName = columns[TypeConversion.str2Int(orderColumn, 0)];
                 //排序方式 asc des
-                orderDid = getRequestParam("order[0][dir]");
+                orderDid = getParameterValue("order[0][dir]");
             }
             if ("asc".equalsIgnoreCase(orderDid)) {
                 criteria.addOrder(Order.asc(orderName));

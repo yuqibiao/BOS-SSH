@@ -25,10 +25,10 @@ public class RolePermissionsDaoImpl extends BaseDaoImpl<SysRolePermissions> impl
     }
 
     @Override
-    public void deleteBeforeAddNewRolePermissions(Long userId, List<SysRolePermissions> rolePermissionsList) {
+    public void deleteBeforeAddNewRolePermissions(Long roleId, List<SysRolePermissions> rolePermissionsList) {
         StringBuilder sbHql = new StringBuilder();
         sbHql.append("delete from SysRolePermissions where roleId=?");
-        executeHql(sbHql.toString(), new Object[]{userId});
+        executeHql(sbHql.toString(), new Object[]{roleId});
         addRolePermissions(rolePermissionsList);
     }
 
