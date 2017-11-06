@@ -39,7 +39,6 @@ public class PermissionAction extends BaseAction<SysPermissions>{
     private String orderName;
     private String orderDid;
 
-
     @Action("getPermissionByPage")
     public void getPermissionByPage(){
 
@@ -102,6 +101,19 @@ public class PermissionAction extends BaseAction<SysPermissions>{
 
     }
 
+    @Action("getAllPermission")
+    public void getAllPermission(){
+        BaseJsonResult result;
+        try {
+            List<SysPermissions> allPermissions = permissionsService.getAllPermissions();
+            result = ResultUtils.success(allPermissions);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = ResultUtils.error(500 , e.getMessage());
+        }
+        printJson(result  , null);
+
+    }
 
     @Action("getPermissionById")
     public void getPermissionById(){

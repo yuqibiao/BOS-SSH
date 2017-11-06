@@ -16,13 +16,12 @@
 <head>
     <title>后台管理模板</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
-    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-
-    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
-    <link href="<%=basePath%>assert/ztree/css/menuStyle/zTreeMenu.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/zTreeStyle/zTreeStyle.css" />
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/menuStyle/zTreeMenu.css"/>
 
 </head>
 <body>
@@ -95,24 +94,22 @@
     <!--breadcrumbs-->
     <div id="content-header">
         <div id="breadcrumb">
-            <a href="javascript:void(0)" title="返回首页" class="tip-bottom"onclick="javascript:go2Home();return false;">
-                <i class="icon-home" ></i> 首页
+            <a href="javascript:void(0)" title="返回首页" class="tip-bottom" onclick="javascript:go2Home();return false;">
+                <i class="icon-home"></i> 首页
             </a>
         </div>
     </div>
     <!--End-breadcrumbs-->
-    <iframe src="<%=basePath%>assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0' style="width:100%;">
+    <iframe src="<%=basePath%>assert/forwardTo?pageUrl=/WEB-INF/view/user/userList.jsp" id="iframe-main" frameborder='0'
+            style="width:100%;">
     </iframe>
 </div>
 <!--end-main-container-part-->
 
-<script src="<%=basePath%>assert/js/excanvas.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>assert/js/nicescroll/jquery.nicescroll.min.js"></script>
-<script src="<%=basePath%>assert/js/matrix.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.core.min.js"></script>
 
 
 <script type="text/javascript">

@@ -15,16 +15,19 @@
     <title>角色管理</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/uniform.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/select2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
-    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/select2/select2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+
     <style>
         .controls input {
             width: 100%;
+        }
+        .error {
+            color: #b94a48;
         }
     </style>
 </head>
@@ -64,9 +67,10 @@
         </div>
     </div>
 
-    <%--添加户信息 modal--%>
+    <%--添加角色信息 modal--%>
     <div class="modal fade" id="add_user" style="display: none;">
         <div class="modal-dialog" role="document">
+            <form  id="add_role_form" class="form-horizontal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -77,20 +81,19 @@
                 <div class="modal-body">
                     <div class="widget-box">
                         <div class="widget-content nopadding">
-                            <form  id="add_role_form" class="form-horizontal">
                                 <div class="control-group">
                                     <input type="hidden" id="roleId" name="roleId">
                                 </div>
                                 <div class="control-group">
                                     <label for="roleName" class="control-label" style="width: 100px">角色名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="roleName" name="roleName" class=" mask text">
+                                        <input type="text" id="roleName" required name="roleName" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="description" class="control-label" style="width: 100px">角色描述</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="description" name="description" class=" mask text">
+                                        <input type="text" id="description" required name="description" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -99,21 +102,22 @@
                                         <input type="text" id="code" name="code" class=" mask text">
                                     </div>
                                 </div>
-                            </form>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="addRole()">添加</button>
+                    <button type="submit" class="btn btn-info" >添加</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
-    <%--修改用户信息 modal--%>
+    <%--修改角色信息 modal--%>
     <div class="modal fade" id="modify_user" style="display: none;">
         <div class="modal-dialog" role="document">
+            <form id="modify_role_form" class="form-horizontal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -124,20 +128,19 @@
                 <div class="modal-body">
                     <div class="widget-box">
                         <div class="widget-content nopadding">
-                            <form id="modify_role_form" class="form-horizontal">
                                 <div class="control-group">
                                     <input type="hidden" id="edit_roleId" name="roleId">
                                 </div>
                                 <div class="control-group">
                                     <label for="edit_roleName" class="control-label" style="width: 100px">角色名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_roleName" name="roleName" class=" mask text">
+                                        <input type="text" id="edit_roleName" required name="roleName" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="edit_description" class="control-label" style="width: 100px">角色描述</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_description" name="description" class=" mask text">
+                                        <input type="text" id="edit_description" required name="description" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -146,15 +149,16 @@
                                         <input type="text" id="edit_code" name="code" class=" mask text">
                                     </div>
                                 </div>
-                            </form>
+
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="modifyRole()">保存修改</button>
+                    <button type="submit" class="btn btn-info" >保存修改</button>
                 </div>
             </div>
+            </form>
         </div>
     </div>
 
@@ -202,17 +206,17 @@
 
 </div>
 
-<script src="<%=basePath%>assert/js/jquery.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.uniform.js"></script>
-<script src="<%=basePath%>assert/js/select2.min.js"></script>
-<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<%--<script src="<%=basePath%>assert//js/jquery.dataTables.min.js"></script>--%>
-<script src="<%=basePath%>assert/js/matrix.js"></script>
-<script src="<%=basePath%>assert/js/matrix.tables.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2_locale_zh-CN.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/dataTables/jquery.dataTables.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
+
 <script>
 
     /*保存角色对应的权限*/
@@ -281,7 +285,6 @@
         delete_role_id = roleId;
     }
     function deleteRole() {
-        console.log("====roleId=="+delete_role_id);
         if (delete_role_id!=-1){
             $.post("<%=basePath%>role/deleteRole" ,{
                 roleId:delete_role_id
@@ -434,6 +437,41 @@
             }
         });
     }
+
+    /*表单验证*/
+    $(document).ready(function () {
+        /*添加*/
+        $("#add_role_form").validate({
+            errorElement: "span",
+            messages: {
+                roleName: {
+                    required: " 角色名不能为空"
+                },
+                description: {
+                    required: " 角色描述不能为空"
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                addRole();
+            }
+        });
+        /*修改*/
+        $("#modify_role_form ").validate({
+            errorElement: "span",
+            messages: {
+                roleName: {
+                    required: " 角色名不能为空"
+                },
+                description: {
+                    required: " 角色描述不能为空"
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                modifyRole();
+            }
+        });
+
+    });
 
 
 </script>

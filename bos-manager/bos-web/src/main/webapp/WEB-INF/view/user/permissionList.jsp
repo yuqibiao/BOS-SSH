@@ -16,16 +16,18 @@
     <title>Matrix Admin</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/uniform.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/select2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
-    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/select2/select2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+
     <style>
         .controls input {
             width: 100%;
+        }
+        .error {
+            color: #b94a48;
         }
     </style>
 </head>
@@ -43,6 +45,7 @@
                 <div class="widget-box">
                     <button id='btn_tree' class='btn btn-success glyphicon glyphicon-tree-conifer btn-sm'
                             data-toggle='modal' data-target='#add_permission'
+                            onclick="selectPermission('perPid' , -1)"
                             style="margin: 10px;">
                         <i class="icon-edit"> 添加</i>
                     </button>
@@ -68,72 +71,6 @@
         </div>
     </div>
 
-
-    <%--修改用户信息 modal--%>
-    <div class="modal fade" id="modify_permission" style="display: none;">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title">修改客户信息</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-box">
-                        <div class="widget-content nopadding">
-                            <form id="modify_role_form" class="form-horizontal">
-                                <div class="control-group">
-                                    <input type="hidden" id="edit_perId" name="perId">
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_perPid" class="control-label" style="width: 100px">父节点</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_perPid" name="perPid" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_name" class="control-label" style="width: 100px">权限/菜单名</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_name" name="name" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_description" class="control-label" style="width: 100px">描述</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_description" name="description" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_code" class="control-label" style="width: 100px">权限序列号</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_code" name="code" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_page" class="control-label" style="width: 100px">page</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_page" name="page" class=" mask text">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label for="edit_type" class="control-label" style="width: 100px">类型</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_type" name="type" class=" mask text">
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="modifyPermission()">确认添加</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <%--添加户信息 modal--%>
     <div class="modal fade" id="add_permission"style="display: none;">
         <div class="modal-dialog" >
@@ -151,28 +88,29 @@
                                 <div class="control-group">
                                     <input type="hidden" id="perId" name="perId">
                                 </div>
-                                <div >
-                                    <label for="perPid" class="control-label" style="width: 100px">父节点</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="perPid" name="perPid" class="mask text" >
+                                <div class="control-group" >
+                                    <label class="control-label" style="width: 100px">父节点</label>
+                                    <div class="controls" style="margin-left: 160px;">
+                                        <select id="perPid" name="perPid" style="width: 214px;">
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="name" class="control-label" style="width: 100px">权限/菜单名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="name" name="name" class=" mask text">
+                                        <input type="text" id="name" name="name" required class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="description" class="control-label" style="width: 100px">描述</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="description" name="description" class=" mask text">
+                                        <input type="text" id="description" name="description" required class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="code" class="control-label" style="width: 100px">权限序列号</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="code" name="code" class=" mask text">
+                                        <input type="text" id="code" name="code" required class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -181,10 +119,13 @@
                                         <input type="text" id="page" name="page" class=" mask text">
                                     </div>
                                 </div>
-                                <div class="control-group">
-                                    <label for="type" class="control-label" style="width: 100px">类型</label>
-                                    <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="type" name="type" class=" mask text">
+                                <div class="control-group" >
+                                    <label class="control-label" style="width: 100px">类型</label>
+                                    <div class="controls" style="margin-left: 160px;">
+                                        <select id="role_select" name="type" style="width: 214px;">
+                                            <option value="0" >菜单</option>
+                                            <option  selected value="1" >权限</option>
+                                        </select>
                                     </div>
                                 </div>
                             </form>
@@ -198,39 +139,82 @@
             </div>
         </div>
     </div>
-  <%--  <div class="modal fade" id="add_permission" style="height: 100%;">
+
+    <%--修改用户信息 modal--%>
+    <div class="modal fade" id="modify_permission" style="display: none;">
         <div class="modal-dialog">
+            <form id="modify_role_form" class="form-horizontal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <h4 class="modal-title">添加权限</h4>
+                    <h4 class="modal-title">修改客户信息</h4>
                 </div>
                 <div class="modal-body">
                     <div class="widget-box">
                         <div class="widget-content nopadding">
-                            <form id="add_role_form" class="form-horizontal">
                                 <div class="control-group">
-                                    <input type="hidden" id="perId" name="perId">
+                                    <input type="hidden" id="edit_perId" name="perId">
                                 </div>
-                                <div >
-                                    <label for="perPid" class="control-label" style="width: 100px">父节点</label>
+                                <%--<div class="control-group">
+                                    <label for="edit_perPid" class="control-label" style="width: 100px">父节点</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="perPid" name="perPid" class="mask text" >
+                                        <input type="text" id="edit_perPid" name="perPid" class=" mask text">
+                                    </div>
+                                </div>--%>
+                            <div class="control-group" >
+                                <label for="edit_perPid" class="control-label" style="width: 100px">父节点</label>
+                                <div class="controls" style="margin-left: 160px;">
+                                    <select id="edit_perPid" name="perPid" style="width: 214px;">
+                                    </select>
+                                </div>
+                            </div>
+                                <div class="control-group">
+                                    <label for="edit_name" class="control-label" style="width: 100px">权限/菜单名</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="edit_name" required name="name" class=" mask text">
                                     </div>
                                 </div>
-                            </form>
+                                <div class="control-group">
+                                    <label for="edit_description" class="control-label" style="width: 100px">描述</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="edit_description" required name="description" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="edit_code" class="control-label" style="width: 100px">权限序列号</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="edit_code" required name="code" class=" mask text">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label for="edit_page" class="control-label" style="width: 100px">page</label>
+                                    <div class="controls" style="margin-left: 160px;width: 200px;">
+                                        <input type="text" id="edit_page" name="page" class=" mask text">
+                                    </div>
+                                </div>
+                            <div class="control-group" >
+                                <label class="control-label" style="width: 100px">类型</label>
+                                <div class="controls" style="margin-left: 160px;">
+                                    <select id="edit_type"  name="type" style="width: 214px;">
+                                        <option value="0" >菜单</option>
+                                        <option  value="1" >权限</option>
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-info" onclick="addPermission()">保存修改</button>
+                    <button type="button" class="btn btn-info" onclick="modifyPermission()">确认添加</button>
                 </div>
             </div>
+            </form>
         </div>
-    </div>--%>
+    </div>
+
 
     <%--确认删除操作modal--%>
     <div id="confirm_delete" class="modal hide fade" style="display: none;">
@@ -252,17 +236,18 @@
 
 </div>
 
-<script src="<%=basePath%>assert/js/jquery.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.uniform.js"></script>
-<script src="<%=basePath%>assert/js/select2.min.js"></script>
-<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<%--<script src="<%=basePath%>assert//js/jquery.dataTables.min.js"></script>--%>
-<script src="<%=basePath%>assert/js/matrix.js"></script>
-<script src="<%=basePath%>assert/js/matrix.tables.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
+
+<script src="<%=basePath%>assert/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2_locale_zh-CN.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/dataTables/jquery.dataTables.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
+
 <script>
 
 
@@ -276,12 +261,18 @@
             if (code == 200) {
                 var per = data.data;
                 $("#edit_perId").val(per.perId);
-                $("#edit_perPid").val(per.perPid);
+             /*   $("#edit_perPid").val(per.perPid);*/
                 $("#edit_name").val(per.name);
                 $("#edit_description").val(per.description);
                 $("#edit_code").val(per.code);
                 $("#edit_page").val(per.page);
-                $("#edit_type").val(per.type);
+                var type = per.type;
+                selectPermission("edit_perPid" ,per.perPid );
+                if (type===0){
+                    $("#edit_type").val("0");
+                }else if (type===1){
+                    $("#edit_type").val("1");
+                }
             } else {
                 alert("异常：" + msg);
             }
@@ -304,11 +295,9 @@
 
     /*删除权限*/
     var delete_per_id = -1;
-
     function onModalShow(perId) {
         delete_per_id = perId;
     }
-
     function deletePermission() {
         if (delete_per_id > -1) {
             $.post("<%=basePath%>permission/deletePermission", {
@@ -440,42 +429,69 @@
 
     });
 
-    /*初始化树形菜单*/
-    function initTree() {
-
-        var setting = {
-            check: {
-                enable: true
-            },
-            data: {
-                simpleData: {
-                    enable: true
+    /*给父节点选择select加载数据*/
+    function selectPermission(selectId , preId){
+        bindSelect(selectId , preId , "<%=basePath%>permission/getAllPermission");
+    }
+    /*绑定字典内容到指定的Select控件*/
+    function bindSelect(selectId, perId , url) {
+        var control = $('#' + selectId);
+        //绑定Ajax的内容
+        $.getJSON(url, function (result) {
+            control.empty();//清空下拉框
+            control.append("<option  value=''>&nbsp;" + "无"+ "</option>");
+            var data = result.data;
+            $.each(data, function (i, item) {
+                var item_perId = item.perId;
+                if (perId==item_perId){
+                    control.append("<option selected value='" + item.perId + "'>&nbsp;" + item.name + "</option>");
+                }else{
+                    control.append("<option  value='" + item.perId + "'>&nbsp;" + item.name + "</option>");
                 }
-            }
-        };
-
-        function setCheck() {
-            var zTree = $.fn.zTree.getZTreeObj("treeDemo"),
-                type = {"Y": "ps", "N": "ps"};
-            zTree.setting.check.chkboxType = type;
-        }
-
-        var userId = 1;
-        $.ajax({
-            url: "<%=basePath%>userManager/geAllPermissionsByUserId.action",
-            data: "userId=" + userId,
-            type: "POST",
-            success: function (result) {
-                if (result.code == 200) {
-                    var zNodes = result.data;
-                    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
-                    setCheck();
-                } else if (result.code == 250) {
-                    $("#btn_closeTree").click();
+            });
+            //设置Select2的处理
+            control.select2({
+                allowClear: true,
+                escapeMarkup: function (m) {
+                    return m;
                 }
-            }
+            });
         });
     }
+
+
+    /*表单验证*/
+    $().ready(function () {
+        /*添加*/
+        $("#add_permission_form ").validate({
+            errorElement: "span",
+            messages: {
+                name: {
+                    required: " 不能为空"
+                },
+                description: {
+                    required: " 角色描述不能为空"
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                addRole();
+            }
+        });
+        $("#modify_permission_form ").validate({
+            errorElement: "span",
+            messages: {
+                name: {
+                    required: " 不能为空"
+                },
+                description: {
+                    required: " 角色描述不能为空"
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                modifyRole();
+            }
+        });
+    });
 
 </script>
 

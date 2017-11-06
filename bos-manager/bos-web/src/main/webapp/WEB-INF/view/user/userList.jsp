@@ -11,24 +11,25 @@
             + path + "/";
 %>
 <!DOCTYPE html>
-<html >
+<html>
 <head>
     <title>用户管理</title>
     <meta charset="UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/uniform.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/select2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css"/>
-    <link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css"/>
-    <link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet"/>
-    <link href="<%=basePath%>assert/ztree/css/zTreeStyle/zTreeStyle.css" rel="stylesheet"/>
+
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/bootstrap/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/select2/select2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+
     <style>
         .controls input {
             width: 100%;
         }
-        .error{
-            color:red;
+
+        .error {
+            color: #b94a48;
         }
     </style>
 </head>
@@ -71,18 +72,18 @@
 
     <%--添加户信息 modal--%>
     <div class="modal fade" id="add_user" style="display: none;">
-        <div class="modal-dialog" >
-            <form class=" form-horizontal" id="commentForm" method="get" action="">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="">修改客户信息</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-box">
-                        <div class="widget-content nopadding">
+        <div class="modal-dialog">
+            <form class=" form-horizontal" id="add_user_form" method="get" action="">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="">修改客户信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="widget-box">
+                            <div class="widget-content nopadding">
                                 <div class="control-group">
                                     <label for="username" class="control-label" style="width: 100px">用户名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
@@ -92,7 +93,8 @@
                                 <div class="control-group">
                                     <label for="password" class="control-label" style="width: 100px">密码</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="password" minlength="6" id="password" name="password" class=" mask text">
+                                        <input type="password" required minlength="6" id="password" name="password"
+                                               class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
@@ -104,46 +106,25 @@
                                 <div class="control-group">
                                     <label for="tel" class="control-label" style="width: 100px">电话</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="tel" name="tel" required class=" mask text">
+                                        <input id="tel" type="tel" name="tel" required class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group" style="z-index: 10050 !important;">
                                     <label class="control-label" style="width: 100px">拥有角色</label>
-                                    <div class="controls"style="margin-left: 160px;">
-                                        <select  id="role_select" name="roleId" multiple style="width: 214px; z-index: 10050 !important;">
+                                    <div class="controls" style="margin-left: 160px;">
+                                        <select id="role_select" name="roleId" multiple
+                                                style="width: 214px; z-index: 10050 !important;">
                                         </select>
                                     </div>
                                 </div>
-                                  <fieldset>
-                                      <legend>输入您的名字，邮箱，URL，备注。</legend>
-                                      <p>
-                                          <label for="cname">Name (必需, 最小两个字母)</label>
-                                          <input id="cname" name="name" minlength="2" type="text" required>
-                                      </p>
-                                      <p>
-                                          <label for="cemail">E-Mail (必需)</label>
-                                          <input id="cemail" type="email" name="email" required>
-                                      </p>
-                                      <p>
-                                          <label for="curl">URL (可选)</label>
-                                          <input id="curl" type="url" name="url">
-                                      </p>
-                                      <p>
-                                          <label for="ccomment">备注 (必需)</label>
-                                          <textarea id="ccomment" name="comment" required></textarea>
-                                      </p>
-                                      <p>
-                                          <input class="submit" type="submit" value="Submit">
-                                      </p>
-                                  </fieldset>
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-info">添加</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-info">添加</button>
-                </div>
-            </div>
             </form>
         </div>
     </div>
@@ -151,54 +132,55 @@
     <%--修改用户信息 modal--%>
     <div class="modal fade" id="modify_user" style="display: none;">
         <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                    <h4 class="modal-title" id="myModalLabel">修改客户信息</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="widget-box">
-                        <div class="widget-content nopadding">
-                            <form id="modify_user_form" class="form-horizontal">
+            <form id="modify_user_form" class="form-horizontal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <h4 class="modal-title" id="myModalLabel">修改客户信息</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="widget-box">
+                            <div class="widget-content nopadding">
                                 <div class="control-group">
                                     <input type="hidden" id="edit_id" name="userId">
                                 </div>
                                 <div class="control-group">
                                     <label for="edit_username" class="control-label" style="width: 100px">用户名</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_username" name="username" class=" mask text">
+                                        <input type="text" id="edit_username" required name="username" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="edit_salary" class="control-label" style="width: 100px">薪水</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_salary" name="salary" class=" mask text">
+                                        <input type="number" id="edit_salary" number name="salary" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label for="edit_tel" class="control-label" style="width: 100px">电话</label>
                                     <div class="controls" style="margin-left: 160px;width: 200px;">
-                                        <input type="text" id="edit_tel" name="tel" class=" mask text">
+                                        <input type="tel" id="edit_tel" name="tel" class=" mask text">
                                     </div>
                                 </div>
                                 <div class="control-group" style="z-index: 10050 !important;">
                                     <label class="control-label" style="width: 100px">拥有角色</label>
-                                    <div class="controls"style="margin-left: 160px;">
-                                        <select  id="edit_role_select" name="roleId" multiple style="width: 214px; z-index: 10050 !important;">
+                                    <div class="controls" style="margin-left: 160px;">
+                                        <select id="edit_role_select" name="roleId" multiple
+                                                style="width: 214px; z-index: 10050 !important;">
                                         </select>
                                     </div>
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="submit" class="btn btn-info">保存修改</button>
+                    </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="submit" class="btn btn-info" onclick="modifyUser()">保存修改</button>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -221,20 +203,17 @@
 
 </div>
 
-<script src="<%=basePath%>assert/js/jquery.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.ui.custom.js"></script>
-<script src="<%=basePath%>assert/js/bootstrap.min.js"></script>
-<script src="<%=basePath%>assert/js/jquery.uniform.js"></script>
-<script src="<%=basePath%>assert/js/select2.min.js"></script>
-<script src="http://cdn.bootcss.com/datatables/1.10.11/js/jquery.dataTables.min.js"></script>
-<%--<script src="<%=basePath%>assert//js/jquery.dataTables.min.js"></script>--%>
-<script src="<%=basePath%>assert/js/matrix.js"></script>
-<script src="<%=basePath%>assert/js/matrix.tables.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.core.js"></script>
-<script src="<%=basePath%>assert/ztree/js/jquery.ztree.excheck.js"></script>
-<%--<script src="<%=basePath%>assert/js/matrix.form_validation.js"></script>--%>
-<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
-<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/jquery-3.2.1.min.js"></script>
+<script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/select2/select2_locale_zh-CN.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/dataTables/jquery.dataTables.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
+
 <script>
 
     var delete_user_Id = -1;
@@ -245,61 +224,61 @@
 
     /*删除用户*/
     function deleteUser() {
-     if (delete_user_Id!=-1){
-         $.post("<%=basePath%>user/deleteUser" ,{
-             userId:delete_user_Id
-         },function (data) {
-             var code = data.code;
-             var msg = data.msg;
-             if (code==200){
-                 window.location.reload();
-             }else{
-                 alert(""+msg);
-             }
-         } );
-     }
+        if (delete_user_Id != -1) {
+            $.post("<%=basePath%>user/deleteUser", {
+                userId: delete_user_Id
+            }, function (data) {
+                var code = data.code;
+                var msg = data.msg;
+                if (code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("" + msg);
+                }
+            });
+        }
     }
 
     /*编辑用户（填充数据）*/
     function editUser(userId) {
-        $.post("<%=basePath%>user/geUserById" ,
+        $.post("<%=basePath%>user/geUserById",
             {
-                userId:userId
-            } , function (data) {
+                userId: userId
+            }, function (data) {
                 var code = data.code;
-                if (code==200){
+                if (code == 200) {
                     var user = data.data;
                     $("#edit_id").val(user.userId);
                     $("#edit_username").val(user.username);
                     $("#edit_salary").val(user.salary);
                     $("#edit_tel").val(user.tel);
                 }
-        });
-        showRole("edit_role_select" ,userId);
+            });
+        showRole("edit_role_select", userId);
     }
 
     /*更新用户*/
-    function modifyUser(){
-        $.get("<%=basePath%>user/modifyUser" ,$("#modify_user_form").serialize(),function (data) {
+    function modifyUser() {
+        $.get("<%=basePath%>user/modifyUser", $("#modify_user_form").serialize(), function (data) {
             var code = data.code;
             var msg = data.msg;
-            if (code==200){
+            if (code == 200) {
                 window.location.reload();
-            }else{
-                alert(""+msg);
+            } else {
+                alert("" + msg);
             }
-        } );
+        });
     }
 
     /*添加用户*/
-    function addUser(){
-        $.get("<%=basePath%>user/addUser" , $("#add_user_form").serialize(),function (data) {
+    function addUser() {
+        $.get("<%=basePath%>user/addUser", $("#add_user_form").serialize(), function (data) {
             var code = data.code;
             var msg = data.msg;
-            if (code==200){
+            if (code == 200) {
                 window.location.reload();
-            }else{
-                alert(""+msg);
+            } else {
+                alert("" + msg);
             }
         });
     }
@@ -361,9 +340,9 @@
                     "data": "gender",
                     "render": function (data, type, full) {
                         var gender = data;
-                        if (gender==0){
+                        if (gender == 0) {
                             return '男';
-                        }else{
+                        } else {
                             return '女'
                         }
                     }
@@ -375,8 +354,8 @@
                         var userId = data.userId;
                         return "<div > "
                             +
-                            "<button class='btn btn-success btn-sm' onclick='editUser("+userId+")'data-toggle='modal' data-target='#modify_user'>修改</button> " +
-                            "<button id='btn_delete_user' class='btn btn-danger btn-sm' onclick='onModalShow("+userId+")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
+                            "<button class='btn btn-success btn-sm' onclick='editUser(" + userId + ")'data-toggle='modal' data-target='#modify_user'>修改</button> " +
+                            "<button id='btn_delete_user' class='btn btn-danger btn-sm' onclick='onModalShow(" + userId + ")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
                             +
                             "</div>";
                     }
@@ -385,14 +364,13 @@
             "fnInitComplete": function (oSettings, json) {
             }
         });
-
     });
 
     /*显示角色select*/
-    function showRole(selectId,userId){
-        bindSelect(selectId , "<%=basePath%>userRole/getAllRoleByUserId?userId="+userId);
+    function showRole(selectId, userId) {
+        bindSelect(selectId, "<%=basePath%>userRole/getAllRoleByUserId?userId=" + userId);
     }
-    
+
     /*绑定字典内容到指定的Select控件*/
     function bindSelect(selectId, url) {
         var control = $('#' + selectId);
@@ -402,9 +380,9 @@
             var data = result.data;
             $.each(data, function (i, item) {
                 var checked = item.checked;
-                if(checked){
+                if (checked) {
                     control.append("<option selected value='" + item.roleId + "'>&nbsp;" + item.roleName + "</option>");
-                }else{
+                } else {
                     control.append("<option  value='" + item.roleId + "'>&nbsp;" + item.roleName + "</option>");
                 }
             });
@@ -417,12 +395,49 @@
             });
         });
     }
-    
-    /*设置表单验证*/
-    $(document).ready(function () {
-        $("#add_user_form").validate();
+
+    /*表单验证*/
+    $().ready(function () {
+        // 提交
+        $("#add_user_form ").validate({
+            errorElement: "span",
+            messages: {
+                username: {
+                    required: " 用户名不能为空"
+                },
+                password: {
+                    required: " 用户名不能为空",
+                    minlength: "密码不能少于6位"
+                }
+            },
+            rules: {
+                tel: {
+                    isMobile: true
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                addUser();
+            }
+        });
+
+        $("#modify_user_form").validate({
+            errorElement: "span",
+            messages: {
+                username: {
+                    required: " 用户名不能为空"
+                }
+            },
+            rules: {
+                tel: {
+                    isMobile: true
+                }
+            },
+            submitHandler: function () {//表单验证通过后回调
+                modifyUser();
+            }
+        });
+
     });
-    
 
 </script>
 

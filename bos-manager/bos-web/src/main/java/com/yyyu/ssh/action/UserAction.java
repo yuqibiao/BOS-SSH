@@ -138,7 +138,9 @@ public class UserAction extends BaseAction<SysUser> {
             } else {
                 model.setPassword(PasswordEncrypt.Md5(1, username, pwd));
                 userService.save(model);
-                saveOrUpdateRole(model.getUserId());
+                SysUser savedUser = userService.getUserByUsername(username);
+                long userId = savedUser.getUserId();
+                saveOrUpdateRole(userId);
                 result = ResultUtils.success("注册成功");
             }
         } catch (Exception e) {
@@ -233,7 +235,7 @@ public class UserAction extends BaseAction<SysUser> {
             for (String roleId:roleIdList) {
                 SysUserRole userRole = new SysUserRole();
                 userRole.setRoleId(Long.parseLong(roleId));
-                userRole.setUserId(getModel().getUserId());
+                userRole.setUserId(userId);
                 userRoleList.add(userRole);
             }
             userRoleService.saveOrUpdateAll(userId , userRoleList);
