@@ -16,7 +16,7 @@
 
         $().ready(function() {
             // 提交时验证表单
-            var validator = $("#form1").validate({
+            var validator = $("#egister-form").validate({
                 errorPlacement: function(error, element) {
                     // Append error within linked label
                     $( element )
@@ -49,21 +49,39 @@
     </style>
 </head>
 <body>
-<form method="get" class="cmxform" id="form1" action="">
-    <fieldset>
-        <legend>登录框</legend>
-        <p>
-            <label for="user">用户名</label>
-            <input id="user" name="user" required minlength="3">
-        </p>
-        <p>
-            <label for="tel">电话</label>
-            <input id="tel" type="text"  name="tel" >
-        </p>
-        <p>
-            <input class="submit" type="submit" value="Login">
-        </p>
-    </fieldset>
+<form id="register-form" class="form-vertical" style="padding-top:10px;"hidden >
+    <label class="control-label">登陆账号</label>
+    <div class="controls">
+        <div class="main_input_box">
+            <span class="add-on bg_lg"><i class="icon-user" style="font-size:16px;"></i></span>
+            <input type="text" name="re_username" />
+        </div>
+    </div>
+    <div class="control-group">
+        <label class="control-label">密码</label>
+        <div class="controls">
+            <div class="main_input_box">
+                <span class="add-on bg_ly"><i class="icon-lock" style="font-size:16px;"></i></span>
+                <input type="password" name="password"/>
+            </div>
+        </div>
+    </div>
+    <div class="control-group" style="padding-top:0px;">
+        <label class="control-label">确认密码</label>
+        <div class="controls">
+            <div class="main_input_box">
+                <span class="add-on bg_ly"><i class="icon-lock" style="font-size:16px;"></i></span>
+                <input type="password" name="confirm_password"  />
+            </div>
+        </div>
+    </div>
+    <div class="form-actions">
+        <span class="pull-left"><a class="flip-link btn btn-success" id="to-login">&laquo; 返回登录</a></span>
+        <span class="pull-right"><button type="submit" class="btn btn-info" style="width:310px;">注册</button></span>
+    </div>
+    <div class="control-group normal_text">
+        <div style="font-size:14px;color:gray;">推荐使用webkit内核浏览器，如chrome等</div>
+    </div>
 </form>
 </body>
 </html>

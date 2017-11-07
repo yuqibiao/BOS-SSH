@@ -1,4 +1,4 @@
-package com.yyyu.ssh;
+package com.yyyu.ssh.utils;
 
 /**
  * 功能：字符串相关工具类

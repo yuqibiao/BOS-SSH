@@ -1,6 +1,7 @@
 package com.yyyu.ssh.action;
 
-import com.yyyu.ssh.TextUtils;
+import com.yyyu.ssh.utils.PropertyUtils;
+import com.yyyu.ssh.utils.TextUtils;
 import com.yyyu.ssh.dao.bean.TreeNode;
 import com.yyyu.ssh.dao.bean.UserDataTablesReturn;
 import com.yyyu.ssh.dao.bean.UserReturn;
@@ -30,9 +31,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * 功能：用户管理Action
@@ -136,7 +139,8 @@ public class UserAction extends BaseAction<SysUser> {
             } else if (userService.hasUser(username)) {
                 result = ResultUtils.error(502, "该用户名已经存在");
             } else {
-                model.setPassword(PasswordEncrypt.Md5(1, username, pwd));
+                String hashIterations = PropertyUtils.getValue("hashIterations", "property/resource.properties", UserAction.class);
+                model.setPassword(PasswordEncrypt.Md5(TypeConversion.str2Int(hashIterations ), username, pwd));
                 userService.save(model);
                 SysUser savedUser = userService.getUserByUsername(username);
                 long userId = savedUser.getUserId();
@@ -250,7 +254,6 @@ public class UserAction extends BaseAction<SysUser> {
     public String checkUser() {
         String username = getModel().getUsername();
         String password = getModel().getPassword();
-
         Subject currentUser = SecurityUtils.getSubject();
         if (currentUser != null) {
             UsernamePasswordToken token = new UsernamePasswordToken(username, password);
@@ -261,8 +264,10 @@ public class UserAction extends BaseAction<SysUser> {
                 setSessionValue("user" , loginUser);
                 return SUCCESS;
             } catch (IncorrectCredentialsException e) {
-                System.out.println("用户名密码不正确");
+                setSessionValue("loginFailedTip" , "用户名密码不正确！");
+                System.out.println("用户名或密码不正确");
             } catch (LockedAccountException lae) {
+                setSessionValue("loginFailedTip" , "账户已被冻结！");
                 System.out.println("账户已被冻结！");
             } catch (AuthenticationException ae) {
                 System.out.println(ae.getMessage());

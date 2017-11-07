@@ -1,6 +1,6 @@
 package com.yyyu.ssh.action;
 
-import com.yyyu.ssh.TextUtils;
+import com.yyyu.ssh.utils.TextUtils;
 import com.yyyu.ssh.dao.bean.PermissionDataTablesReturn;
 import com.yyyu.ssh.dao.bean.PermissionReturn;
 import com.yyyu.ssh.domain.SysPermissions;

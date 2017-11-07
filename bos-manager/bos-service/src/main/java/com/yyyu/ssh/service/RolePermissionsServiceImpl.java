@@ -1,6 +1,7 @@
 package com.yyyu.ssh.service;
 
 import com.yyyu.ssh.dao.inter.IRolePermissionsDao;
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysRolePermissions;
 import com.yyyu.ssh.service.inter.IRolePermissionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,5 +29,10 @@ public class RolePermissionsServiceImpl implements IRolePermissionsService{
     @Override
     public void deleteBeforeAddNewRolePermissions(Long roleId, List<SysRolePermissions> rolePermissionsList) {
         permissionsDao.deleteBeforeAddNewRolePermissions(roleId , rolePermissionsList);
+    }
+
+    @Override
+    public List<SysPermissions> getPermissionByRoleId(long roleId) {
+        return permissionsDao.getPermissionByRoleId(roleId);
     }
 }

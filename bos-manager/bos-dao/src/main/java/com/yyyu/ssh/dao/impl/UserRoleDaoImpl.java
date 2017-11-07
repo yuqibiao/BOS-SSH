@@ -38,5 +38,16 @@ public class UserRoleDaoImpl extends BaseDaoImpl<SysUserRole> implements IUserRo
         executeHql(sbSql.toString() , new Object[]{userId});
     }
 
+    @Override
+    public List<SysRole> getRoleCodeByUsername(String username) {
+        StringBuilder sbSql = new StringBuilder();
+        sbSql.append("select sys_role.* ");
+        sbSql.append("from sys_user , sys_user_role ,sys_role  ");
+        sbSql.append("where sys_user_role.user_id=sys_user.user_id  and sys_user_role.role_id= sys_role.sys_role  ");
+        sbSql.append("and sys_user.username=?  ");
+        List<SysRole>  roleCodeList = getAllListBySql(sbSql.toString(), new Object[]{username}, SysRole.class);
+        return roleCodeList;
+    }
+
 
 }

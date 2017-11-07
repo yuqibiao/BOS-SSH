@@ -1,5 +1,6 @@
 package com.yyyu.ssh.service.inter;
 
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysRolePermissions;
 import com.yyyu.ssh.templete.inter.IBaseDao;
 
@@ -17,4 +18,5 @@ public interface IRolePermissionsService{
 
      void deleteBeforeAddNewRolePermissions(Long roleId, List<SysRolePermissions> rolePermissionsList);
 
+    List<SysPermissions> getPermissionByRoleId(long roleId);
 }

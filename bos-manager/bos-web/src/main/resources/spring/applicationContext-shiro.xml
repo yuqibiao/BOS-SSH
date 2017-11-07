@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd"
-       default-lazy-init="true">
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     <description>Shiro 配置</description>
+
+    <!--加载数据库配置文件-->
+    <context:property-placeholder location="classpath*:property/resource.properties" ignore-unresolvable="true"/>
 
     <!-- 1. 配置SecurityManager -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
@@ -31,7 +34,7 @@
                 <!-- 加密算法为MD5 -->
                 <property name="hashAlgorithmName" value="MD5"/>
                 <!-- 加密次数 -->
-                <property name="hashIterations" value="1"/>
+                <property name="hashIterations" value="${hashIterations}"/>
             </bean>
         </property>
     </bean>

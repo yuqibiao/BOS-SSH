@@ -70,6 +70,7 @@ public class UserServiceImpl implements IUserService {
         return userDao.getUserRoleName(username);
     }
 
+
     @Override
     public List<SysPermissions> getUserPermissions(String username) {
         return userDao.getUserOptions(username);

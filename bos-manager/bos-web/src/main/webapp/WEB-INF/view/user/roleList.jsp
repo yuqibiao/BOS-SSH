@@ -21,6 +21,7 @@
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/zTreeStyle/zTreeStyle.css" />
 
     <style>
         .controls input {
@@ -216,6 +217,8 @@
 <script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.core.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.excheck.js"></script>
 
 <script>
 

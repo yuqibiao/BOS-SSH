@@ -17,4 +17,6 @@ public interface IUserRoleDao extends IBaseDao<SysUserRole>{
     List<SysRole> getRoleByUserId(long userId);
 
     void deleteRoleByUserId(long userId);
+
+    List<SysRole> getRoleCodeByUsername(String  username);
 }

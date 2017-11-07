@@ -1,7 +1,7 @@
 package com.yyyu.ssh.dao.inter;
 
+import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysRolePermissions;
-import com.yyyu.ssh.templete.BaseDaoImpl;
 import com.yyyu.ssh.templete.inter.IBaseDao;
 
 import java.util.List;
@@ -18,4 +18,5 @@ public interface IRolePermissionsDao extends IBaseDao<SysRolePermissions> {
 
      void deleteBeforeAddNewRolePermissions(Long roleId , List<SysRolePermissions> rolePermissionsList);
 
+    List<SysPermissions> getPermissionByRoleId(long roleId);
 }

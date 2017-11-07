@@ -29,7 +29,7 @@ CREATE TABLE sys_role (
   role_id     BIGINT AUTO_INCREMENT,
   role_name   VARCHAR(64),
   description VARCHAR(128),
-  code        VARCHAR(128),
+  code        VARCHAR(128) NOT NULL  UNIQUE ,
   available   BOOL   DEFAULT FALSE,
   PRIMARY KEY (role_id)
 )
@@ -46,7 +46,7 @@ CREATE TABLE sys_permissions (
   name        VARCHAR(64),
   description VARCHAR(128),
   type TINYINT,
-  code        VARCHAR(64),
+  code        VARCHAR(64) NOT NULL  UNIQUE ,
   page        VARCHAR(128),
   available   BOOL   DEFAULT FALSE,
   PRIMARY KEY (per_id)

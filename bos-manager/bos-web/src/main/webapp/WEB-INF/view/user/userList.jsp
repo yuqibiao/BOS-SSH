@@ -406,7 +406,7 @@
                     required: " 用户名不能为空"
                 },
                 password: {
-                    required: " 用户名不能为空",
+                    required: " 密码不能为空",
                     minlength: "密码不能少于6位"
                 }
             },
