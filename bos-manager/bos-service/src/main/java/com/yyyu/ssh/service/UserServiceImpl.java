@@ -7,6 +7,7 @@ import com.yyyu.ssh.dao.inter.IUserDao;
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IUserService;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.hibernate.criterion.DetachedCriteria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

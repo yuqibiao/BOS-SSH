@@ -11,6 +11,7 @@ import com.yyyu.ssh.utils.ResultUtils;
 import com.yyyu.ssh.utils.TypeConversion;
 import com.yyyu.ssh.utils.bean.BaseJsonResult;
 import org.apache.struts2.convention.annotation.Action;
+import org.apache.struts2.convention.annotation.Namespace;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -30,7 +31,7 @@ import java.util.List;
  */
 @Controller
 @Scope("prototype")
-@Action(value = "/role")
+@Namespace(value = "/role")
 public class RoleAction extends BaseAction<SysRole> {
 
     @Autowired

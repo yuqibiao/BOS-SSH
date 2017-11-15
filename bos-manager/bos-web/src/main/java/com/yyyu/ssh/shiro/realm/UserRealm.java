@@ -36,6 +36,8 @@ public class UserRealm extends AuthorizingRealm{
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
+        System.err.println("================UserRealm========AuthorizationInfo=========");
+
         String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         List<SysRole> roleCodeList = userRoleService.getRoleByUsername(username);

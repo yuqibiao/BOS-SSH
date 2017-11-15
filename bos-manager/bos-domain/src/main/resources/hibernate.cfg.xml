@@ -48,6 +48,7 @@
         <mapping resource="com/yyyu/ssh/domain/SysUser.hbm.xml"/>
         <mapping resource="com/yyyu/ssh/domain/SysUserRole.hbm.xml"/>
         <mapping class="com.yyyu.ssh.domain.SysUserRole"/>
+        <mapping resource="com/yyyu/ssh/domain/SysUserToken.hbm.xml"/>
 
     </session-factory>
 </hibernate-configuration>

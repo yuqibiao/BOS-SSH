@@ -1,9 +1,8 @@
-
+DROP TABLE IF EXISTS sys_user_role;
+DROP TABLE IF EXISTS sys_role_permissions;
 DROP TABLE IF EXISTS sys_user;
 DROP TABLE IF EXISTS sys_role;
 DROP TABLE IF EXISTS sys_permissions;
-DROP TABLE IF EXISTS sys_user_role;
-DROP TABLE IF EXISTS sys_role_permissions;
 
 CREATE TABLE sys_user (
   user_id  BIGINT AUTO_INCREMENT,
@@ -75,5 +74,15 @@ CREATE TABLE sys_role_permissions (
   CHARSET = utf8
   ENGINE = InnoDB
   COMMENT '角色-权限表';
+
+CREATE TABLE sys_user_token (
+  user_id BIGINT,
+  user_token varchar(64) NOT NULL ,
+  create_time TIMESTAMP DEFAULT current_timestamp,
+  PRIMARY KEY (user_id , user_token)
+)
+  CHARSET = utf8
+  ENGINE = InnoDB
+  COMMENT '角色-token令牌';
 
 
