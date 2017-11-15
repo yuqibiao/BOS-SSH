@@ -32,6 +32,11 @@ public class UserRoleServiceImpl implements IUserRoleService{
     }
 
     @Override
+    public List<SysRole> getRoleByUserId(Long userId) {
+        return userRoleDao.getRoleByUserId(userId);
+    }
+
+    @Override
     public List<SelectRole> getAllRoleByUserId(long userId) {
 
         List<SysRole> allRole = roleDao.getAllList(roleDao.getCriteria());

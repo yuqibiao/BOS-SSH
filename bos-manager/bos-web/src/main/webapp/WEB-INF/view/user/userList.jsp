@@ -37,7 +37,9 @@
 
 <div id="content">
     <div id="content-header">
+        <shiro:hasRole name="role:admin">
         <h1>用户信息管理</h1>
+        </shiro:hasRole>
     </div>
 
     <%--数据表格展示--%>
@@ -355,8 +357,10 @@
                         return "<div > "
                             +
                             "<button class='btn btn-success btn-sm' onclick='editUser(" + userId + ")'data-toggle='modal' data-target='#modify_user'>修改</button> " +
+                            <shiro:hasPermission name="user:delete">
                             "<button id='btn_delete_user' class='btn btn-danger btn-sm' onclick='onModalShow(" + userId + ")' data-toggle='modal' data-target='#confirm_delete'>删除</button> "
                             +
+                            </shiro:hasPermission>
                             "</div>";
                     }
                 },

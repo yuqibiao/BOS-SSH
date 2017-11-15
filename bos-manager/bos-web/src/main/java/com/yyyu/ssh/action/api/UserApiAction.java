@@ -95,18 +95,23 @@ public class UserApiAction extends BaseAction<SysUser>{
         BaseJsonResult<UserReturn> result;
         Long userId = getModel().getUserId();
         try {
-            get();
-            SysUser sysUser = userService.getUserById(userId);
-            UserReturn userReturn = new UserReturn();
-            userReturn.setUserId(sysUser.getUserId());
-            userReturn.setUsername(sysUser.getUsername());
-            userReturn.setSalary(sysUser.getSalary());
-            userReturn.setBirthday(sysUser.getBirthday());
-            userReturn.setGender(sysUser.getGender());
-            userReturn.setRemark(sysUser.getRemark());
-            userReturn.setStation(sysUser.getStation());
-            userReturn.setTel(sysUser.getTel());
-            result = ResultUtils.success(userReturn);
+            Subject currentUser = SecurityUtils.getSubject();
+            boolean hasRole = currentUser.hasRole("role:admin");
+            if (!hasRole){
+                result = ResultUtils.error(501 , "没有权限");
+            }else{
+                SysUser sysUser = userService.getUserById(userId);
+                UserReturn userReturn = new UserReturn();
+                userReturn.setUserId(sysUser.getUserId());
+                userReturn.setUsername(sysUser.getUsername());
+                userReturn.setSalary(sysUser.getSalary());
+                userReturn.setBirthday(sysUser.getBirthday());
+                userReturn.setGender(sysUser.getGender());
+                userReturn.setRemark(sysUser.getRemark());
+                userReturn.setStation(sysUser.getStation());
+                userReturn.setTel(sysUser.getTel());
+                result = ResultUtils.success(userReturn);
+            }
         } catch (Exception e) {
             result = ResultUtils.error(500 , ""+e.getMessage());
             e.printStackTrace();
@@ -116,7 +121,7 @@ public class UserApiAction extends BaseAction<SysUser>{
 
     @RequiresRoles("admin")
     private void get(){
-
+        System.out.println("===============get");
     }
 
 }

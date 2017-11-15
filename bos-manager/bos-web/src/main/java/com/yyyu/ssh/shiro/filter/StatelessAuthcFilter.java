@@ -2,6 +2,7 @@ package com.yyyu.ssh.shiro.filter;
 
 import com.yyyu.ssh.shiro.realm.StatelessToken;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.subject.Subject;
 import org.apache.shiro.web.filter.AccessControlFilter;
 
 import javax.servlet.ServletRequest;
@@ -37,7 +38,11 @@ public class StatelessAuthcFilter extends AccessControlFilter{
         //委托给realm进行登录
         System.err.println("============StatelessAuthcFilter===========");
         try {
-            getSubject(servletRequest , servletResponse).login(token);
+
+            Subject subject = getSubject(servletRequest, servletResponse);
+            subject.getSession().setTimeout(0);
+            subject.login(token);
+            //.login(token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             return false;

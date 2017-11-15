@@ -44,7 +44,7 @@ public class StatelessRealm extends AuthorizingRealm{
 
         String userId = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo =  new SimpleAuthorizationInfo();
-        List<SelectRole> roleList= userRoleService.getAllRoleByUserId(Long.parseLong(userId));
+        List<SysRole> roleList= userRoleService.getRoleByUserId(Long.parseLong(userId));
         Set<String> roleCodeSet = new HashSet<>();
         for (SysRole sysRole:roleList) {
             roleCodeSet.add(sysRole.getCode());

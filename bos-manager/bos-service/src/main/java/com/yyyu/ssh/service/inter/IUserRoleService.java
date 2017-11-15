@@ -16,6 +16,8 @@ public interface IUserRoleService {
 
     List<SysRole> getRoleByUsername(String username);
 
+    List<SysRole> getRoleByUserId(Long userId);
+
     List<SelectRole> getAllRoleByUserId(long userId);
 
     void saveOrUpdateAll(long userId, List<SysUserRole> userRoleList);

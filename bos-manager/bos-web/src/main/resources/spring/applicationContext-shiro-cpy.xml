@@ -51,7 +51,9 @@
     <!-- 5. 使能够在IOC容器中使用shiro的注解，但必须在配置了LifecycleBeanPostProcessor之后才可以使用 -->
     <bean
             class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-            depends-on="lifecycleBeanPostProcessor" />
+            depends-on="lifecycleBeanPostProcessor" >
+        <property name="proxyTargetClass" value="true" />
+    </bean>
     <bean
             class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
