@@ -50,6 +50,7 @@ public abstract class PBECoder extends Coder {
 	 * @throws Exception
 	 */
 	private static Key toKey(String password) throws Exception {
+
 		PBEKeySpec keySpec = new PBEKeySpec(password.toCharArray());
 		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(ALGORITHM);
 		SecretKey secretKey = keyFactory.generateSecret(keySpec);

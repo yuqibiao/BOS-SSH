@@ -26,6 +26,8 @@ public class CoderTest {
 
 		System.err.println("BASE64解密后:\n" + outputStr);
 
+		byte[] bytes = Coder.encryptMD5("123".getBytes());
+		System.err.println("MD5解密后:\n" + new String(bytes));
 
 
 	}
