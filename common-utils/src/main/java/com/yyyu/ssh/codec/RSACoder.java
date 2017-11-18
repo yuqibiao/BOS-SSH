@@ -1,30 +1,22 @@
-package com.yyyu.ssh.codec.cpy;
+package com.yyyu.ssh.codec;
 
-import java.security.Key;
-import java.security.KeyFactory;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.Signature;
+import javax.crypto.Cipher;
+import java.security.*;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
-
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.crypto.Cipher;
-
 /**
  * RSA安全编码组件
- * 
- * @author 梁栋
- * @version 1.0
- * @since 1.0
+ *
+ * @author yu
+ * @date 2017/11/17.
  */
 public abstract class RSACoder extends Coder {
+
     public static final String KEY_ALGORITHM = "RSA";
 	public static final String SIGNATURE_ALGORITHM = "MD5withRSA";
 
@@ -61,6 +53,18 @@ public abstract class RSACoder extends Coder {
 		signature.update(data);
 
 		return encryptBASE64(signature.sign());
+	}
+
+	public static String sign(String data , String privateKey){
+
+		String sign = null;
+		try {
+			sign = sign(data.getBytes(), privateKey);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return sign;
 	}
 
 	/**
@@ -100,6 +104,19 @@ public abstract class RSACoder extends Coder {
 		return signature.verify(decryptBASE64(sign));
 	}
 
+	public static boolean verify(String  data, String publicKey, String sign){
+
+		boolean isLegal = false;
+		try {
+			isLegal = verify(data.getBytes(), publicKey, sign);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return isLegal;
+	}
+
+
 	/**
 	 * 解密<br>
 	 * 用私钥解密
@@ -126,6 +143,19 @@ public abstract class RSACoder extends Coder {
 		return cipher.doFinal(data);
 	}
 
+	public static String decryptByPrivateKey(String data , String key){
+
+		byte[] bytes = null;
+		try {
+			bytes = decryptByPrivateKey(decryptBASE64(data), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new String(bytes);
+	}
+
+
 	/**
 	 * 解密<br>
 	 * 用公钥解密
@@ -150,6 +180,18 @@ public abstract class RSACoder extends Coder {
 		cipher.init(Cipher.DECRYPT_MODE, publicKey);
 
 		return cipher.doFinal(data);
+	}
+
+	public static String decryptByPublicKey(String data , String key){
+
+		byte[] bytes = null;
+		try {
+			bytes = decryptByPublicKey(decryptBASE64(data), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return new String(bytes);
 	}
 
 	/**
@@ -178,6 +220,19 @@ public abstract class RSACoder extends Coder {
 		return cipher.doFinal(data);
 	}
 
+	public static String encryptByPublicKey(String data , String key){
+
+		byte[] bytes = null ;
+		try {
+			bytes= encryptByPublicKey(data.getBytes(), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return encryptBASE64(bytes);
+
+	}
+
 	/**
 	 * 加密<br>
 	 * 用私钥加密
@@ -202,6 +257,19 @@ public abstract class RSACoder extends Coder {
 		cipher.init(Cipher.ENCRYPT_MODE, privateKey);
 
 		return cipher.doFinal(data);
+	}
+
+	public static String encryptByPrivateKey(String data , String key){
+
+		byte[] bytes = null;
+		try {
+			 bytes= encryptByPrivateKey(data.getBytes(), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return encryptBASE64(bytes);
+
 	}
 
 	/**
@@ -242,15 +310,11 @@ public abstract class RSACoder extends Coder {
 		KeyPairGenerator keyPairGen = KeyPairGenerator
 				.getInstance(KEY_ALGORITHM);
 		keyPairGen.initialize(1024);
-
 		KeyPair keyPair = keyPairGen.generateKeyPair();
-
 		// 公钥
 		RSAPublicKey publicKey = (RSAPublicKey) keyPair.getPublic();
-
 		// 私钥
 		RSAPrivateKey privateKey = (RSAPrivateKey) keyPair.getPrivate();
-
 		Map<String, Object> keyMap = new HashMap<String, Object>(2);
 
 		keyMap.put(PUBLIC_KEY, publicKey);

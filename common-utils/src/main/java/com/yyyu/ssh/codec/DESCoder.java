@@ -1,6 +1,8 @@
-package com.yyyu.ssh.codec.cpy;
+package com.yyyu.ssh.codec;
 
+import java.io.IOException;
 import java.security.Key;
+import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;
@@ -23,10 +25,9 @@ import javax.crypto.spec.DESKeySpec;
  * RC4(ARCFOUR) 		key size must be between 40 and 1024 bits
  * 具体内容 需要关注 JDK Document http://.../docs/technotes/guides/security/SunProviders.html
  * </pre>
- * 
- * @author 梁栋
- * @version 1.0
- * @since 1.0
+ *
+ * @author yu
+ * @date 2017/11/17
  */
 public abstract class DESCoder extends Coder {
     /**
@@ -87,6 +88,18 @@ public abstract class DESCoder extends Coder {
 		return cipher.doFinal(data);
 	}
 
+	public static String decrpt(String data , String key){
+
+		byte[] decrypt = null;
+		try {
+			decrypt= decrypt(decryptBASE64(data), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return new String(decrypt);
+
+	}
+
 	/**
 	 * 加密
 	 * 
@@ -103,13 +116,23 @@ public abstract class DESCoder extends Coder {
 		return cipher.doFinal(data);
 	}
 
+	public static String encrypt(String data ,String key){
+		byte[] encrypt = null;
+		try {
+			encrypt= encrypt(data.getBytes(), key);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return encryptBASE64(encrypt);
+	}
+
 	/**
 	 * 生成密钥
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	public static String initKey() throws Exception {
+	public static String initKey()  {
 		return initKey(null);
 	}
 
@@ -120,19 +143,24 @@ public abstract class DESCoder extends Coder {
 	 * @return
 	 * @throws Exception
 	 */
-	public static String initKey(String seed) throws Exception {
+	public static String initKey(String seed)  {
+
 		SecureRandom secureRandom = null;
+		SecretKey secretKey = null;
+		try {
+			if (seed != null) {
+                secureRandom = new SecureRandom(decryptBASE64(seed));
+            } else {
+                secureRandom = new SecureRandom();
+            }
 
-		if (seed != null) {
-			secureRandom = new SecureRandom(decryptBASE64(seed));
-		} else {
-			secureRandom = new SecureRandom();
+			KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM);
+			kg.init(secureRandom);
+
+			secretKey = kg.generateKey();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
-		KeyGenerator kg = KeyGenerator.getInstance(ALGORITHM);
-		kg.init(secureRandom);
-
-		SecretKey secretKey = kg.generateKey();
 
 		return encryptBASE64(secretKey.getEncoded());
 	}

@@ -1,7 +1,5 @@
 package com.yyyu.ssh.codec;
 
-import com.yyyu.ssh.codec.cpy.Coder;
-
 /**
  * 
  * @author 梁栋

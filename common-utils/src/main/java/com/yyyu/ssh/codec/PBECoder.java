@@ -73,14 +73,14 @@ public abstract class PBECoder extends Coder{
     }
 
 
-    public static String encrypt(String data, String password){
+    public static String encrypt(String data, String password , byte[] salt){
         byte[] bytes = null;
         try {
-            bytes = encrypt(data.getBytes(), password , initSalt());
+            bytes = encrypt(data.getBytes(), password , salt);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return new String(byte2Hex16(bytes));
+        return encryptBASE64(bytes);
     }
 
     /**
@@ -104,11 +104,11 @@ public abstract class PBECoder extends Coder{
 
     }
 
-    public static String decrypt(String data ,String password ){
+    public static String decrypt(String data ,String password ,byte[] salt){
 
         byte[] decrypt = null;
         try {
-            decrypt = decrypt(data.getBytes(), password, initSalt());
+            decrypt = decrypt(decryptBASE64(data), password, salt);
         } catch (Exception e) {
             e.printStackTrace();
         }
