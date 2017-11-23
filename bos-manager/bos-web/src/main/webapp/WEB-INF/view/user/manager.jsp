@@ -22,6 +22,8 @@
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/zTreeStyle/zTreeStyle.css" />
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/menuStyle/zTreeMenu.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.css"/>
+
 
 </head>
 <body>
@@ -110,6 +112,8 @@
 <script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
 <script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.core.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMeCustomer.js"></script>
 
 
 <script type="text/javascript">
@@ -123,6 +127,7 @@
 
     $(function () {
         init();
+        show_waitMe($("#sidebar") );
         $(window).resize(function () {
             init();
         });
@@ -195,6 +200,7 @@
             } else if (result.code == 250) {
                 $("#btn_closeTree").click();
             }
+            hidden_waitMe($("#sidebar"));
         }
     });
 

@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.css"/>
 
     <style>
         .controls input {
@@ -215,11 +216,12 @@
 <script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMeCustomer.js"></script>
 
 <script>
 
     var delete_user_Id = -1;
-
     function onModalShow(userId) {
         delete_user_Id = userId;
     }
@@ -287,6 +289,7 @@
 
     /*dataTable加载数据*/
     $(document).ready(function () {
+        show_waitMe($("#content") , 'win8');
         $("#data_table").dataTable({
             "aLengthMenu": [[10, 15, 20], [10, 15, 20]],//搜索栏显示
             "order": [[2, "desc"]],//第2列的数据倒序排序 此条会通过参数传给服务器
@@ -324,6 +327,7 @@
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
+                    hidden_waitMe($("#content"));
                     return dataSet;//再将数据返回给datatable控件使用
                 }
             },

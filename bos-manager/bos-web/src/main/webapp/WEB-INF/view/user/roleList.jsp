@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/ztree/css/zTreeStyle/zTreeStyle.css" />
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.css"/>
 
     <style>
         .controls input {
@@ -219,6 +220,8 @@
 <script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.core.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/ztree/js/jquery.ztree.excheck.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMeCustomer.js"></script>
 
 <script>
 
@@ -318,11 +321,11 @@
 
     /*dataTable加载数据*/
     $(document).ready(function () {
-
+        show_waitMe($("#content") , 'win8');
         $("#data_table").dataTable({
             "aLengthMenu": [[10, 15, 20], [10, 15, 20]],//搜索栏显示
             "order": [[2, "desc"]],//第2列的数据倒序排序 此条会通过参数传给服务器
-            "processing": true,//代码没加载完成时 会显示加载中…
+            "bProcessing": true,//代码没加载完成时 会显示加载中…
             "searching": true,//关闭datatables自带搜索功能（没什么用）
             "bLengthChange": true, //改变每页显示数据数量
             "bFilter": true, //过滤功能
@@ -336,7 +339,7 @@
             //"sAjaxSource": "/orderCenter/dataTable",
             //"fnServerData":retrieveData, //与后台交互获取数据的处理函数
             "language": {//国际化
-                "processing": "正在玩命加载中。。。。请稍后！",//这里设置就是在加载时给用户的提示
+                "bProcessing": "数据加载中....",//这里设置就是在加载时给用户的提示
                 "lengthMenu": "_MENU_ 条/页",
                 "zeroRecords": "没有找到记录",
                 "info": "第 _PAGE_ 页 ( 总共 _PAGES_ 页 )",
@@ -356,6 +359,7 @@
                 "dataSrc": function (json) {//获取数据之后处理函数，jason就是返回的数据
                     var dataSet = json.data;
                     //对数据处理过程
+                    hidden_waitMe($("#content"))
                     return dataSet;//再将数据返回给datatable控件使用
                 }
             },

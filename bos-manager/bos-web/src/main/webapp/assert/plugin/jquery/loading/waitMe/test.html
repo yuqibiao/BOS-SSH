@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link type="text/css" rel="stylesheet" href="waitMe.css">
+</head>
+<body>
+
+<div class="container" style="width: 200px; height: 400px;">
+    <form>
+        <label>Name</label>
+        <input type="text">
+        <label>Email</label>
+        <input type="text">
+        <label>Phone</label>
+        <input type="text">
+        <button type="button" class="btn btn-primary" id="waitMe_ex" onclick="showWait()">Submit</button>
+    </form>
+</div></div>
+
+<button  id="hidden" onclick="hiddenWait()">hidden</button>
+
+<script src="https://cdn.jsdelivr.net/jquery/3.2.1/jquery.min.js"></script>
+<script src="waitMe.min.js"></script>
+<script src="waitMeCustomer.js"></script>
+<script>
+
+    function showWait() {
+        /*run_waitMe($('.container'), 1, 'win8');*/
+        show_waitMe($('.container') , 'win8')
+    }
+
+    function hiddenWait() {
+        hidden_waitMe($('.container'));
+    }
+
+</script>
+</body>
+</html>
