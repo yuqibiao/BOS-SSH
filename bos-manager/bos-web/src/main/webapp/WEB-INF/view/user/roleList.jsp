@@ -426,7 +426,7 @@
         }
 
         $.ajax({
-            url: "<%=basePath%>user/geAllPermissionsByUserId.action",
+            url: "<%=basePath%>role/geAllPermissionsByRoleId.action",
             data: "roleId=" + currentRoleId,
             type: "POST",
             success: function (result) {

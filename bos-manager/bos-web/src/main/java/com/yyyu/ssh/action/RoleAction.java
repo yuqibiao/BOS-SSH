@@ -191,8 +191,8 @@ public class RoleAction extends BaseAction<SysRole> {
      * 通过userId得到所有的权限
      * 用户没有的权限checked为false
      */
-    @Action("geAllPermissionsByUserId")
-    public void geAllPermissionsByUserId() {
+    @Action("geAllPermissionsByRoleId")
+    public void geAllPermissionsByRoleId() {
         Long roleId = getModel().getRoleId();
         BaseJsonResult result;
         try {
