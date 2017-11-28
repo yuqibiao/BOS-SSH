@@ -1525,3 +1525,27 @@ form {
 	}
 	#sidebar .content{ display:none;}
 }
+
+/*缩略图相关 start*/
+.thumbnail_img{
+
+}
+.thumbnail_actions {
+	width: auto;
+	height: 16px;
+	background-color:#000;
+	padding: 4px 8px 8px 8px;
+	position: absolute;
+	bottom:0%;
+	left:60%;
+	margin-top: -13px;
+	margin-left: -24px;
+	opacity: 0; top:10%; transition:1s ease-out;
+	-moz-transition: opacity 0.3s ease-in-out;
+}
+.thumbnail_img:hover .thumbnail_actions,.thumbnail_img:hover .thumbnail_actions a:hover{
+	opacity: 1; color:#fff; top:50%; transition:1s ease-out;
+}
+
+
+/*缩略图相关 end*/

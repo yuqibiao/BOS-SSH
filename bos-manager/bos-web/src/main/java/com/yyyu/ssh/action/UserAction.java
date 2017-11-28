@@ -53,7 +53,7 @@ public class UserAction extends BaseAction<SysUser> {
     @Autowired
     private IUserRoleService userRoleService;
 
-    private String[] columns = new String[]{"userId", "username", "salary", "telephone", "gender", "remark"};
+    private String[] columns = new String[]{"userId", "username", "salary", "telephone", "gender", "remark","icon"};
     private String orderName;
     private String orderDid;
 
@@ -108,6 +108,11 @@ public class UserAction extends BaseAction<SysUser> {
                 userReturn.setRemark(user.getRemark());
                 userReturn.setStation(user.getStation());
                 userReturn.setTel(user.getTel());
+                String iconPath = user.getIcon();
+                if (TextUtils.isEmpty(iconPath)){
+                    iconPath = getBasePath()+"assert/img/default.jpg";
+                }
+                userReturn.setIcon(iconPath);
                 userReturnList.add(userReturn);
             }
             userDataTablesReturn.setData(userReturnList);

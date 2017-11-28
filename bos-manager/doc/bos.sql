@@ -8,6 +8,7 @@ CREATE TABLE sys_user (
   user_id  BIGINT AUTO_INCREMENT,
   username VARCHAR(64),
   password VARCHAR(32),
+  icon varchar(64),
   salt     VARCHAR(64),
   locked   BOOL   DEFAULT FALSE,
   salary   DECIMAL,

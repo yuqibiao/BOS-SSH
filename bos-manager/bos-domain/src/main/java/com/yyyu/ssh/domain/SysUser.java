@@ -16,6 +16,7 @@ public class SysUser {
     private String username;
     private String password;
     private String salt;
+    private String icon;
     private Byte locked;
     private Integer salary;
     private Timestamp birthday;
@@ -62,6 +63,16 @@ public class SysUser {
 
     public void setSalt(String salt) {
         this.salt = salt;
+    }
+
+    @Basic
+    @Column(name = "icon")
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 
     @Basic

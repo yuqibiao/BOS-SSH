@@ -127,10 +127,10 @@
 
     $(function () {
         init();
-        show_waitMe($("#sidebar") );
         $(window).resize(function () {
             init();
         });
+        show_waitMe($("#sidebar"),stretch );
     });
 
     function go2Home() {

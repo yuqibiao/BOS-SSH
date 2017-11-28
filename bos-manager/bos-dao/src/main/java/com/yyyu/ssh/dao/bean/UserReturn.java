@@ -17,6 +17,7 @@ public class UserReturn {
     private String station;
     private String tel;
     private String remark;
+    private String icon;
 
     public UserReturn() {
     }
@@ -83,5 +84,13 @@ public class UserReturn {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
     }
 }

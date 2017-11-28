@@ -98,6 +98,15 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
         return ServletActionContext.getRequest();
     }
 
+    //得到项目路径
+    public String getBasePath(){
+        HttpServletRequest request = getRequest();
+        String path = request.getContextPath();
+        String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+                + path + "/";
+        return basePath;
+    }
+
     /**
      * 重定向
      * @param path

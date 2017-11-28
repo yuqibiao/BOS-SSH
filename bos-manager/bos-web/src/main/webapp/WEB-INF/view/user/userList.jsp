@@ -62,6 +62,7 @@
                             <th>电话</th>
                             <th>性别</th>
                             <th>等级</th>
+                            <th>头像</th>
                             <th>操作</th>
                             </thead>
                             <tbody>
@@ -210,14 +211,14 @@
 <script src="<%=basePath%>assert/plugin/bootstrap/js/bootstrap.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/select2/select2.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/select2/select2_locale_zh-CN.js"></script>
-<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
-<script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/dataTables/jquery.dataTables.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/jquery.validate.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/validate-methods.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMeCustomer.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
+<script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
 
 <script>
 
@@ -338,6 +339,7 @@
                 {"data": "tel", "orderable": false},
                 {"data": "gender", "orderable": false},
                 {"data": "remark", "orderable": false},
+                {"data": "icon", "orderable": false},
                 {"data": null}],
 
             "columnDefs": [
@@ -352,9 +354,25 @@
                             return '女'
                         }
                     }
+                },{
+                    "targets": [6],
+                    "data":"icon",
+                    "render": function (data, type, full) {
+
+                        return"" +
+                            "<div>"+
+                            "<div class='thumbnail_img' style='width:80px;position: absolute' " +
+                            "<a> <img src='"+data+"' alt='用户头像'  > </a>" +
+                            "<div class='thumbnail_actions'>" +
+                            "<a class='lightbox_trigger' href='"+data+"'>" +
+                            "<i class='icon-zoom-in'></i></a>" +
+                            "</div>" +
+                            "</div>"
+                            +"</div>"
+                    }
                 },
                 {
-                    "targets": [6],
+                    "targets": [7],
                     "data": "userId",
                     "render": function (data, type, full) {
                         var userId = data.userId;
@@ -370,9 +388,36 @@
                 },
             ],
             "fnInitComplete": function (oSettings, json) {
+                $('.lightbox_trigger').click(function(e) {
+                    e.preventDefault();
+                    var image_href = $(this).attr("href");
+                    if ($('#lightbox').length > 0) {
+                        $('#imgbox').html('<img src="' + image_href + '" /><p onclick="hidden()"><i class="icon-remove icon-white" ></i></p>');
+                        $('#lightbox').slideDown(500);
+                    }
+                    else {
+                        var lightbox =
+                            '<div id="lightbox" style="display:none;height: 100%">' +
+                            '<div id="imgbox " style="height: 100%"><img src="' + image_href +'" style="margin: 0 auto;position:relative;top: 50%;transform: translateY(-50%);"/>' +
+                            '<p><i class="icon-remove icon-white"></i></p>' +
+                            '</div>' +
+                            '</div>';
+
+                        $('body').append(lightbox);
+                        $('#lightbox').slideDown(500);
+                    }
+                  function hidden() {
+                      $('#lightbox').hide(200);
+                  }
+                });
             }
         });
     });
+
+    /*展开图片*/
+    function openThumbnail(imgUrl){
+        console.log("==="+imgUrl)
+    }
 
     /*显示角色select*/
     function showRole(selectId, userId) {

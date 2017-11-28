@@ -83,7 +83,7 @@
                 /login.jsp=anon
                 /user/checkUser.action=anon
                 /api/**=statelessAuthc
-                /** =anon <!--authc-->
+                /** =authc <!--authc-->
             </value>
         </property>
     </bean>
