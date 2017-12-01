@@ -205,6 +205,27 @@
         </div>
     </div>
 
+    <%--头像上传--%>
+    <div id="upload_icon" class="modal hide fade" style="display: none;">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <h4 class="modal-title">头像上传</h4>
+        </div>
+        <div class="modal-body alert-info">
+            <button class='btn btn-success btn-sm' style="margin-bottom: 10px">
+                <i class="icon-edit"> 选择图片</i>
+            </button>
+            <div style="height: 200px; background-color: pink">
+                图片裁剪
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-success" onclick="modifyIcon()">确认</button>
+        </div>
+    </div>
+
 </div>
 
 <script src="<%=basePath%>assert/plugin/jquery/jquery-3.2.1.min.js"></script>
@@ -222,12 +243,16 @@
 
 <script>
 
+    /*修改头像*/
+    function modifyIcon(){
+
+    }
+
+    /*删除用户*/
     var delete_user_Id = -1;
     function onModalShow(userId) {
         delete_user_Id = userId;
     }
-
-    /*删除用户*/
     function deleteUser() {
         if (delete_user_Id != -1) {
             $.post("<%=basePath%>user/deleteUser", {
@@ -360,15 +385,17 @@
                     "render": function (data, type, full) {
 
                         return"" +
-                            "<div>"+
-                            "<div class='thumbnail_img' style='width:80px;position: absolute' " +
-                            "<a> <img src='"+data+"' alt='用户头像'  > </a>" +
+                            "<div >"+
+                            "<div class='thumbnail_img' style='position: relative;width='60px' " +
+                            "<a> <img src='"+data+"' alt='用户头像' width='60px' '></a> " +
                             "<div class='thumbnail_actions'>" +
-                            "<a class='lightbox_trigger' href='"+data+"'>" +
+                            "<a class='chg_user_icon' >" +
+                            "<i class='icon-edit'></i></a>" +
+                            "<a class='lightbox_trigger' href='"+data+"' >" +
                             "<i class='icon-zoom-in'></i></a>" +
-                            "</div>" +
+                            "</div>"+
+                            "</div>"+
                             "</div>"
-                            +"</div>"
                     }
                 },
                 {
@@ -388,35 +415,42 @@
                 },
             ],
             "fnInitComplete": function (oSettings, json) {
-                $('.lightbox_trigger').click(function(e) {
-                    e.preventDefault();
-                    var image_href = $(this).attr("href");
-                    if ($('#lightbox').length > 0) {
-                        $('#imgbox').html('<img src="' + image_href + '" /><p onclick="hidden()"><i class="icon-remove icon-white" ></i></p>');
-                        $('#lightbox').slideDown(500);
-                    }
-                    else {
-                        var lightbox =
-                            '<div id="lightbox" style="display:none;height: 100%">' +
-                            '<div id="imgbox " style="height: 100%"><img src="' + image_href +'" style="margin: 0 auto;position:relative;top: 50%;transform: translateY(-50%);"/>' +
-                            '<p><i class="icon-remove icon-white"></i></p>' +
-                            '</div>' +
-                            '</div>';
-
-                        $('body').append(lightbox);
-                        $('#lightbox').slideDown(500);
-                    }
-                  function hidden() {
-                      $('#lightbox').hide(200);
-                  }
-                });
+                initThumbnailClick();
             }
         });
     });
 
-    /*展开图片*/
-    function openThumbnail(imgUrl){
-        console.log("==="+imgUrl)
+    function initThumbnailClick(){
+
+        $(".chg_user_icon").click(function (e) {
+            e.preventDefault();
+            $("#upload_icon").modal();
+        });
+
+        $('.lightbox_trigger').click(function(e) {
+            e.preventDefault();
+            var image_href = $(this).attr("href");
+            if ($('#lightbox').length > 0) {
+                $('#imgbox').html('<img src="' + image_href + '" /><p><i class="icon-remove icon-white"></i></p>');
+                $('#lightbox').slideDown(500);
+            } else {
+                var lightbox =
+                    '<div id="lightbox" style="display:none;height: 100%">' +
+                    '<div id="imgbox " style="height: 100%"><img src="' + image_href +'" style="margin: 0 auto;position:relative;top: 50%;transform: translateY(-50%);"/>' +
+                    '<p><i class="icon-remove icon-white"></i></p>' +
+                    '</div>' +
+                    '</div>';
+                $('body').append(lightbox);
+                $('#lightbox').slideDown(500);
+            }
+        });
+   /*     $('#lightbox').live('click', function() {
+            $('#lightbox').hide(200);
+        });*/
+        $(document).on("click","#lightbox",function(){
+            //$('#lightbox').hide();
+            $('#lightbox').fadeOut(200);
+        });
     }
 
     /*显示角色select*/

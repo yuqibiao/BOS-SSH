@@ -1530,19 +1530,37 @@ form {
 .thumbnail_img{
 
 }
-.thumbnail_actions {
+/*.thumbnail_actions {
 	width: auto;
 	height: 16px;
 	background-color:#000;
 	padding: 4px 8px 8px 8px;
-	position: absolute;
+	position: relative;
 	bottom:0%;
 	left:60%;
 	margin-top: -13px;
 	margin-left: -24px;
 	opacity: 0; top:10%; transition:1s ease-out;
 	-moz-transition: opacity 0.3s ease-in-out;
+}*/
+.thumbnail_actions {
+	width: auto;
+	height: 16px;
+	background-color:#000;
+	padding: 4px 8px 8px 8px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-left: -23px;
+	margin-top: -15px;
+	opacity: 0; top:10%; transition:1s ease-out;
+	-moz-transition: opacity 0.3s ease-in-out;
 }
+
+.thumbnail_actions .icon-edit{
+	margin-right: 4px;
+}
+
 .thumbnail_img:hover .thumbnail_actions,.thumbnail_img:hover .thumbnail_actions a:hover{
 	opacity: 1; color:#fff; top:50%; transition:1s ease-out;
 }
