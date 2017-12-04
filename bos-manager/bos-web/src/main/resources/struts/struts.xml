@@ -24,4 +24,10 @@
     <package name="default" namespace="/" extends="struts-default">
     </package>
 
+    <!--文件上传进度监听-->
+    <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest"
+          name="parser" class="com.yyyu.ssh.upload.CustomMultiPartRequest"
+          scope="default" />
+    <constant name="struts.multipart.parser" value="parser" />
+
 </struts>

@@ -12,5 +12,5 @@
     <import resource="applicationContext-dao.xml"/>
     <import resource="applicationContext-service.xml"/>
     <import resource="applicationContext-action.xml"/>
-    <import resource="applicationContext-shiro-cpy.xml"/>
+    <import resource="applicationContext-shiro.xml"/>
 </beans>
