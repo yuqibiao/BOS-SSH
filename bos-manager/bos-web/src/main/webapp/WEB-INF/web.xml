@@ -81,10 +81,10 @@
     <filter>
         <filter-name>struts2</filter-name>
         <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>
-        <!--指定struts.xml路径-->
+        <!--指定struts.xml路径 不要带classpath*:-->
         <init-param>
             <param-name>config</param-name>
-            <param-value>struts-default.xml,struts-plugin.xml,resources/struts.xml ,classpath*:struts/struts.xml
+            <param-value>struts-default.xml,struts-plugin.xml ,struts/struts.xml
             </param-value>
         </init-param>
     </filter>

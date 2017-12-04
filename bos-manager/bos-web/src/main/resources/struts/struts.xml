@@ -18,16 +18,17 @@
     <constant name="struts.action.extension" value="do,action,jhtml,," />
     <!-- 将对象交给spring管理 -->
     <constant name="struts.objectFactory" value="spring" />
+    <!--文件上传进度监听-->
+    <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest"
+          name="parser" class="com.yyyu.ssh.upload.CustomMultiPartRequest"
+          scope="default" />
+    <constant name="struts.multipart.parser" value="parser" />
+    <constant name="struts.multipart.saveDir" value="/upload"/>
 
     <!-- <constant name="struts.convention.package.locators" value="web,action,test" />-->
 
     <package name="default" namespace="/" extends="struts-default">
     </package>
 
-    <!--文件上传进度监听-->
-    <bean type="org.apache.struts2.dispatcher.multipart.MultiPartRequest"
-          name="parser" class="com.yyyu.ssh.upload.CustomMultiPartRequest"
-          scope="default" />
-    <constant name="struts.multipart.parser" value="parser" />
 
 </struts>

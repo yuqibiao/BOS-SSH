@@ -57,21 +57,20 @@ public class UploadAction extends BaseAction<UploadBean>{
         String extName = fileFileName.substring(fileFileName.lastIndexOf("."));
         if (!isPic(extName)){
             result = ResultUtils.error(501 ,"文件格式不正确");
-            return;
+        }else{
+            String uploadPath = rootPath + FILEPATH_IMG + picName + extName;
+            System.out.println("uploadPath====" + uploadPath);
+            try {
+                FileUtils.copyFile(tempFile, new File(uploadPath));
+                //删除临时文件
+                tempFile.delete();
+                result = ResultUtils.success("成功");
+            } catch (IOException e) {
+                result = ResultUtils.error(500 , e.getMessage());
+                e.printStackTrace();
+                System.out.println("异常===" + e.getMessage());
+            }
         }
-        String uploadPath = rootPath + FILEPATH_IMG + picName + extName;
-        System.out.println("uploadPath====" + uploadPath);
-        try {
-            FileUtils.copyFile(tempFile, new File(uploadPath));
-            //删除临时文件
-            tempFile.delete();
-            result = ResultUtils.success("成功");
-        } catch (IOException e) {
-            result = ResultUtils.error(500 , e.getMessage());
-            e.printStackTrace();
-            System.out.println("异常===" + e.getMessage());
-        }
-
         printJson(result, null);
     }
 
