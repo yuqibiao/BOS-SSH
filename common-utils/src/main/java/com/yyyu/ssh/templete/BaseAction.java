@@ -68,6 +68,10 @@ public class BaseAction<T> extends ActionSupport implements ModelDriven<T>{
         return getRequest().getParameter(key);
     }
 
+    public Object getAttributeValue(String key){
+        return getRequest().getAttribute(key);
+    }
+
     public String[] getParameterValues(String key) {
         // 通过ActionContext得到request对象
         return getRequest().getParameterValues(key);

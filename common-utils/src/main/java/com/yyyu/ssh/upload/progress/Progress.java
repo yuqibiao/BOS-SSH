@@ -1,4 +1,4 @@
-package com.yyyu.ssh.upload;
+package com.yyyu.ssh.upload.progress;
 
 /**
  * 功能：文件上传进度信息封装bean

@@ -2,23 +2,13 @@
  * Copyright (c) 2012-2032 Accounting Center of China Aviation(ACCA). 
  * All Rights Reserved. 
  */
-package com.yyyu.ssh.upload;
+package com.yyyu.ssh.upload.progress;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
-
+import com.opensymphony.xwork2.LocaleProvider;
+import com.opensymphony.xwork2.inject.Inject;
+import com.opensymphony.xwork2.util.LocalizedTextUtil;
+import com.opensymphony.xwork2.util.logging.Logger;
+import com.opensymphony.xwork2.util.logging.LoggerFactory;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase;
 import org.apache.commons.fileupload.FileUploadException;
@@ -29,11 +19,12 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.struts2.StrutsConstants;
 import org.apache.struts2.dispatcher.multipart.MultiPartRequest;
 
-import com.opensymphony.xwork2.LocaleProvider;
-import com.opensymphony.xwork2.inject.Inject;
-import com.opensymphony.xwork2.util.LocalizedTextUtil;
-import com.opensymphony.xwork2.util.logging.Logger;
-import com.opensymphony.xwork2.util.logging.LoggerFactory;
+import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 /**
  * @author zhouhua, 2014-7-16
@@ -49,6 +40,8 @@ public class CustomMultiPartRequest implements MultiPartRequest {
     protected List<String> errors = new ArrayList<String>();
     protected long maxSize;
     private Locale defaultLocale = Locale.ENGLISH;
+
+    public static final String SIZE_LIMIT_EXCEEDED_EXCEPTION = "uploadException";
 
     @Inject(StrutsConstants.STRUTS_MULTIPART_MAXSIZE)
     public void setMaxSize(String maxSize) {
@@ -67,7 +60,7 @@ public class CustomMultiPartRequest implements MultiPartRequest {
      *
      * @param saveDir the directory to save off the file
      * @param request the request containing the multipart
-     * @throws java.io.IOException is thrown if encoding fails.
+     * @throws IOException is thrown if encoding fails.
      */
     public void parse(HttpServletRequest request, String saveDir) throws IOException {
         try {
@@ -167,14 +160,22 @@ public class CustomMultiPartRequest implements MultiPartRequest {
 
     private List<FileItem> parseRequest(HttpServletRequest servletRequest, String saveDir)
             throws FileUploadException {
-        DiskFileItemFactory fac = createDiskFileItemFactory(saveDir);
-        ServletFileUpload upload = new ServletFileUpload(fac);
-        // 设置上传进度的监听
-        FileUploadProgressListener fileUploadProgressListener = new FileUploadProgressListener();
-        fileUploadProgressListener.setSession(servletRequest.getSession());
-        upload.setProgressListener(fileUploadProgressListener);
-        upload.setSizeMax(maxSize);
-        return upload.parseRequest(createRequestContext(servletRequest));
+        List list= new ArrayList();
+        try {
+            DiskFileItemFactory fac = createDiskFileItemFactory(saveDir);
+            ServletFileUpload upload = new ServletFileUpload(fac);
+            // 设置上传进度的监听
+            FileUploadProgressListener fileUploadProgressListener = new FileUploadProgressListener();
+            fileUploadProgressListener.setSession(servletRequest.getSession());
+            upload.setProgressListener(fileUploadProgressListener);
+            upload.setSizeMax(maxSize);
+            list = upload.parseRequest(createRequestContext(servletRequest));
+        } catch (FileUploadBase.SizeLimitExceededException e) {
+            //捕获异常(在Action中获取值)
+            servletRequest.setAttribute(SIZE_LIMIT_EXCEEDED_EXCEPTION, e.getMessage());
+            //e.printStackTrace();
+        }
+        return list;
     }
 
     private DiskFileItemFactory createDiskFileItemFactory(String saveDir) {

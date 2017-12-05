@@ -1,4 +1,4 @@
-package com.yyyu.ssh.upload;
+package com.yyyu.ssh.upload.progress;
 
 import org.apache.commons.fileupload.ProgressListener;
 

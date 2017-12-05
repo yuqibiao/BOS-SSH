@@ -1564,6 +1564,3 @@ form {
 .thumbnail_img:hover .thumbnail_actions,.thumbnail_img:hover .thumbnail_actions a:hover{
 	opacity: 1; color:#fff; top:50%; transition:1s ease-out;
 }
-
-
-/*缩略图相关 end*/

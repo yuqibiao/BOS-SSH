@@ -151,11 +151,16 @@
             <version>${common.fileupload.version}</version>
         </dependency>
         <dependency>
-        <groupId>commons-io</groupId>
-        <artifactId>commons-io</artifactId>
-        <version>${common.io.version}</version>
-    </dependency>
-
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>${common.io.version}</version>
+        </dependency>
+        <!--图片裁剪、缩放、水印处理-->
+        <dependency>
+            <groupId>net.coobird</groupId>
+            <artifactId>thumbnailator</artifactId>
+            <version>0.4.8</version>
+        </dependency>
 
 
         <!-- servlet jsp -->

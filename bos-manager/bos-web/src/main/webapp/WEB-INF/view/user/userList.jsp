@@ -23,6 +23,7 @@
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-media.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/font-awesome/css/font-awesome.css"/>
     <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.css"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/jquery/jcrop/jquery.Jcrop.css"/>
 
     <style>
         .controls input {
@@ -32,6 +33,35 @@
         .error {
             color: #b94a48;
         }
+
+        /*a input file 样式*/
+        .file {
+            position: relative;
+            display: inline-block;
+            background: #D0EEFF;
+            border: 1px solid #99D3F5;
+            border-radius: 4px;
+            padding: 4px 12px;
+            overflow: hidden;
+            color: #1E88C7;
+            text-decoration: none;
+            text-indent: 0;
+            line-height: 20px;
+        }
+        .file input {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .file:hover {
+            background: #AADFFD;
+            border-color: #78C3F3;
+            color: #004974;
+            text-decoration: none;
+        }
+
     </style>
 </head>
 <body>
@@ -207,6 +237,7 @@
 
     <%--头像上传--%>
     <div id="upload_icon" class="modal hide fade" style="display: none;">
+        <form id="modify_icon_form" >
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -214,16 +245,23 @@
             <h4 class="modal-title">头像上传</h4>
         </div>
         <div class="modal-body alert-info">
-            <button class='btn btn-success btn-sm' style="margin-bottom: 10px">
-                <i class="icon-edit"> 选择图片</i>
-            </button>
-            <div style="height: 200px; background-color: pink">
-                图片裁剪
-            </div>
+               <a href="javascript:;" class="file">选择图片
+                   <input id="pic_choice" type="file" name="file" >
+               </a>
+               <div style="height: 200px;width: 100%">
+                   <img height="200px" id="target" style="background-color: pink" alt="没有选择图片" />
+               </div>
+            <input id="x" type="hidden" name="x" >
+            <input  id="y"type="hidden" name="y">
+            <input id="x2"type="hidden" name="x2">
+            <input id="y2"type="hidden" name="y2">
+            <input id="boundx"type="hidden" name="boundx">
+            <input id="boundy"type="hidden" name="boundy">
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-success" onclick="modifyIcon()">确认</button>
         </div>
+        </form>
     </div>
 
 </div>
@@ -238,14 +276,24 @@
 <script src="<%=basePath%>assert/plugin/jquery/validate/localization/messages_zh.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMe.min.js"></script>
 <script src="<%=basePath%>assert/plugin/jquery/loading/waitMe/waitMeCustomer.js"></script>
+<script src="<%=basePath%>assert/plugin/jquery/jcrop/jquery.Jcrop.min.js"></script>
 <script src="<%=basePath%>assert/plugin/matrix/js/matrix.js"></script>
 <script src="<%=basePath%>assert/plugin/matrix/js/matrix.tables.js"></script>
+<script src="<%=basePath%>assert/js/pic-choice-crop.js"></script>
 
 <script>
 
     /*修改头像*/
     function modifyIcon(){
-
+        $.post("<%=basePath%>upload/modifyUserIcon", $("#modify_icon_form").serialize(), function (data) {
+            var code = data.code;
+            var msg = data.msg;
+            if (code == 200) {
+                window.location.reload();
+            } else {
+                alert("" + msg);
+            }
+        });
     }
 
     /*删除用户*/

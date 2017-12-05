@@ -1,66 +1,67 @@
 package com.yyyu.ssh.bean;
 
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
-
-import javax.servlet.http.HttpServletRequest;
-import java.io.File;
+import com.yyyu.ssh.upload.BaseUploadBean;
 
 /**
- * 功能：文件上传参数bean
+ * 功能：
  *
  * @author yu
- * @date 2017/12/4.
+ * @date 2017/12/5.
  */
-public class UploadBean {
+public class UploadBean extends BaseUploadBean{
 
-    //注意，file并不是指前端jsp上传过来的文件本身，而是文件上传过来存放在临时文件夹下面的文件
-    private File file;
-    //提交过来的file的名字
-    private String fileFileName;
-    //提交过来的file的MIME类型
-    private String fileContentType;
-    //允许的文件最大大小
-    private long maximumSize;
-    //允许的文件类型
-    private String allowedTypes;
+    private float x;
+    private float y;
+    private float x2;
+    private float y2;
+    private float boundx;
+    private float boundy;
 
-    public File getFile() {
-        return file;
+    public float getX() {
+        return x;
     }
 
-    public void setFile(File file) {
-        this.file = file;
+    public void setX(float x) {
+        this.x = x;
     }
 
-    public String getFileFileName() {
-        return fileFileName;
+    public float getY() {
+        return y;
     }
 
-    public void setFileFileName(String fileFileName) {
-        this.fileFileName = fileFileName;
+    public void setY(float y) {
+        this.y = y;
     }
 
-    public String getFileContentType() {
-        return fileContentType;
+    public float getX2() {
+        return x2;
     }
 
-    public void setFileContentType(String fileContentType) {
-        this.fileContentType = fileContentType;
+    public void setX2(float x2) {
+        this.x2 = x2;
     }
 
-    public long getMaximumSize() {
-        return maximumSize;
+    public float getY2() {
+        return y2;
     }
 
-    public void setMaximumSize(long maximumSize) {
-        this.maximumSize = maximumSize;
+    public void setY2(float y2) {
+        this.y2 = y2;
     }
 
-    public String getAllowedTypes() {
-        return allowedTypes;
+    public float getBoundx() {
+        return boundx;
     }
 
-    public void setAllowedTypes(String allowedTypes) {
-        this.allowedTypes = allowedTypes;
+    public void setBoundx(float boundx) {
+        this.boundx = boundx;
+    }
+
+    public float getBoundy() {
+        return boundy;
+    }
+
+    public void setBoundy(float boundy) {
+        this.boundy = boundy;
     }
 }

@@ -70,6 +70,7 @@
           <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.6.11" />
           <element id="library" level="project" name="Maven: commons-fileupload:commons-fileupload:1.2.2" />
           <element id="library" level="project" name="Maven: commons-io:commons-io:2.4" />
+          <element id="library" level="project" name="Maven: net.coobird:thumbnailator:0.4.8" />
           <element id="library" level="project" name="Maven: javax.servlet:jstl:1.2" />
           <element id="library" level="project" name="Maven: taglibs:standard:1.1.2" />
         </element>

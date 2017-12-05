@@ -1,95 +1,74 @@
 package com.yyyu.ssh.action;
 
 import com.yyyu.ssh.bean.UploadBean;
-import com.yyyu.ssh.templete.BaseAction;
-import com.yyyu.ssh.utils.ResultUtils;
-import com.yyyu.ssh.utils.bean.BaseJsonResult;
-import org.apache.commons.io.FileUtils;
-import org.apache.struts2.ServletActionContext;
+import com.yyyu.ssh.upload.BaseUploadAction;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
 
 /**
- * 功能：文件上传Action
+ * 功能：
  *
  * @author yu
- * @date 2017/12/4.
+ * @date 2017/12/5.
  */
 @Controller
 @Scope("prototype")
 @Namespace("/upload")
-public class UploadAction extends BaseAction<UploadBean>{
+public class UploadAction extends BaseUploadAction<UploadBean>{
 
-    public static final String FILEPATH_IMG = "/uploadFiles/upload_Img/";
+    @Action(value = "modifyUserIcon")
+    public void modifyUserIcon(){
 
-    @Action(value = "test")
-    public void test(){
-        BaseJsonResult<String> result = new BaseJsonResult<>();
-        result.setMsg("123");
-        printJson(result , null);
-
+        fileUpload("修改成功");
     }
 
-
-    @Action(value = "fileUpload")
-    public void fileUpload(){
-
-        BaseJsonResult<String > result ;
-
-        File tempFile = getModel().getFile();
-        String fileFileName = getModel().getFileFileName();
-
-        String rootPath = ServletActionContext.getServletContext().getRealPath("/");
-
-        System.out.println("rootPath====" + rootPath);
-        String picName = UUID.randomUUID().toString();
-        //获取文件后缀
-        String extName = fileFileName.substring(fileFileName.lastIndexOf("."));
-        if (!isPic(extName)){
-            result = ResultUtils.error(501 ,"文件格式不正确");
-        }else{
-            String uploadPath = rootPath + FILEPATH_IMG + picName + extName;
-            System.out.println("uploadPath====" + uploadPath);
-            try {
-                FileUtils.copyFile(tempFile, new File(uploadPath));
-                //删除临时文件
-                tempFile.delete();
-                result = ResultUtils.success("成功");
-            } catch (IOException e) {
-                result = ResultUtils.error(500 , e.getMessage());
-                e.printStackTrace();
-                System.out.println("异常===" + e.getMessage());
-            }
+    @Override
+    protected void handleFile(File tempFile, String uploadPath) throws IOException {
+        float x = getModel().getX();
+        float y = getModel().getY();
+        float x2 = getModel().getX2();
+        float y2 = getModel().getY2();
+        float boundx = getModel().getBoundx();
+        float boundy = getModel().getBoundy();
+        BufferedImage bufferedImage = ImageIO.read(tempFile);
+        float srcImageHeight = bufferedImage.getHeight();
+        float srcImageWidth = bufferedImage.getWidth();
+        float scaleX = srcImageWidth / boundx;
+        float scaleY = srcImageHeight / boundy;
+        int rx = (int) (x * scaleX);
+        int ry = (int) (y * scaleY);
+        int rx2 = (int) (x2 * scaleX);
+        int ry2 = (int) (y2 * scaleY);
+        File saveFile = new File(uploadPath);
+        if (!saveFile.getParentFile().exists()) {
+            saveFile.getParentFile().mkdirs();
         }
-        printJson(result, null);
+        Thumbnails.of(tempFile)
+                .sourceRegion(rx, ry, rx2, ry2)
+                .size(rx2 - rx, ry2 - ry)
+                .keepAspectRatio(false)
+                .toFile(saveFile);
+        //FileUtils.copyFile(tempFile, new File(uploadPath));
+        //删除临时文件
+        tempFile.delete();
     }
 
-
-    public boolean isPic(String suf){
-        List<String> sufList = new ArrayList<>();
-        sufList.add(".jpg");
-        sufList.add(".gif");
-        sufList.add(".png");
-        return isContainSuf(sufList , suf);
+    @Override
+    protected long getFileMaxLength() {
+        return 1024*1024*5;
     }
 
-    public boolean isContainSuf(List<String> sufList ,String targetSuf){
-        for (String suf :sufList) {
-            if (suf.equalsIgnoreCase(targetSuf)){
-                return true;
-            }
-        }
-        return false;
+    @Override
+    protected boolean checkSuffix(String suf) {
+        return isPic(suf);
     }
 
 }
