@@ -249,7 +249,7 @@
                    <input id="pic_choice" type="file" name="file" >
                </a>
                <div style="height: 200px;width: 100%">
-                   <img height="200px" id="target" style="background-color: pink" alt="没有选择图片" />
+                   <img  width="400px" id="target" style="background-color: pink" alt="没有选择图片" />
                </div>
             <input id="x" type="hidden" name="x" >
             <input  id="y"type="hidden" name="y">
@@ -285,13 +285,27 @@
 
     /*修改头像*/
     function modifyIcon(){
-        $.post("<%=basePath%>upload/modifyUserIcon", $("#modify_icon_form").serialize(), function (data) {
-            var code = data.code;
-            var msg = data.msg;
-            if (code == 200) {
-                window.location.reload();
-            } else {
-                alert("" + msg);
+        var formData = new FormData($( "#modify_icon_form")[0]);
+        $.ajax({
+            url: '<%=basePath%>upload/modifyUserIcon' ,
+            type: 'POST',
+            data: formData,
+            async: false,
+            cache: false,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                var code = data.code;
+                var msg = data.msg;
+                console.log("==modify_icon_form=="+$("#modify_icon_form").serialize())
+                if (code == 200) {
+                    window.location.reload();
+                } else {
+                    alert("" + msg);
+                }
+            },
+            error: function (msg) {
+                alert("错误："+msg);
             }
         });
     }

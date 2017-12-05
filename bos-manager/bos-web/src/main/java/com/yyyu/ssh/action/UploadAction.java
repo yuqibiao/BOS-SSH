@@ -53,7 +53,7 @@ public class UploadAction extends BaseUploadAction<UploadBean>{
         }
         Thumbnails.of(tempFile)
                 .sourceRegion(rx, ry, rx2, ry2)
-                .size(rx2 - rx, ry2 - ry)
+                .size(200,200)
                 .keepAspectRatio(false)
                 .toFile(saveFile);
         //FileUtils.copyFile(tempFile, new File(uploadPath));
