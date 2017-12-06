@@ -29,9 +29,8 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
     /**
      * 文件上传
      *
-     * @param successData data
      */
-    protected void fileUpload( Object successData) {
+    protected void fileUpload() {
         BaseJsonResult result ;
         File tempFile = getModel().getFile();
         String fileFileName = getModel().getFileFileName();
@@ -62,11 +61,12 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
             printJson(result, null);
             return;
         }
-        String uploadPath = rootPath + FILEPATH_IMG + picName + extName;
+        String uploadRelativePath = FILEPATH_IMG + picName + extName;
+        String uploadPath = rootPath + uploadRelativePath;
         System.out.println("uploadPath====" + uploadPath);
         try {
-            handleFile(tempFile ,  uploadPath);
-            result = ResultUtils.success("成功" , successData);
+            result = ResultUtils.success("成功" );
+            handleFile(tempFile ,  uploadPath ,uploadRelativePath, result);
         } catch (Exception e) {
             result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();
@@ -77,10 +77,11 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
     /**
      * 具体处理文件操作
      * @param tempFile
-     * @param uploadPath
+     * @param uploadPath 上传文件保存路径（绝对）
+     * @param uploadRelativePath 访问路径（相对）
      * @throws IOException
      */
-    protected abstract void handleFile(File tempFile, String uploadPath) throws IOException;
+    protected abstract void handleFile(File tempFile, String uploadPath ,String uploadRelativePath ,BaseJsonResult result) throws IOException;
 
     /**
      * 文件最大长度

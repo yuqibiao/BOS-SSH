@@ -1,6 +1,7 @@
 package com.yyyu.ssh.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -11,7 +12,7 @@ import java.sql.Timestamp;
  */
 @Entity
 @Table(name = "sys_user", schema = "bos")
-public class SysUser {
+public class SysUser implements Serializable {
     private long userId;
     private String username;
     private String password;

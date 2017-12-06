@@ -1,10 +1,14 @@
 package com.yyyu.ssh.action;
 
 import com.yyyu.ssh.bean.UploadBean;
+import com.yyyu.ssh.domain.SysUser;
+import com.yyyu.ssh.service.inter.IUserService;
 import com.yyyu.ssh.upload.BaseUploadAction;
+import com.yyyu.ssh.utils.bean.BaseJsonResult;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.struts2.convention.annotation.Action;
 import org.apache.struts2.convention.annotation.Namespace;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
@@ -24,14 +28,16 @@ import java.io.IOException;
 @Namespace("/upload")
 public class UploadAction extends BaseUploadAction<UploadBean>{
 
+    @Autowired
+     private IUserService userService;
+
     @Action(value = "modifyUserIcon")
     public void modifyUserIcon(){
-
-        fileUpload("修改成功");
+        fileUpload();
     }
 
     @Override
-    protected void handleFile(File tempFile, String uploadPath) throws IOException {
+    protected void handleFile(File tempFile, String uploadPath , String uploadRelativePath ,BaseJsonResult result) throws IOException {
         float x = getModel().getX();
         float y = getModel().getY();
         float x2 = getModel().getX2();
@@ -51,14 +57,21 @@ public class UploadAction extends BaseUploadAction<UploadBean>{
         if (!saveFile.getParentFile().exists()) {
             saveFile.getParentFile().mkdirs();
         }
+        System.out.println("rx："+rx+"  ry："+ry+"   rx2："+rx2+"  ry2："+ry2+"（rx2-rx）="+(rx2-rx)+"  (ry2-ry)="+(ry2-ry));
         Thumbnails.of(tempFile)
-                .sourceRegion(rx, ry, rx2, ry2)
-                .size(200,200)
+                .sourceRegion(rx, ry, rx2-rx, ry2-ry)//左上角坐标 和 横宽
+                .size(rx2-rx,ry2-ry)//缩放到多少
                 .keepAspectRatio(false)
                 .toFile(saveFile);
         //FileUtils.copyFile(tempFile, new File(uploadPath));
         //删除临时文件
         tempFile.delete();
+        //修改数据
+        long userId = getModel().getUserId();
+        SysUser user= userService.getUserById(userId);
+        user.setIcon(uploadRelativePath);
+        userService.modifyUser(user);
+        result.setData(user);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.yyyu.ssh.domain;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 
 /**
@@ -8,7 +9,7 @@ import java.sql.Timestamp;
  * @author yu
  * @date 2017/11/15.
  */
-public class SysUserToken {
+public class SysUserToken implements Serializable {
     private long userId;
     private String userToken;
     private Timestamp createTime;

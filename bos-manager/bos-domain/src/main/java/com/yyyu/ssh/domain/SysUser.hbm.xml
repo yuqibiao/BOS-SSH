@@ -9,6 +9,7 @@
         <property name="username" column="username"/>
         <property name="password" column="password"/>
         <property name="salt" column="salt"/>
+        <property name="icon" column="icon"/>
         <property name="locked" column="locked"/>
         <property name="salary" column="salary"/>
         <property name="birthday" column="birthday"/>

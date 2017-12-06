@@ -245,6 +245,7 @@
             <h4 class="modal-title">头像上传</h4>
         </div>
         <div class="modal-body alert-info">
+            <input id="userId_icon" type="hidden" name="userId" >
                <a href="javascript:;" class="file">选择图片
                    <input id="pic_choice" type="file" name="file" >
                </a>
@@ -445,15 +446,16 @@
                     "targets": [6],
                     "data":"icon",
                     "render": function (data, type, full) {
-
+                        var userId = full.userId;
+                        var icon = full.icon;
                         return"" +
                             "<div >"+
                             "<div class='thumbnail_img' style='position: relative;width='60px' " +
-                            "<a> <img src='"+data+"' alt='用户头像' width='60px' '></a> " +
+                            "<a> <img src='"+data+"' alt='用户头像' width='40px' '></a> " +
                             "<div class='thumbnail_actions'>" +
-                            "<a class='chg_user_icon' >" +
+                            "<a class='chg_user_icon' href='"+userId+"'>" +
                             "<i class='icon-edit'></i></a>" +
-                            "<a class='lightbox_trigger' href='"+data+"' >" +
+                            "<a class='lightbox_trigger' href='"+icon+"' >" +
                             "<i class='icon-zoom-in'></i></a>" +
                             "</div>"+
                             "</div>"+
@@ -486,19 +488,21 @@
 
         $(".chg_user_icon").click(function (e) {
             e.preventDefault();
+            var userId = $(this).attr("href");
             $("#upload_icon").modal();
+            $("#userId_icon").val(userId);
         });
 
         $('.lightbox_trigger').click(function(e) {
             e.preventDefault();
             var image_href = $(this).attr("href");
             if ($('#lightbox').length > 0) {
-                $('#imgbox').html('<img src="' + image_href + '" /><p><i class="icon-remove icon-white"></i></p>');
+                $('#img_thumbnail_show').attr('src',image_href);
                 $('#lightbox').slideDown(500);
             } else {
                 var lightbox =
                     '<div id="lightbox" style="display:none;height: 100%">' +
-                    '<div id="imgbox " style="height: 100%"><img src="' + image_href +'" style="margin: 0 auto;position:relative;top: 50%;transform: translateY(-50%);"/>' +
+                    '<div id="imgbox " style="height: 100%"><img id="img_thumbnail_show" src="' + image_href +'" style="margin: 0 auto;position:relative;top: 50%;transform: translateY(-50%);"/>' +
                     '<p><i class="icon-remove icon-white"></i></p>' +
                     '</div>' +
                     '</div>';

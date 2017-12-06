@@ -10,12 +10,21 @@ import com.yyyu.ssh.upload.BaseUploadBean;
  */
 public class UploadBean extends BaseUploadBean{
 
+    private long userId;
     private float x;
     private float y;
     private float x2;
     private float y2;
     private float boundx;
     private float boundy;
+
+    public long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public float getX() {
         return x;

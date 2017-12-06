@@ -110,9 +110,9 @@ public class UserAction extends BaseAction<SysUser> {
                 userReturn.setTel(user.getTel());
                 String iconPath = user.getIcon();
                 if (TextUtils.isEmpty(iconPath)){
-                    iconPath = getBasePath()+"assert/img/default.jpg";
+                    iconPath = "assert/img/default.jpg";
                 }
-                userReturn.setIcon(iconPath);
+                userReturn.setIcon(getBasePath()+iconPath);
                 userReturnList.add(userReturn);
             }
             userDataTablesReturn.setData(userReturnList);

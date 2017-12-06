@@ -1,6 +1,7 @@
 package com.yyyu.ssh.domain;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 /**
  * 功能：
@@ -10,7 +11,7 @@ import javax.persistence.*;
  */
 @Entity
 @Table(name = "sys_role", schema = "bos")
-public class SysRole {
+public class SysRole implements Serializable{
     private long roleId;
     private String roleName;
     private String description;
