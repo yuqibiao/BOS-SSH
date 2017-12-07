@@ -1,47 +1,42 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
-  String path = request.getContextPath();
-  String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
-          + path + "/";
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
 %>
 
 <html lang="en">
 <head>
-<title>Matrix Admin</title>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap.min.css" />
-<link rel="stylesheet" href="<%=basePath%>assert/css/bootstrap-responsive.min.css" />
-<link rel="stylesheet" href="<%=basePath%>assert/css/matrix-style2.css" />
-<link rel="stylesheet" href="<%=basePath%>assert/css/matrix-media.css" />
-<link href="<%=basePath%>assert/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,800' rel='stylesheet' type='text/css'>
+    <title>Matrix Admin</title>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <link rel="stylesheet" href="<%=basePath%>assert/plugin/matrix/css/matrix-style2.css"/>
 </head>
 <body>
 
 <div id="content">
-  <div id="content-header">
-      <h1>500错误页面</h1>
-  </div>
-  <div class="container-fluid">
-    <div class="row-fluid">
-      <div class="span12">
-        <div class="widget-box">
-          <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
-            <h5>Error 500</h5>
-          </div>
-          <div class="widget-content">
-            <div class="error_ex">
-              <h1>500</h1>
-              <h3>Something is wrong here. Method not allowed!</h3>
-              <p>${errorInfo}</p>
-              <a class="btn btn-warning btn-big"  href="index.html">Back to Home</a> </div>
-          </div>
-        </div>
-      </div>
+    <div id="content-header">
+        <h1>500错误页面</h1>
     </div>
-  </div>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div class="span12">
+                <div class="widget-box">
+                    <div class="widget-title"><span class="icon"> <i class="icon-info-sign"></i> </span>
+                        <h5>Error 500</h5>
+                    </div>
+                    <div class="widget-content">
+                        <div class="error_ex">
+                            <h1>500</h1>
+                            <h3>Something is wrong here. Method not allowed!</h3>
+                            <p>${errorInfo}</p>
+                            <a class="btn btn-warning btn-big" href="index.html">Back to Home</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="<%=basePath%>assert/js/jquery.min.js"></script>

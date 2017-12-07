@@ -28,7 +28,8 @@
     <!-- 2.2会话管理器配置 -->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <!--session过期时间 单位ms-->
-        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="globalSessionTimeout" value="30000"/>
+        <!--<property name="globalSessionTimeout" value="1800000"/>-->
         <property name="deleteInvalidSessions" value="true"/>
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionDAO" ref="sessionDAO"/>
@@ -87,7 +88,7 @@
         <property name="filterChainDefinitions">
             <value>
                 /assert/**=anon
-                /login.jsp=anon
+                /login.jsp=authc
                 /user/checkUser.action=anon
                 /** =user <!--authc-->
             </value>
