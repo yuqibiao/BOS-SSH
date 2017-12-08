@@ -252,7 +252,7 @@ public class UserAction extends BaseAction<SysUser> {
     }
 
     @Action(value = "checkUser", results = {
-            @Result(name = SUCCESS,  location = "/WEB-INF/view/user/manager.jsp"),
+            @Result(name = SUCCESS,  location = "forwardTo?pageUrl=/WEB-INF/view/user/manager.jsp",type = "redirect"),
             @Result(name = ERROR, location = "/login.jsp"),
             @Result(name = "error_500", location = "/WEB-INF/view/error/error500.jsp")
     })

@@ -1,10 +1,10 @@
 package com.yyyu.ssh.upload;
 
+import com.opensymphony.xwork2.inject.Inject;
 import com.yyyu.ssh.templete.BaseAction;
 import com.yyyu.ssh.utils.ResultUtils;
 import com.yyyu.ssh.utils.TextUtils;
 import com.yyyu.ssh.utils.bean.BaseJsonResult;
-import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
 import java.io.File;
@@ -25,6 +25,12 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
 
     public static final String FILEPATH_IMG = "/uploadFiles/upload_Img/";
 
+    public String fileUploadPath;
+
+    @Inject("struts.multipart.fileUploadPath")
+    public void setFileUploadPath(String fileUploadPath) {
+        this.fileUploadPath = fileUploadPath;
+    }
 
     /**
      * 文件上传
@@ -46,8 +52,7 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
             printJson(result, null);
             return;
         }
-        String rootPath = ServletActionContext.getServletContext().getRealPath("/");//项目的绝对路径
-        System.out.println("rootPath=11===" + rootPath);
+        String projectPath = ServletActionContext.getServletContext().getRealPath("/");//项目的绝对路径
         String picName = UUID.randomUUID().toString();
         //获取文件后缀
         String extName = fileFileName.substring(fileFileName.lastIndexOf("."));
@@ -62,11 +67,16 @@ public abstract class BaseUploadAction<T extends BaseUploadBean> extends BaseAct
             return;
         }
         String uploadRelativePath = FILEPATH_IMG + picName + extName;
-        String uploadPath = rootPath + uploadRelativePath;
-        System.out.println("uploadPath====" + uploadPath);
+        if (TextUtils.isEmpty(fileUploadPath)){
+            fileUploadPath = projectPath + uploadRelativePath;
+        }else{
+            fileUploadPath = fileUploadPath+uploadRelativePath;
+            uploadRelativePath = "upload"+uploadRelativePath;
+        }
+        System.out.println("uploadPath====" + fileUploadPath);
         try {
             result = ResultUtils.success("成功" );
-            handleFile(tempFile ,  uploadPath ,uploadRelativePath, result);
+            handleFile(tempFile ,  fileUploadPath ,uploadRelativePath, result);
         } catch (Exception e) {
             result = ResultUtils.error(500, e.getMessage());
             e.printStackTrace();

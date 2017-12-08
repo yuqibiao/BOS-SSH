@@ -26,6 +26,8 @@
     <constant name="struts.multipart.saveDir" value="/upload"/>
     <!--文件上传时的最大允许大小（10M）-->
     <constant name="struts.multipart.maxSize" value="1048576000"/>
+    <!--自己定义的参数（文件存储路径）-->
+    <constant name="struts.multipart.fileUploadPath" value="E:\upload"/>
 
     <!-- <constant name="struts.convention.package.locators" value="web,action,test" />-->
 
