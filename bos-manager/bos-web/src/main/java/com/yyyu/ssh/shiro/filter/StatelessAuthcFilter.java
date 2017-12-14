@@ -1,6 +1,6 @@
 package com.yyyu.ssh.shiro.filter;
 
-import com.yyyu.ssh.shiro.realm.StatelessToken;
+import com.yyyu.ssh.shiro.auth.token.StatelessToken;
 import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.subject.Subject;
@@ -42,11 +42,8 @@ public class StatelessAuthcFilter extends AccessControlFilter{
         //委托给realm进行登录
         try {
             Subject subject = getSubject(servletRequest, servletResponse);
-            String sessionId = subject.getSession().getId().toString();
-            logger.info("sessionId==========="+sessionId);
-            subject.getSession().setTimeout(0);
+            logger.debug("session==========="+ subject.getSession());
             subject.login(token);
-            //.login(token);
         } catch (AuthenticationException e) {
             e.printStackTrace();
             return false;

@@ -1,5 +1,6 @@
-package com.yyyu.ssh.shiro.realm;
+package com.yyyu.ssh.shiro.auth.token;
 
+import com.yyyu.ssh.shiro.auth.LoginType;
 import org.apache.shiro.authc.AuthenticationToken;
 
 import java.util.Map;
@@ -10,13 +11,15 @@ import java.util.Map;
  * @author yu
  * @date 2017/11/14.
  */
-public class StatelessToken implements AuthenticationToken{
+public class StatelessToken extends  CustomizedToken implements AuthenticationToken{
 
     private String userId;
     private Map<String , ?> params;
     private String clientDigest;
 
     public StatelessToken(String userId, Map<String, ?> params, String clientDigest) {
+        //无状态下用户名密码直接返回空了
+        super("" , "" , LoginType.STATELESS.getRealmName());
         this.userId = userId;
         this.params = params;
         this.clientDigest = clientDigest;

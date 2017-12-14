@@ -1,4 +1,4 @@
-package com.yyyu.ssh.shiro.realm;
+package com.yyyu.ssh.shiro.auth.realm;
 
 import com.yyyu.ssh.domain.SysPermissions;
 import com.yyyu.ssh.domain.SysRole;
@@ -6,6 +6,7 @@ import com.yyyu.ssh.domain.SysUser;
 import com.yyyu.ssh.service.inter.IRolePermissionsService;
 import com.yyyu.ssh.service.inter.IUserRoleService;
 import com.yyyu.ssh.service.inter.IUserService;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -33,10 +34,12 @@ public class UserRealm extends AuthorizingRealm{
     @Autowired
     private IRolePermissionsService rolePermissionsService;
 
+    Logger logger = Logger.getLogger(StatelessRealm.class);
+
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
 
-        System.err.println("================UserRealm========AuthorizationInfo=========");
+        logger.info("================UserRealm========AuthorizationInfo=========");
 
         String username = (String)principals.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();

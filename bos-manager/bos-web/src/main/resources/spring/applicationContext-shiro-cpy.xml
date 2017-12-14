@@ -12,6 +12,7 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="cacheManager" ref="cacheManager" />
         <property name="authenticator" ref="authenticator"/>
+        <property name="subjectFactory" ref="subjectFactory"/>
         <!-- 可以配置多个Realm，其实会把realms属性赋值给ModularRealmAuthenticator的realms属性 -->
         <property name="realms">
             <list>
@@ -27,9 +28,11 @@
         <property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml" />
     </bean>
 
+    <bean id="subjectFactory" class="com.yyyu.ssh.shiro.auth.mgt.CustomizedDefaultSubjectFactory"/>
+
     <!-- 3. 配置Realm -->
     <!-- 3.1 直接配置继承了org.apache.shiro.realm.AuthorizingRealm的bean -->
-    <bean id="userRealm" class="com.yyyu.ssh.shiro.realm.UserRealm">
+    <bean id="userRealm" class="com.yyyu.ssh.shiro.auth.realm.UserRealm">
         <!-- 配置密码匹配器 -->
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -41,7 +44,7 @@
         </property>
     </bean>
     <!--3.2无状态relam-->
-    <bean id="statelessRealm" class="com.yyyu.ssh.shiro.realm.StatelessRealm">
+    <bean id="statelessRealm" class="com.yyyu.ssh.shiro.auth.realm.StatelessRealm">
         <property name="cachingEnabled" value="false"/>
     </bean>
 
@@ -54,8 +57,7 @@
             depends-on="lifecycleBeanPostProcessor" >
         <property name="proxyTargetClass" value="true" />
     </bean>
-    <bean
-            class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+    <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager" />
     </bean>
 
@@ -89,7 +91,7 @@
     </bean>
 
     <!-- 7. 配置ModularRealmAuthenticator，可以实现多Realm认证 -->
-    <bean id="authenticator" class="org.apache.shiro.authc.pam.ModularRealmAuthenticator">
+    <bean id="authenticator" class="com.yyyu.ssh.shiro.auth.pam.CustomizedModularRealmAuthenticator">
         <!-- 配置认证策略，只要有一个Realm认证成功即可，并且返回所有认证成功信息 -->
         <property name="authenticationStrategy">
             <bean class="org.apache.shiro.authc.pam.AtLeastOneSuccessfulStrategy"/>

@@ -1,10 +1,11 @@
-package com.yyyu.ssh.shiro.realm;
+package com.yyyu.ssh.shiro.auth.realm;
 
-import com.yyyu.ssh.dao.bean.SelectRole;
 import com.yyyu.ssh.domain.SysRole;
 import com.yyyu.ssh.domain.SysUserToken;
 import com.yyyu.ssh.service.inter.IUserRoleService;
 import com.yyyu.ssh.service.inter.IUserTokenService;
+import com.yyyu.ssh.shiro.auth.token.StatelessToken;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -32,15 +33,17 @@ public class StatelessRealm extends AuthorizingRealm{
     @Autowired
     private IUserRoleService userRoleService;
 
+    Logger logger = Logger.getLogger(StatelessRealm.class);
+
     @Override
     public boolean supports(AuthenticationToken token) {
-        return token instanceof  StatelessToken;
+        return token instanceof StatelessToken;
     }
 
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        System.err.println("================StatelessRealm========AuthorizationInfo=========");
+        logger.info("===================StatelessRealm====doGetAuthorizationInfo=");
 
         String userId = (String) principalCollection.getPrimaryPrincipal();
         SimpleAuthorizationInfo authorizationInfo =  new SimpleAuthorizationInfo();
@@ -57,6 +60,7 @@ public class StatelessRealm extends AuthorizingRealm{
 
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+        //验证token是否正确
         StatelessToken token = (StatelessToken) authenticationToken;
         String userId = token.getUserId();
         SysUserToken userToken = userTokenService.getUserTokenByUserId(Long.parseLong(userId));

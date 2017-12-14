@@ -52,7 +52,7 @@
 
     <!-- 3. 配置Realm -->
     <!-- 3.1 直接配置继承了org.apache.shiro.realm.AuthorizingRealm的bean -->
-    <bean id="userRealm" class="com.yyyu.ssh.shiro.realm.UserRealm">
+    <bean id="userRealm" class="com.yyyu.ssh.shiro.auth.realm.UserRealm">
         <!-- 配置密码匹配器 -->
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
