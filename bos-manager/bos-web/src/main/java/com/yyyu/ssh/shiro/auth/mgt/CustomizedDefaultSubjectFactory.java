@@ -2,10 +2,18 @@ package com.yyyu.ssh.shiro.auth.mgt;
 
 import com.yyyu.ssh.shiro.auth.LoginType;
 import com.yyyu.ssh.shiro.auth.token.CustomizedToken;
+import org.apache.log4j.Logger;
 import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
 import org.apache.shiro.subject.Subject;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
+import org.apache.shiro.web.subject.WebSubjectContext;
+import org.apache.shiro.web.util.WebUtils;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Enumeration;
 
 /**
  * 功能：无状态SubjectFactory
@@ -15,21 +23,27 @@ import org.apache.shiro.web.mgt.DefaultWebSubjectFactory;
  */
 public class CustomizedDefaultSubjectFactory extends DefaultWebSubjectFactory {
 
+    Logger logger = Logger.getLogger(CustomizedDefaultSubjectFactory.class);
+
+    public CustomizedDefaultSubjectFactory() {
+        //logger.info("=========-=================CustomizedDefaultSubjectFactory========");
+    }
+
     @Override
     public Subject createSubject(SubjectContext context) {
-        //获取token 得到loginType判断是否创建session
         AuthenticationToken token = context.getAuthenticationToken();
-        if (token instanceof CustomizedToken){
-            CustomizedToken customizedToken = (CustomizedToken) token;
-            Class realmType = customizedToken.getRealmType();
-            if (realmType==LoginType.STATELESS.getRealmName()){//无状态
-                //不创建session
+        //logger.info("=========createSubject===token="+token);
+        WebSubjectContext wsc = (WebSubjectContext)context;
+        ServletRequest servletRequest = wsc.resolveServletRequest();
+        HttpServletRequest request = WebUtils.toHttp(servletRequest);
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()){
+            String headerName = headerNames.nextElement().toString();
+            if (headerName.equalsIgnoreCase("token")){//header中有token参数，说明是stateless请求
                 context.setSessionCreationEnabled(false);
-            }else{//有状态
-
+                //logger.info("=========STATELESS====不创建session");
+                break;
             }
-        }else{
-
         }
         return super.createSubject(context);
     }

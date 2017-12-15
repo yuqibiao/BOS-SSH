@@ -63,8 +63,11 @@ public class StatelessRealm extends AuthorizingRealm{
         //验证token是否正确
         StatelessToken token = (StatelessToken) authenticationToken;
         String userId = token.getUserId();
-        SysUserToken userToken = userTokenService.getUserTokenByUserId(Long.parseLong(userId));
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userId, userToken.getUserToken() , getName());
+        token.getPrincipal();
+        token.getCredentials();
+        SysUserToken sysUserToken = userTokenService.getUserTokenByUserId(Long.parseLong(userId));
+        String userToken = sysUserToken.getUserToken();
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userId, userToken, getName());
         return info;
     }
 

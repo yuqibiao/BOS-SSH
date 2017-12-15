@@ -11,7 +11,7 @@ import java.util.Map;
  * @author yu
  * @date 2017/11/14.
  */
-public class StatelessToken extends  CustomizedToken implements AuthenticationToken{
+public class StatelessToken extends  CustomizedToken {
 
     private String userId;
     private Map<String , ?> params;
